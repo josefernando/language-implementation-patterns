@@ -1,0 +1,15 @@
+
+Private Sub SU_displaysqlerror(number As Long, message As String)
+  'abc
+Rem
+Rem Only display the message if it's not a general msg or a change language message
+Rem
+
+Rem   Response = MsgBox (Prompt, Buttons, Title, _
+                 Helpfile, Helpfile context ID)
+
+
+    If number <> 5701 And number <> 5703 Then
+        MsgBox "SQL Server Error: " + Str$(number) + " " + message
+    End If
+End Sub

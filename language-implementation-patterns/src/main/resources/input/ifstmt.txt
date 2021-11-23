@@ -1,0 +1,60 @@
+
+Function VbVhlCopyDoc(NewDocId, docID, ClassName, AttrName(), AttrValue())
+
+    ' Declarations
+    Dim ItemObj As Object
+    Dim NewItemObj As Object
+
+    ' Setup Error handler
+    On Error GoTo VhlCopyDocError
+    ulRC = 0
+
+    ' Get the Document object
+    Set ItemObj = VhlApplObj.ItemId(docID)
+    ' Make sure the object is a document
+    If ItemObj.Type <> 1 Then
+       ' Return with error - SBVI_BAD_DOCUMENT
+       ulRC = 909
+       GoTo VhlCopyDocEnd
+    End If
+
+    ' Create a new document
+    Set NewItemObj = VhlApplObj.CreateDocument("COPY")
+    NewDocId = NewItemObj.ItemId
+
+    ' Update the new document with Index Class information if provided
+    If (ulRC = 0) And (ClassName <> "") Then
+       ' Change the Items Index Class
+       ulRC = VbVhlChangeItemIndex(NewDocId, ClassName, AttrName(), AttrValue())
+    End If
+
+    ' Copy document base parts into new document
+    i = 0
+    While (ulRC = 0) And (i < ItemObj.PartCount)
+       ContentClass = ItemObj.GetPartContentClass(i)
+       TempFile = ItemObj.GetPartFile(i)
+       ulRC = NewItemObj.AddPart(TempFile, ContentClass)
+       i = i + 1
+    Wend
+    ' Close the original document
+    rc = ItemObj.CloseParts
+
+VhlCopyDocEnd:
+
+    ' Free the objects
+    Set ItemObj = Nothing
+    Set NewItemObj = Nothing
+
+    ' Set return value to error code
+    VbVhlCopyDoc = ulRC
+
+    Exit Function
+
+VhlCopyDocError:
+
+    ' Set return code to error code
+    ulRC = VhlErrorObj.ReturnCode
+
+    Resume VhlCopyDocEnd
+
+End Function

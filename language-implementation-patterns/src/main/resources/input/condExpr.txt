@@ -1,0 +1,3 @@
+(tb_c_rmo_bnj.Text <> Empty And tb_c_suc_bnj.Text <> Empty And _
+        tb_e_doc_bnj.Text <> Empty And tb_u_apo_bnj.Text <> Empty And _
+        tb_isg_bnj.Text <> Empty)

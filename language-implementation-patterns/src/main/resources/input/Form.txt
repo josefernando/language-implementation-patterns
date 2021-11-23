@@ -1,0 +1,1873 @@
+Begin VB.Form R1FAB001 
+   Appearance      =   0  'Flat
+   BorderStyle     =   1  'Fixed Single
+   Caption         =   "Consulta Ap�lice"
+   ClientHeight    =   5805
+   ClientLeft      =   1305
+   ClientTop       =   1845
+   ClientWidth     =   8490
+   BeginProperty Font 
+      Name            =   "MS Sans Serif"
+      Size            =   8.25
+      Charset         =   0
+      Weight          =   700
+      Underline       =   0   'False
+      Italic          =   0   'False
+      Strikethrough   =   0   'False
+   EndProperty
+   ForeColor       =   &H8000000F&
+   Icon            =   "R1FAB001.frx":0000
+   LinkTopic       =   "Form1"
+   MaxButton       =   0   'False
+   PaletteMode     =   1  'UseZOrder
+   Picture         =   "R1FAB001.frx":030A
+   ScaleHeight     =   5805
+   ScaleWidth      =   8490
+   Begin Threed.SSPanel pa3d_status 
+      Align           =   2  'Align Bottom
+      Height          =   345
+      Left            =   0
+      TabIndex        =   20
+      Top             =   5460
+      Width           =   8490
+      _Version        =   65536
+      _ExtentX        =   14975
+      _ExtentY        =   609
+      _StockProps     =   15
+      Caption         =   "R1FAB001"
+      ForeColor       =   8388608
+      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "Arial"
+         Size            =   8.26
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      BorderWidth     =   1
+      BevelInner      =   1
+      Alignment       =   1
+      Autosize        =   1
+   End
+   Begin Threed.SSPanel PA3D_Topo 
+      Align           =   1  'Align Top
+      Height          =   705
+      Left            =   0
+      TabIndex        =   17
+      Top             =   0
+      Width           =   8490
+      _Version        =   65536
+      _ExtentX        =   14975
+      _ExtentY        =   1244
+      _StockProps     =   15
+      ForeColor       =   -2147483640
+      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      BorderWidth     =   1
+      BevelInner      =   1
+      RoundedCorners  =   0   'False
+      Alignment       =   8
+      Begin Threed.SSCommand cmd_ConsExc 
+         Height          =   600
+         Left            =   4065
+         TabIndex        =   68
+         Top             =   45
+         Width           =   600
+         _Version        =   65536
+         _ExtentX        =   1058
+         _ExtentY        =   1058
+         _StockProps     =   78
+         ForeColor       =   8388608
+         BevelWidth      =   1
+         AutoSize        =   1
+         Picture         =   "R1FAB001.frx":0614
+      End
+      Begin Threed.SSCommand BU3D_Sai 
+         Height          =   600
+         Left            =   7815
+         TabIndex        =   15
+         Tag             =   "sai"
+         Top             =   45
+         Width           =   600
+         _Version        =   65536
+         _ExtentX        =   1058
+         _ExtentY        =   1058
+         _StockProps     =   78
+         AutoSize        =   1
+         Picture         =   "R1FAB001.frx":092E
+      End
+      Begin Threed.SSCommand bu3d_ok 
+         Height          =   600
+         Left            =   7200
+         TabIndex        =   14
+         Top             =   45
+         Width           =   600
+         _Version        =   65536
+         _ExtentX        =   1058
+         _ExtentY        =   1058
+         _StockProps     =   78
+         AutoSize        =   1
+         Picture         =   "R1FAB001.frx":0C48
+      End
+      Begin Threed.SSCommand BU3D_Cancela 
+         Height          =   600
+         Left            =   6585
+         TabIndex        =   13
+         Top             =   45
+         Width           =   600
+         _Version        =   65536
+         _ExtentX        =   1058
+         _ExtentY        =   1058
+         _StockProps     =   78
+         AutoSize        =   1
+         Picture         =   "R1FAB001.frx":0F62
+      End
+      Begin Threed.SSCommand bu3d_volta 
+         Height          =   600
+         Left            =   5970
+         TabIndex        =   12
+         Tag             =   "Volta"
+         Top             =   45
+         Width           =   600
+         _Version        =   65536
+         _ExtentX        =   1058
+         _ExtentY        =   1058
+         _StockProps     =   78
+         Enabled         =   0   'False
+         BevelWidth      =   0
+         AutoSize        =   1
+         Picture         =   "R1FAB001.frx":127C
+      End
+      Begin Threed.SSCommand bu3d_cons_bd_rgd 
+         Height          =   600
+         Left            =   3405
+         TabIndex        =   66
+         Tag             =   "sai"
+         Top             =   45
+         Width           =   600
+         _Version        =   65536
+         _ExtentX        =   1058
+         _ExtentY        =   1058
+         _StockProps     =   78
+         AutoSize        =   1
+         Picture         =   "R1FAB001.frx":1596
+      End
+      Begin Threed.SSCommand Cmd_New_Pesquisa 
+         Height          =   600
+         Left            =   5025
+         TabIndex        =   73
+         ToolTipText     =   "Utiliza a nova consulta"
+         Top             =   45
+         Visible         =   0   'False
+         Width           =   600
+         _Version        =   65536
+         _ExtentX        =   1058
+         _ExtentY        =   1058
+         _StockProps     =   78
+         ForeColor       =   8388608
+         AutoSize        =   1
+         Picture         =   "R1FAB001.frx":18B0
+      End
+      Begin VB.Image IM_Itau_Seguros 
+         Appearance      =   0  'Flat
+         Height          =   480
+         Left            =   0
+         Picture         =   "R1FAB001.frx":23B6
+         Top             =   90
+         Width           =   1365
+      End
+   End
+   Begin Threed.SSFrame fr3d_Segurado 
+      Height          =   4740
+      Left            =   45
+      TabIndex        =   18
+      Top             =   720
+      Width           =   8340
+      _Version        =   65536
+      _ExtentX        =   14711
+      _ExtentY        =   8361
+      _StockProps     =   14
+      ForeColor       =   8388608
+      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Begin Threed.SSFrame fr3d_TpPesquisa 
+         Height          =   2505
+         Left            =   120
+         TabIndex        =   19
+         Top             =   2100
+         Width           =   8130
+         _Version        =   65536
+         _ExtentX        =   14340
+         _ExtentY        =   4419
+         _StockProps     =   14
+         Caption         =   "Outros Tipos de Consulta"
+         ForeColor       =   8388608
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Begin VB.TextBox tb_u_niu 
+            Appearance      =   0  'Flat
+            BackColor       =   &H00FFFFFF&
+            ForeColor       =   &H00800000&
+            Height          =   285
+            Left            =   5040
+            MaxLength       =   7
+            TabIndex        =   88
+            Top             =   1320
+            Visible         =   0   'False
+            Width           =   1155
+         End
+         Begin VB.TextBox tb_u_sav 
+            Appearance      =   0  'Flat
+            BackColor       =   &H00FFFFFF&
+            ForeColor       =   &H00800000&
+            Height          =   285
+            Left            =   3120
+            MaxLength       =   13
+            TabIndex        =   85
+            Top             =   1320
+            Visible         =   0   'False
+            Width           =   1755
+         End
+         Begin VB.TextBox tb_u_cbn_sor 
+            Appearance      =   0  'Flat
+            BackColor       =   &H00FFFFFF&
+            ForeColor       =   &H00800000&
+            Height          =   285
+            Left            =   1800
+            MaxLength       =   9
+            TabIndex        =   83
+            Top             =   1320
+            Visible         =   0   'False
+            Width           =   1170
+         End
+         Begin VB.TextBox tb_n_pes 
+            Appearance      =   0  'Flat
+            BackColor       =   &H00FFFFFF&
+            ForeColor       =   &H00800000&
+            Height          =   285
+            Left            =   240
+            TabIndex        =   7
+            Top             =   765
+            Width           =   5940
+         End
+         Begin VB.TextBox tb_u_prp 
+            Appearance      =   0  'Flat
+            BackColor       =   &H00FFFFFF&
+            ForeColor       =   &H00800000&
+            Height          =   285
+            Left            =   240
+            MaxLength       =   9
+            TabIndex        =   9
+            Top             =   1320
+            Width           =   1365
+         End
+         Begin Threed.SSPanel pa3d_Pessoa 
+            Height          =   375
+            Left            =   6360
+            TabIndex        =   8
+            Top             =   705
+            Width           =   1545
+            _Version        =   65536
+            _ExtentX        =   2725
+            _ExtentY        =   661
+            _StockProps     =   15
+            ForeColor       =   0
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "MS Sans Serif"
+               Size            =   8.24
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            BorderWidth     =   1
+            BevelOuter      =   0
+            BevelInner      =   1
+            RoundedCorners  =   0   'False
+            Alignment       =   8
+            Begin Threed.SSOption op3d_e_pes 
+               Height          =   240
+               Left            =   60
+               TabIndex        =   23
+               Top             =   60
+               Width           =   690
+               _Version        =   65536
+               _ExtentX        =   1217
+               _ExtentY        =   423
+               _StockProps     =   78
+               Caption         =   "P. F."
+               ForeColor       =   8388608
+               BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.24
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+            End
+            Begin Threed.SSOption op3d_e_pesj 
+               Height          =   240
+               Left            =   795
+               TabIndex        =   24
+               Top             =   60
+               Width           =   680
+               _Version        =   65536
+               _ExtentX        =   1191
+               _ExtentY        =   423
+               _StockProps     =   78
+               Caption         =   "P. J."
+               ForeColor       =   8388608
+               BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.24
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+            End
+         End
+         Begin Threed.SSCheck ch3d_Ramo_Prod 
+            Height          =   345
+            Left            =   240
+            TabIndex        =   6
+            Top             =   225
+            Width           =   3915
+            _Version        =   65536
+            _ExtentX        =   6906
+            _ExtentY        =   609
+            _StockProps     =   78
+            Caption         =   "Pesquisar considerando Ramo e Produto"
+            ForeColor       =   8388608
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "MS Sans Serif"
+               Size            =   8.26
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+         End
+         Begin Threed.SSFrame fr3d_apo_aut 
+            Height          =   795
+            Left            =   120
+            TabIndex        =   54
+            Top             =   1620
+            Visible         =   0   'False
+            Width           =   7920
+            _Version        =   65536
+            _ExtentX        =   13970
+            _ExtentY        =   1402
+            _StockProps     =   14
+            ForeColor       =   8388608
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "MS Sans Serif"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Begin VB.TextBox tb_u_chs_aut 
+               Appearance      =   0  'Flat
+               BackColor       =   &H00FFFFFF&
+               ForeColor       =   &H00800000&
+               Height          =   285
+               Left            =   120
+               MaxLength       =   20
+               TabIndex        =   10
+               Top             =   400
+               Width           =   2715
+            End
+            Begin VB.TextBox tb_u_plc_aut 
+               Appearance      =   0  'Flat
+               BackColor       =   &H00FFFFFF&
+               ForeColor       =   &H00800000&
+               Height          =   285
+               Left            =   3075
+               MaxLength       =   7
+               TabIndex        =   11
+               Top             =   400
+               Width           =   990
+            End
+            Begin Threed.SSCommand Bu3d_chama_item 
+               Height          =   495
+               Left            =   6300
+               TabIndex        =   72
+               Top             =   210
+               Width           =   1455
+               _Version        =   65536
+               _ExtentX        =   2566
+               _ExtentY        =   873
+               _StockProps     =   78
+               Caption         =   "Consulta Itens"
+               ForeColor       =   8388608
+               Enabled         =   0   'False
+               AutoSize        =   1
+            End
+            Begin VB.Label Lb_u_plc_aut 
+               Appearance      =   0  'Flat
+               AutoSize        =   -1  'True
+               Caption         =   "Placa"
+               ForeColor       =   &H00800000&
+               Height          =   195
+               Left            =   3075
+               TabIndex        =   55
+               Top             =   195
+               Width           =   495
+            End
+            Begin VB.Label Lb_u_chs_aut 
+               Appearance      =   0  'Flat
+               AutoSize        =   -1  'True
+               Caption         =   "Chassi"
+               ForeColor       =   &H00800000&
+               Height          =   195
+               Left            =   120
+               TabIndex        =   56
+               Top             =   200
+               Width           =   570
+            End
+         End
+         Begin Threed.SSFrame fr3d_apo_rpm 
+            Height          =   825
+            Left            =   120
+            TabIndex        =   25
+            Top             =   1590
+            Visible         =   0   'False
+            Width           =   7890
+            _Version        =   65536
+            _ExtentX        =   13917
+            _ExtentY        =   1455
+            _StockProps     =   14
+            Caption         =   "Endere�o de Risco"
+            ForeColor       =   8388608
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "MS Sans Serif"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Begin VB.TextBox tb_uf 
+               Appearance      =   0  'Flat
+               BackColor       =   &H00FFFFFF&
+               ForeColor       =   &H00800000&
+               Height          =   285
+               Left            =   5085
+               MaxLength       =   2
+               TabIndex        =   35
+               Top             =   450
+               Width           =   400
+            End
+            Begin VB.TextBox tb_n_cdd 
+               Appearance      =   0  'Flat
+               BackColor       =   &H00FFFFFF&
+               ForeColor       =   &H00800000&
+               Height          =   285
+               Left            =   150
+               MaxLength       =   40
+               TabIndex        =   34
+               ToolTipText     =   "Digite a CIDADE do local de risco."
+               Top             =   450
+               Width           =   4815
+            End
+            Begin VB.TextBox tb_u_lgd 
+               Appearance      =   0  'Flat
+               BackColor       =   &H00FFFFFF&
+               ForeColor       =   &H00800000&
+               Height          =   285
+               Left            =   7080
+               MaxLength       =   5
+               TabIndex        =   37
+               Top             =   450
+               Width           =   700
+            End
+            Begin MSMask.MaskEdBox me_cep 
+               Height          =   285
+               Left            =   5790
+               TabIndex        =   36
+               Top             =   450
+               Width           =   1150
+               _ExtentX        =   2037
+               _ExtentY        =   503
+               _Version        =   393216
+               BackColor       =   16777215
+               ForeColor       =   8388608
+               MaxLength       =   9
+               Mask            =   "#####-###"
+               PromptChar      =   "_"
+            End
+            Begin VB.Label lb_u_lgd 
+               Appearance      =   0  'Flat
+               AutoSize        =   -1  'True
+               Caption         =   "Nr. Logr."
+               ForeColor       =   &H00800000&
+               Height          =   195
+               Left            =   7005
+               TabIndex        =   38
+               Top             =   240
+               Width           =   765
+            End
+            Begin VB.Label lb_n_cdd 
+               Appearance      =   0  'Flat
+               AutoSize        =   -1  'True
+               Caption         =   "Cidade"
+               ForeColor       =   &H00800000&
+               Height          =   195
+               Left            =   135
+               TabIndex        =   39
+               Top             =   240
+               Width           =   600
+            End
+            Begin VB.Label lb_uf 
+               Appearance      =   0  'Flat
+               AutoSize        =   -1  'True
+               Caption         =   "Estado"
+               ForeColor       =   &H00800000&
+               Height          =   195
+               Left            =   5085
+               TabIndex        =   52
+               Top             =   240
+               Width           =   600
+            End
+            Begin VB.Label lb_cep 
+               Appearance      =   0  'Flat
+               AutoSize        =   -1  'True
+               Caption         =   "CEP"
+               ForeColor       =   &H00800000&
+               Height          =   195
+               Left            =   5790
+               TabIndex        =   53
+               Top             =   240
+               Width           =   375
+            End
+         End
+         Begin VB.Label lb_u_niu 
+            Appearance      =   0  'Flat
+            AutoSize        =   -1  'True
+            Caption         =   "N� do Nius"
+            ForeColor       =   &H00800000&
+            Height          =   195
+            Left            =   5040
+            TabIndex        =   87
+            Top             =   1100
+            Visible         =   0   'False
+            Width           =   930
+         End
+         Begin VB.Label lb_u_sav 
+            Appearance      =   0  'Flat
+            AutoSize        =   -1  'True
+            Caption         =   "N� do Sav"
+            ForeColor       =   &H00800000&
+            Height          =   195
+            Left            =   3120
+            TabIndex        =   86
+            Top             =   1100
+            Visible         =   0   'False
+            Width           =   885
+         End
+         Begin VB.Label lb_u_cbn_sor 
+            Appearance      =   0  'Flat
+            AutoSize        =   -1  'True
+            Caption         =   "N� do Sorteio"
+            ForeColor       =   &H00800000&
+            Height          =   195
+            Left            =   1800
+            TabIndex        =   84
+            Top             =   1100
+            Visible         =   0   'False
+            Width           =   1155
+         End
+         Begin VB.Label Lb_u_prp 
+            Appearance      =   0  'Flat
+            AutoSize        =   -1  'True
+            Caption         =   "Proposta"
+            ForeColor       =   &H00800000&
+            Height          =   195
+            Left            =   240
+            TabIndex        =   57
+            Top             =   1100
+            Width           =   765
+         End
+         Begin VB.Label Lb_n_pes 
+            Appearance      =   0  'Flat
+            AutoSize        =   -1  'True
+            Caption         =   "Segurado"
+            ForeColor       =   &H00800000&
+            Height          =   195
+            Left            =   240
+            TabIndex        =   58
+            Top             =   555
+            Width           =   825
+         End
+      End
+      Begin Threed.SSFrame fr3d_Por_Apolice 
+         Height          =   1005
+         Left            =   90
+         TabIndex        =   62
+         Top             =   210
+         Width           =   8115
+         _Version        =   65536
+         _ExtentX        =   14314
+         _ExtentY        =   1773
+         _StockProps     =   14
+         Caption         =   "Por N� de Ap�lice"
+         ForeColor       =   8388608
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Begin VB.TextBox tb_c_Cia_ita 
+            Appearance      =   0  'Flat
+            BackColor       =   &H00FFFFFF&
+            ForeColor       =   &H00800000&
+            Height          =   285
+            Left            =   240
+            MaxLength       =   2
+            TabIndex        =   0
+            Top             =   600
+            Width           =   420
+         End
+         Begin VB.TextBox tb_c_Rmo 
+            Appearance      =   0  'Flat
+            BackColor       =   &H00FFFFFF&
+            ForeColor       =   &H00800000&
+            Height          =   285
+            Left            =   750
+            MaxLength       =   2
+            TabIndex        =   1
+            Top             =   600
+            Width           =   510
+         End
+         Begin VB.TextBox tb_u_Apo_Pnc 
+            Appearance      =   0  'Flat
+            BackColor       =   &H00FFFFFF&
+            ForeColor       =   &H00800000&
+            Height          =   285
+            Left            =   1380
+            MaxLength       =   9
+            TabIndex        =   2
+            Top             =   600
+            Width           =   1350
+         End
+         Begin VB.TextBox tb_u_Apo_Dpd 
+            Appearance      =   0  'Flat
+            BackColor       =   &H00FFFFFF&
+            ForeColor       =   &H00800000&
+            Height          =   285
+            Left            =   2820
+            MaxLength       =   7
+            TabIndex        =   3
+            Top             =   600
+            Width           =   990
+         End
+         Begin VB.TextBox tb_u_adi 
+            Appearance      =   0  'Flat
+            BackColor       =   &H00FFFFFF&
+            ForeColor       =   &H00800000&
+            Height          =   285
+            Left            =   3960
+            MaxLength       =   7
+            TabIndex        =   4
+            Top             =   600
+            Width           =   1035
+         End
+         Begin Threed.SSCheck ch3d_apo_escr 
+            Height          =   285
+            Left            =   6150
+            TabIndex        =   5
+            Top             =   240
+            Width           =   1845
+            _Version        =   65536
+            _ExtentX        =   3254
+            _ExtentY        =   503
+            _StockProps     =   78
+            Caption         =   "Ap�lice Escritural"
+            ForeColor       =   8388608
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "MS Sans Serif"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+         End
+         Begin VB.Label lb_c_isg 
+            Appearance      =   0  'Flat
+            BackColor       =   &H00FFFFFF&
+            BorderStyle     =   1  'Fixed Single
+            ForeColor       =   &H00800000&
+            Height          =   285
+            Left            =   5130
+            TabIndex        =   70
+            Top             =   600
+            Width           =   1155
+         End
+         Begin VB.Label lb_c_isg_na 
+            Appearance      =   0  'Flat
+            AutoSize        =   -1  'True
+            Caption         =   "Item"
+            ForeColor       =   &H00800000&
+            Height          =   195
+            Left            =   5160
+            TabIndex        =   69
+            Top             =   360
+            Width           =   375
+         End
+         Begin VB.Label Lb_u_adi 
+            Appearance      =   0  'Flat
+            AutoSize        =   -1  'True
+            Caption         =   "Aditamento"
+            ForeColor       =   &H00800000&
+            Height          =   195
+            Left            =   3990
+            TabIndex        =   59
+            Top             =   360
+            Width           =   960
+         End
+         Begin VB.Label Lb_u_apo_dpd 
+            Appearance      =   0  'Flat
+            Caption         =   "   Ap�lice Dependente"
+            ForeColor       =   &H00800000&
+            Height          =   390
+            Left            =   2820
+            TabIndex        =   60
+            Top             =   195
+            Width           =   1095
+         End
+         Begin VB.Label Lb_u_apo_pnc 
+            Appearance      =   0  'Flat
+            Caption         =   " Ap�lice Principal"
+            ForeColor       =   &H00800000&
+            Height          =   420
+            Left            =   1470
+            TabIndex        =   61
+            Top             =   195
+            Width           =   795
+         End
+         Begin VB.Label Lb_c_rmo 
+            Appearance      =   0  'Flat
+            AutoSize        =   -1  'True
+            Caption         =   "Ramo"
+            ForeColor       =   &H00800000&
+            Height          =   195
+            Left            =   750
+            TabIndex        =   64
+            Top             =   360
+            Width           =   495
+         End
+         Begin VB.Label Lb_c_cia_ita 
+            Appearance      =   0  'Flat
+            AutoSize        =   -1  'True
+            Caption         =   "Cia."
+            ForeColor       =   &H00800000&
+            Height          =   195
+            Left            =   255
+            TabIndex        =   63
+            Top             =   360
+            Width           =   345
+         End
+      End
+      Begin Threed.SSFrame FR3D_U_APO_MFR 
+         Height          =   855
+         Left            =   90
+         TabIndex        =   67
+         Top             =   1230
+         Width           =   8115
+         _Version        =   65536
+         _ExtentX        =   14314
+         _ExtentY        =   1508
+         _StockProps     =   14
+         Caption         =   "Por N� Ap�lice do Mainframe ou Migra��o ( Banerj / AGF / Gralha - BCL / Itauprev )"
+         ForeColor       =   8388608
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Begin Threed.SSPanel Pa3d_UBB 
+            Height          =   555
+            Left            =   2160
+            TabIndex        =   129
+            Top             =   0
+            Visible         =   0   'False
+            Width           =   2400
+            _Version        =   65536
+            _ExtentX        =   4233
+            _ExtentY        =   979
+            _StockProps     =   15
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "MS Sans Serif"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Begin VB.TextBox TB_APO_UBB 
+               Appearance      =   0  'Flat
+               BackColor       =   &H00FFFFFF&
+               ForeColor       =   &H00800000&
+               Height          =   285
+               Left            =   285
+               MaxLength       =   10
+               TabIndex        =   130
+               Top             =   225
+               Width           =   1860
+            End
+            Begin VB.Label Label1 
+               Appearance      =   0  'Flat
+               AutoSize        =   -1  'True
+               Caption         =   "Ap�lice UBB"
+               ForeColor       =   &H00800000&
+               Height          =   195
+               Left            =   240
+               TabIndex        =   131
+               Top             =   0
+               Width           =   1080
+            End
+         End
+         Begin Threed.SSPanel Pa3d_UBBVidaPJ 
+            Height          =   555
+            Left            =   2160
+            TabIndex        =   120
+            Top             =   240
+            Visible         =   0   'False
+            Width           =   6120
+            _Version        =   65536
+            _ExtentX        =   10795
+            _ExtentY        =   979
+            _StockProps     =   15
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "MS Sans Serif"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Begin VB.TextBox TB_C_SUC_UBB 
+               Alignment       =   2  'Center
+               Appearance      =   0  'Flat
+               BackColor       =   &H00FFFFFF&
+               ForeColor       =   &H00800000&
+               Height          =   285
+               Left            =   285
+               MaxLength       =   2
+               TabIndex        =   121
+               Top             =   225
+               Width           =   300
+            End
+            Begin VB.TextBox TB_RMO_UBB 
+               Alignment       =   2  'Center
+               Appearance      =   0  'Flat
+               BackColor       =   &H00FFFFFF&
+               ForeColor       =   &H00800000&
+               Height          =   285
+               Left            =   885
+               MaxLength       =   2
+               TabIndex        =   122
+               Top             =   225
+               Width           =   450
+            End
+            Begin VB.TextBox TB_SGR_UBB 
+               Appearance      =   0  'Flat
+               BackColor       =   &H00FFFFFF&
+               ForeColor       =   &H00800000&
+               Height          =   285
+               Left            =   2805
+               MaxLength       =   7
+               TabIndex        =   126
+               Top             =   225
+               Width           =   1215
+            End
+            Begin VB.TextBox TB_U_APO_UBB 
+               Appearance      =   0  'Flat
+               BackColor       =   &H00FFFFFF&
+               ForeColor       =   &H00800000&
+               Height          =   285
+               Left            =   1540
+               MaxLength       =   9
+               TabIndex        =   124
+               Top             =   225
+               Width           =   1070
+            End
+            Begin VB.Label lb_c_suc_ubb 
+               Appearance      =   0  'Flat
+               AutoSize        =   -1  'True
+               Caption         =   "Filial"
+               ForeColor       =   &H00800000&
+               Height          =   195
+               Left            =   240
+               TabIndex        =   128
+               Top             =   0
+               Width           =   405
+            End
+            Begin VB.Label lb_c_rmo_ubb 
+               Appearance      =   0  'Flat
+               AutoSize        =   -1  'True
+               Caption         =   "Ramo"
+               ForeColor       =   &H00800000&
+               Height          =   195
+               Left            =   885
+               TabIndex        =   127
+               Top             =   0
+               Width           =   495
+            End
+            Begin VB.Label lb_sgr_ubb 
+               Appearance      =   0  'Flat
+               Caption         =   "SubGrupo"
+               ForeColor       =   &H00800000&
+               Height          =   240
+               Left            =   3000
+               TabIndex        =   125
+               Top             =   0
+               Width           =   885
+            End
+            Begin VB.Label lb_u_apo_ubb 
+               Appearance      =   0  'Flat
+               Caption         =   " Ap�lice"
+               ForeColor       =   &H00800000&
+               Height          =   255
+               Left            =   1680
+               TabIndex        =   123
+               Top             =   0
+               Width           =   795
+            End
+         End
+         Begin Threed.SSPanel pa3d_ItauSeguros 
+            Height          =   225
+            Left            =   2880
+            TabIndex        =   115
+            Top             =   240
+            Visible         =   0   'False
+            Width           =   1515
+            _Version        =   65536
+            _ExtentX        =   2672
+            _ExtentY        =   397
+            _StockProps     =   15
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "MS Sans Serif"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Begin VB.TextBox TB_C_T_NEG 
+               Alignment       =   2  'Center
+               Appearance      =   0  'Flat
+               BackColor       =   &H00FFFFFF&
+               ForeColor       =   &H00800000&
+               Height          =   285
+               Left            =   285
+               MaxLength       =   1
+               TabIndex        =   111
+               Top             =   225
+               Width           =   300
+            End
+            Begin VB.TextBox TB_RMO_MFR 
+               Alignment       =   2  'Center
+               Appearance      =   0  'Flat
+               BackColor       =   &H00FFFFFF&
+               ForeColor       =   &H00800000&
+               Height          =   285
+               Left            =   885
+               MaxLength       =   2
+               TabIndex        =   112
+               Top             =   225
+               Width           =   450
+            End
+            Begin VB.TextBox TB_ISG_MFR 
+               Appearance      =   0  'Flat
+               BackColor       =   &H00FFFFFF&
+               ForeColor       =   &H00800000&
+               Height          =   285
+               Left            =   2805
+               MaxLength       =   10
+               TabIndex        =   114
+               Top             =   225
+               Width           =   1215
+            End
+            Begin VB.TextBox TB_U_APO_MFR 
+               Appearance      =   0  'Flat
+               BackColor       =   &H00FFFFFF&
+               ForeColor       =   &H00800000&
+               Height          =   285
+               Left            =   1540
+               MaxLength       =   9
+               TabIndex        =   113
+               Top             =   225
+               Width           =   1070
+            End
+            Begin VB.Label LB_C_T_NEG 
+               Appearance      =   0  'Flat
+               AutoSize        =   -1  'True
+               Caption         =   "Neg�cio"
+               ForeColor       =   &H00800000&
+               Height          =   195
+               Left            =   120
+               TabIndex        =   119
+               Top             =   0
+               Width           =   720
+            End
+            Begin VB.Label LB_RMO_MFR 
+               Appearance      =   0  'Flat
+               AutoSize        =   -1  'True
+               Caption         =   "Ramo"
+               ForeColor       =   &H00800000&
+               Height          =   195
+               Left            =   885
+               TabIndex        =   118
+               Top             =   0
+               Width           =   495
+            End
+            Begin VB.Label LB_ISG_MFR 
+               Appearance      =   0  'Flat
+               Caption         =   "Item"
+               ForeColor       =   &H00800000&
+               Height          =   240
+               Left            =   3135
+               TabIndex        =   117
+               Top             =   0
+               Width           =   525
+            End
+            Begin VB.Label LB_U_APO_MFR 
+               Appearance      =   0  'Flat
+               Caption         =   " Ap�lice"
+               ForeColor       =   &H00800000&
+               Height          =   255
+               Left            =   1680
+               TabIndex        =   116
+               Top             =   0
+               Width           =   795
+            End
+         End
+         Begin Threed.SSPanel pa3d_Itauprev 
+            Height          =   225
+            Left            =   5280
+            TabIndex        =   89
+            Top             =   540
+            Visible         =   0   'False
+            Width           =   2730
+            _Version        =   65536
+            _ExtentX        =   4815
+            _ExtentY        =   397
+            _StockProps     =   15
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "MS Sans Serif"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Begin VB.TextBox tb_c_pro_itp 
+               Appearance      =   0  'Flat
+               BackColor       =   &H00FFFFFF&
+               ForeColor       =   &H00800000&
+               Height          =   285
+               Left            =   150
+               MaxLength       =   4
+               TabIndex        =   90
+               Top             =   225
+               Width           =   525
+            End
+            Begin VB.TextBox tb_u_apo_itp 
+               Appearance      =   0  'Flat
+               BackColor       =   &H00FFFFFF&
+               ForeColor       =   &H00800000&
+               Height          =   285
+               Left            =   1005
+               MaxLength       =   9
+               TabIndex        =   92
+               Text            =   "123456789"
+               Top             =   225
+               Width           =   1095
+            End
+            Begin VB.Label lb_Label 
+               Appearance      =   0  'Flat
+               AutoSize        =   -1  'True
+               Caption         =   "Produto"
+               ForeColor       =   &H00800000&
+               Height          =   195
+               Index           =   4
+               Left            =   105
+               TabIndex        =   93
+               Top             =   0
+               Width           =   675
+            End
+            Begin VB.Label lb_Label 
+               Appearance      =   0  'Flat
+               AutoSize        =   -1  'True
+               Caption         =   "Ap�lice Itauprev"
+               ForeColor       =   &H00800000&
+               Height          =   195
+               Index           =   5
+               Left            =   870
+               TabIndex        =   91
+               Top             =   0
+               Width           =   1410
+            End
+         End
+         Begin Threed.SSPanel pa3d_Banerj 
+            Height          =   210
+            Left            =   2880
+            TabIndex        =   97
+            Top             =   570
+            Visible         =   0   'False
+            Width           =   2175
+            _Version        =   65536
+            _ExtentX        =   3836
+            _ExtentY        =   370
+            _StockProps     =   15
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "MS Sans Serif"
+               Size            =   9.74
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Begin VB.TextBox tb_isg_bnj 
+               Appearance      =   0  'Flat
+               BackColor       =   &H00FFFFFF&
+               ForeColor       =   &H00800000&
+               Height          =   285
+               Left            =   3300
+               MaxLength       =   10
+               TabIndex        =   104
+               Top             =   225
+               Width           =   1215
+            End
+            Begin VB.TextBox tb_u_apo_bnj 
+               Appearance      =   0  'Flat
+               BackColor       =   &H00FFFFFF&
+               ForeColor       =   &H00800000&
+               Height          =   285
+               Left            =   2100
+               MaxLength       =   9
+               TabIndex        =   103
+               Top             =   225
+               Width           =   1050
+            End
+            Begin VB.TextBox tb_c_suc_bnj 
+               Appearance      =   0  'Flat
+               BackColor       =   &H00FFFFFF&
+               ForeColor       =   &H00800000&
+               Height          =   285
+               Left            =   810
+               MaxLength       =   2
+               TabIndex        =   101
+               Top             =   225
+               Width           =   390
+            End
+            Begin VB.TextBox tb_e_doc_bnj 
+               Appearance      =   0  'Flat
+               BackColor       =   &H00FFFFFF&
+               ForeColor       =   &H00800000&
+               Height          =   285
+               Left            =   1500
+               MaxLength       =   1
+               TabIndex        =   102
+               Top             =   225
+               Width           =   390
+            End
+            Begin VB.TextBox tb_c_rmo_bnj 
+               Appearance      =   0  'Flat
+               BackColor       =   &H00FFFFFF&
+               ForeColor       =   &H00800000&
+               Height          =   285
+               Left            =   180
+               MaxLength       =   2
+               TabIndex        =   100
+               Top             =   225
+               Width           =   390
+            End
+            Begin VB.Label lb_isg_bnj 
+               Appearance      =   0  'Flat
+               Caption         =   "Item"
+               ForeColor       =   &H00800000&
+               Height          =   240
+               Left            =   3630
+               TabIndex        =   110
+               Top             =   0
+               Width           =   525
+            End
+            Begin VB.Label lb_u_apo_bnj 
+               Appearance      =   0  'Flat
+               Caption         =   " Ap�lice"
+               ForeColor       =   &H00800000&
+               Height          =   255
+               Left            =   2175
+               TabIndex        =   109
+               Top             =   0
+               Width           =   795
+            End
+            Begin VB.Label lb_e_doc_bnj 
+               Appearance      =   0  'Flat
+               AutoSize        =   -1  'True
+               Caption         =   "T.Doc."
+               ForeColor       =   &H00800000&
+               Height          =   195
+               Left            =   1530
+               TabIndex        =   105
+               Top             =   0
+               Width           =   600
+            End
+            Begin VB.Label lb_c_suc_bnj 
+               Appearance      =   0  'Flat
+               AutoSize        =   -1  'True
+               Caption         =   "Sucursal"
+               ForeColor       =   &H00800000&
+               Height          =   195
+               Left            =   690
+               TabIndex        =   99
+               Top             =   0
+               Width           =   750
+            End
+            Begin VB.Label lb_c_rmo_bnj 
+               Appearance      =   0  'Flat
+               AutoSize        =   -1  'True
+               Caption         =   "Ramo"
+               ForeColor       =   &H00800000&
+               Height          =   195
+               Left            =   90
+               TabIndex        =   98
+               Top             =   0
+               Width           =   495
+            End
+         End
+         Begin Threed.SSPanel pa3d_AGF 
+            Height          =   225
+            Left            =   4470
+            TabIndex        =   94
+            Top             =   240
+            Visible         =   0   'False
+            Width           =   1875
+            _Version        =   65536
+            _ExtentX        =   3307
+            _ExtentY        =   397
+            _StockProps     =   15
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "MS Sans Serif"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Begin VB.OptionButton opt_c_af 
+               Caption         =   "Com"
+               ForeColor       =   &H00800000&
+               Height          =   225
+               Left            =   2880
+               TabIndex        =   108
+               Top             =   225
+               Width           =   855
+            End
+            Begin VB.OptionButton opt_s_af 
+               Caption         =   "Sem"
+               ForeColor       =   &H00800000&
+               Height          =   225
+               Left            =   3705
+               TabIndex        =   107
+               Top             =   225
+               Width           =   735
+            End
+            Begin VB.TextBox TB_U_APO_AGF 
+               Appearance      =   0  'Flat
+               BackColor       =   &H00FFFFFF&
+               ForeColor       =   &H00800000&
+               Height          =   285
+               Left            =   240
+               MaxLength       =   15
+               TabIndex        =   96
+               Top             =   225
+               Width           =   2295
+            End
+            Begin VB.Label lb_a_f 
+               Appearance      =   0  'Flat
+               Caption         =   "Assist�ncia Funeral"
+               ForeColor       =   &H00800000&
+               Height          =   240
+               Left            =   2910
+               TabIndex        =   106
+               Top             =   0
+               Width           =   1665
+            End
+            Begin VB.Label LB_U_APO_AGF 
+               Appearance      =   0  'Flat
+               AutoSize        =   -1  'True
+               Caption         =   "n� da ap�lice AGF"
+               ForeColor       =   &H00800000&
+               Height          =   195
+               Left            =   270
+               TabIndex        =   95
+               Top             =   0
+               Width           =   1560
+            End
+         End
+         Begin Threed.SSPanel pa3d_GralhaAzulBCL 
+            Height          =   210
+            Left            =   6510
+            TabIndex        =   74
+            Top             =   270
+            Visible         =   0   'False
+            Width           =   1470
+            _Version        =   65536
+            _ExtentX        =   2593
+            _ExtentY        =   370
+            _StockProps     =   15
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "MS Sans Serif"
+               Size            =   9.74
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Begin VB.TextBox tb_Certificado 
+               Appearance      =   0  'Flat
+               BackColor       =   &H00FFFFFF&
+               ForeColor       =   &H00800000&
+               Height          =   285
+               Left            =   1665
+               MaxLength       =   7
+               TabIndex        =   77
+               Top             =   240
+               Width           =   950
+            End
+            Begin VB.TextBox tb_SubEstipulante 
+               Appearance      =   0  'Flat
+               BackColor       =   &H00FFFFFF&
+               ForeColor       =   &H00800000&
+               Height          =   285
+               Left            =   60
+               MaxLength       =   5
+               TabIndex        =   75
+               Top             =   225
+               Width           =   765
+            End
+            Begin VB.Label lb_Label 
+               Appearance      =   0  'Flat
+               AutoSize        =   -1  'True
+               Caption         =   "Certificado"
+               ForeColor       =   &H00800000&
+               Height          =   195
+               Index           =   1
+               Left            =   1680
+               TabIndex        =   78
+               Top             =   15
+               Width           =   930
+            End
+            Begin VB.Label lb_Label 
+               Appearance      =   0  'Flat
+               AutoSize        =   -1  'True
+               Caption         =   "Ag. Banestado"
+               ForeColor       =   &H00800000&
+               Height          =   195
+               Index           =   0
+               Left            =   90
+               TabIndex        =   76
+               Top             =   0
+               Width           =   1260
+            End
+         End
+         Begin VB.ComboBox cb_c_cia_ita 
+            Appearance      =   0  'Flat
+            BackColor       =   &H00FFFFFF&
+            Enabled         =   0   'False
+            BeginProperty Font 
+               Name            =   "Courier New"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            ForeColor       =   &H00800000&
+            Height          =   330
+            Left            =   120
+            Style           =   2  'Dropdown List
+            TabIndex        =   71
+            Top             =   450
+            Width           =   2925
+         End
+      End
+   End
+   Begin Threed.SSFrame fr3d_isg 
+      Height          =   4665
+      Left            =   45
+      TabIndex        =   48
+      Top             =   1200
+      Visible         =   0   'False
+      Width           =   8265
+      _Version        =   65536
+      _ExtentX        =   14579
+      _ExtentY        =   8229
+      _StockProps     =   14
+      Caption         =   "Item Segurado"
+      ForeColor       =   8388608
+      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Begin VB.ListBox li_isg 
+         Appearance      =   0  'Flat
+         BackColor       =   &H00FFFFFF&
+         BeginProperty Font 
+            Name            =   "Courier New"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00800000&
+         Height          =   3810
+         Left            =   90
+         TabIndex        =   49
+         Top             =   675
+         Width           =   8115
+      End
+      Begin VB.Label lb_apolice2 
+         Appearance      =   0  'Flat
+         Caption         =   "N�mero da Ap�lice"
+         ForeColor       =   &H00800000&
+         Height          =   255
+         Left            =   3015
+         TabIndex        =   51
+         Top             =   225
+         Width           =   1695
+      End
+      Begin VB.Label lb_apolice3 
+         Appearance      =   0  'Flat
+         BorderStyle     =   1  'Fixed Single
+         ForeColor       =   &H00800000&
+         Height          =   255
+         Left            =   4740
+         TabIndex        =   50
+         Top             =   225
+         Width           =   3435
+      End
+   End
+   Begin Threed.SSFrame fr3d_Apolices 
+      Height          =   4575
+      Left            =   45
+      TabIndex        =   21
+      Top             =   1035
+      Visible         =   0   'False
+      Width           =   8235
+      _Version        =   65536
+      _ExtentX        =   14526
+      _ExtentY        =   8070
+      _StockProps     =   14
+      Caption         =   "Ap�lices/Produto"
+      ForeColor       =   8388608
+      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Begin MSGrid.Grid gr_apo 
+         Height          =   3285
+         Left            =   150
+         TabIndex        =   29
+         Top             =   1110
+         Width           =   7860
+         _Version        =   65536
+         _ExtentX        =   13864
+         _ExtentY        =   5794
+         _StockProps     =   77
+         ForeColor       =   8388608
+         BackColor       =   16777215
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Cols            =   6
+         FixedCols       =   0
+         HighLight       =   0   'False
+         MouseIcon       =   "R1FAB001.frx":2B30
+      End
+      Begin VB.Label lb_gr_u_lgd2 
+         Appearance      =   0  'Flat
+         BackColor       =   &H80000005&
+         BorderStyle     =   1  'Fixed Single
+         ForeColor       =   &H00800000&
+         Height          =   255
+         Left            =   7245
+         TabIndex        =   44
+         Top             =   660
+         Width           =   750
+      End
+      Begin VB.Label lb_gr_cep2 
+         Appearance      =   0  'Flat
+         BackColor       =   &H80000005&
+         BorderStyle     =   1  'Fixed Single
+         ForeColor       =   &H00800000&
+         Height          =   255
+         Left            =   6180
+         TabIndex        =   47
+         Top             =   660
+         Width           =   1005
+      End
+      Begin VB.Label lb_gr_c_uf2 
+         Appearance      =   0  'Flat
+         BackColor       =   &H80000005&
+         BorderStyle     =   1  'Fixed Single
+         ForeColor       =   &H00800000&
+         Height          =   255
+         Left            =   5490
+         TabIndex        =   46
+         Top             =   675
+         Width           =   615
+      End
+      Begin VB.Label lb_por_familia2 
+         Appearance      =   0  'Flat
+         BackColor       =   &H00FFFFFF&
+         BorderStyle     =   1  'Fixed Single
+         ForeColor       =   &H00800000&
+         Height          =   255
+         Left            =   120
+         TabIndex        =   45
+         Top             =   675
+         Width           =   5265
+      End
+      Begin VB.Label lb_gr_u_lgd1 
+         Appearance      =   0  'Flat
+         AutoSize        =   -1  'True
+         Caption         =   "Nr. Logr."
+         ForeColor       =   &H00800000&
+         Height          =   195
+         Left            =   7215
+         TabIndex        =   40
+         Top             =   390
+         Width           =   765
+      End
+      Begin VB.Label lb_por_familia1 
+         Appearance      =   0  'Flat
+         AutoSize        =   -1  'True
+         Caption         =   "Campo especifico por familia"
+         ForeColor       =   &H00800000&
+         Height          =   195
+         Left            =   120
+         TabIndex        =   41
+         Top             =   480
+         Width           =   2445
+      End
+      Begin VB.Label lb_gr_c_uf1 
+         Appearance      =   0  'Flat
+         AutoSize        =   -1  'True
+         Caption         =   "Estado"
+         ForeColor       =   &H00800000&
+         Height          =   195
+         Left            =   5475
+         TabIndex        =   42
+         Top             =   345
+         Width           =   600
+      End
+      Begin VB.Label lb_gr_cep1 
+         Appearance      =   0  'Flat
+         AutoSize        =   -1  'True
+         Caption         =   "CEP"
+         ForeColor       =   &H00800000&
+         Height          =   195
+         Left            =   6240
+         TabIndex        =   43
+         Top             =   360
+         Width           =   375
+      End
+   End
+   Begin Threed.SSFrame fr3d_Aditamento 
+      Height          =   4695
+      Left            =   45
+      TabIndex        =   26
+      Top             =   810
+      Visible         =   0   'False
+      Width           =   8235
+      _Version        =   65536
+      _ExtentX        =   14526
+      _ExtentY        =   8281
+      _StockProps     =   14
+      Caption         =   "Aditamentos"
+      ForeColor       =   8388608
+      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Begin VB.ListBox li_aditamentos 
+         Appearance      =   0  'Flat
+         BackColor       =   &H00FFFFFF&
+         BeginProperty Font 
+            Name            =   "Courier New"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00800000&
+         Height          =   3810
+         Left            =   120
+         TabIndex        =   27
+         Top             =   500
+         Width           =   7920
+      End
+      Begin VB.Label lb_apolice1 
+         Appearance      =   0  'Flat
+         BorderStyle     =   1  'Fixed Single
+         ForeColor       =   &H00800000&
+         Height          =   255
+         Left            =   5430
+         TabIndex        =   31
+         Top             =   195
+         Width           =   2565
+      End
+      Begin VB.Label lb_apolice 
+         Appearance      =   0  'Flat
+         Caption         =   "N�mero da Ap�lice"
+         ForeColor       =   &H00800000&
+         Height          =   255
+         Left            =   3660
+         TabIndex        =   30
+         Top             =   180
+         Width           =   1695
+      End
+   End
+   Begin Threed.SSFrame fr3d_Homonimo 
+      Height          =   4695
+      Left            =   90
+      TabIndex        =   22
+      Top             =   900
+      Visible         =   0   'False
+      Width           =   8250
+      _Version        =   65536
+      _ExtentX        =   14552
+      _ExtentY        =   8281
+      _StockProps     =   14
+      Caption         =   "Hom�nimos"
+      ForeColor       =   8388608
+      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Begin VB.ListBox li_Homonimo 
+         Appearance      =   0  'Flat
+         BackColor       =   &H00FFFFFF&
+         BeginProperty Font 
+            Name            =   "Courier New"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00800000&
+         Height          =   3390
+         Left            =   120
+         TabIndex        =   16
+         Top             =   900
+         Width           =   7590
+      End
+      Begin Threed.SSCommand bu3d_prx_hmn 
+         Height          =   375
+         Left            =   120
+         TabIndex        =   65
+         Top             =   420
+         Width           =   2955
+         _Version        =   65536
+         _ExtentX        =   5212
+         _ExtentY        =   661
+         _StockProps     =   78
+         Caption         =   "Pesquisa demais hom�nimos"
+         ForeColor       =   8388608
+         Outline         =   0   'False
+         AutoSize        =   1
+      End
+      Begin Threed.SSCommand bu3d_prx_hmn_t 
+         Height          =   1035
+         Left            =   7725
+         TabIndex        =   33
+         Top             =   900
+         Visible         =   0   'False
+         Width           =   495
+         _Version        =   65536
+         _ExtentX        =   873
+         _ExtentY        =   1826
+         _StockProps     =   78
+         ForeColor       =   8388608
+         Enabled         =   0   'False
+         Outline         =   0   'False
+         AutoSize        =   1
+         Picture         =   "R1FAB001.frx":2B4C
+      End
+      Begin Threed.SSCommand bu3d_rto_hmn 
+         Height          =   975
+         Left            =   7740
+         TabIndex        =   32
+         Top             =   900
+         Visible         =   0   'False
+         Width           =   495
+         _Version        =   65536
+         _ExtentX        =   873
+         _ExtentY        =   1720
+         _StockProps     =   78
+         ForeColor       =   8388608
+         Enabled         =   0   'False
+         Outline         =   0   'False
+         AutoSize        =   1
+         Picture         =   "R1FAB001.frx":2E66
+      End
+   End
+   Begin Threed.SSFrame fra_Apolice 
+      Height          =   4665
+      Left            =   45
+      TabIndex        =   79
+      Top             =   2925
+      Visible         =   0   'False
+      Width           =   8280
+      _Version        =   65536
+      _ExtentX        =   14605
+      _ExtentY        =   8229
+      _StockProps     =   14
+      Caption         =   "Ap�lices"
+      ForeColor       =   8388608
+      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Begin MSFlexGridLib.MSFlexGrid gr_Apolice 
+         Height          =   4020
+         Left            =   135
+         TabIndex        =   82
+         Top             =   540
+         Width           =   8070
+         _ExtentX        =   14235
+         _ExtentY        =   7091
+         _Version        =   393216
+         Cols            =   6
+         FixedCols       =   0
+         ForeColor       =   8388608
+         ForeColorFixed  =   -2147483635
+         BackColorBkg    =   16777215
+         FormatString    =   $"R1FAB001.frx":3180
+      End
+      Begin VB.Label lb_Label 
+         Appearance      =   0  'Flat
+         BorderStyle     =   1  'Fixed Single
+         ForeColor       =   &H00800000&
+         Height          =   255
+         Index           =   3
+         Left            =   4875
+         TabIndex        =   81
+         Top             =   225
+         Width           =   3315
+      End
+      Begin VB.Label lb_Label 
+         Appearance      =   0  'Flat
+         AutoSize        =   -1  'True
+         Caption         =   "N�mero do documento informado"
+         ForeColor       =   &H00800000&
+         Height          =   195
+         Index           =   2
+         Left            =   1905
+         TabIndex        =   80
+         Top             =   225
+         Width           =   2805
+      End
+   End
+   Begin VB.Label Lb_marc 
+      Appearance      =   0  'Flat
+      AutoSize        =   -1  'True
+      Caption         =   "Marca"
+      ForeColor       =   &H00800000&
+      Height          =   195
+      Left            =   0
+      TabIndex        =   28
+      Top             =   0
+      Width           =   540
+   End
+End

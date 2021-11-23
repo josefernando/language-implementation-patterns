@@ -1,0 +1,60 @@
+Private Sub Class_Initialize()
+    
+100 On Error GoTo Erro_Class_Initialize
+200 Set objEvento = objCamada  'Instancia o objeto de conexÃ£o (declarado no GEMOGC0X.BAS)
+    Exit Sub
+
+Erro_Class_Initialize:
+    Err.Raise Err.Number, "GECOMS01 Class_Initialize. Linha: " & CStr(Erl), Err.Description
+    Exit Sub
+End Sub
+
+
+Private Sub bu3D_avanca_Click()
+    
+    'Mara (Origin) - 25/11/1998 - R1PAB020.MAK - In�cio
+    Screen.MousePointer = HOURGLASS
+
+    SU_Carrega_Grid
+
+    If over_grid% = True Then
+       su_atu_botoes_nav
+    End If
+
+    Screen.MousePointer = DEFAULT
+    'Mara (Origin) - 25/11/1998 - R1PAB020.MAK - Fim
+
+End Sub
+
+
+
+Private Sub Class_Terminate()
+    
+100 On Error GoTo Erro_Class_Terminate
+200 Set objEvento = Nothing   'Desaloca o objeto que recebe eventos de erro e mensagem
+    Exit Sub
+
+Erro_Class_Terminate:
+    Err.Raise Err.Number, "GECOMS01 Class_Terminate. Linha: " & CStr(Erl), Err.Description
+    Exit Sub
+End Sub
+
+Private Sub objEvento_Erro(ByVal numeroConexao As Long, ByVal severidade As Long, ByVal Codigo As Long, ByVal nomeProcedure As String, ByVal Mensagem As String, ByVal estadoTransacao As Long, ByVal servidor As String, ByVal linhaProcedimento As Long, ByVal estado As Long)
+
+100 On Error GoTo Erro_objEvento_Erro
+200 If UCase(Mensagem) = "NO MORE RESULTS." Then Exit Sub
+300 Forms(0).VBSQL1_Error CInt(numeroConexao), CInt(severidade), CInt(Codigo), Mensagem, CInt(estado)
+    Exit Sub
+
+Erro_objEvento_Erro:
+    Select Case Err.Number
+    Case 6
+        Err.Clear
+    Case 438
+        MsgBox CG_MENSAGEM_PADRAO, vbCritical, "Atenção"
+        MsgBox "Erro provavelmente causado pela ausÃªncia da Sub VBSQL1_Error na Form principal."
+    Case Else
+        Err.Raise Err.Number, "GECOMS01 objEvento_Erro. Linha: " & CStr(Erl), Err.Description
+    End Select
+    Exit Sub
+End Sub

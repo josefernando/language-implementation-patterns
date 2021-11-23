@@ -1,0 +1,2 @@
+
+Private WithEvents objEvento As GerenteConexoes

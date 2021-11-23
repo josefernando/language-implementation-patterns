@@ -1,0 +1,20 @@
+
+Private Sub bu3d_t_apo_Click()
+
+' contador para o combo de tipo de textos
+Dim i       As Integer
+
+' percorre array de textos
+Dim j       As Integer
+
+' indica se existe ou não um determinado tipo de texto no array
+Dim found   As Integer
+
+                    
+        If Not fu_sel_txt_apo() Then
+            Screen.MousePointer = DEFAULT
+            If e_emi_ppl = 5 Then ReDim dad_t_lin_txt(-1 To -1) 'ZEZE: GoTo Continua  'v56 Emilio 03/07/2006
+            MsgBox "Apólice não possui Textos!", MB_ICONINFORMATION, txt_msg$
+            Exit Sub
+        End If
+End Sub
