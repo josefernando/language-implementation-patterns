@@ -1,0 +1,5 @@
+1. A seguinte mensagem ao rodar TestRig
+   "Problems calling org.antlr.v4.gui.TestRig.main(args)"
+   
+   Neste caso o arquivo de input estava errado. Corrigi e rodou.
+    

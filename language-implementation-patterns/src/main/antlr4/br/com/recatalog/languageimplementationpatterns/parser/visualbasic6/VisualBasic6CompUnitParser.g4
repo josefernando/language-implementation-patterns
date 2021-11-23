@@ -1405,7 +1405,9 @@ keyWordIdentifier :
   | MKDIR
   | MODULE
   | NAME
-
+  
+  | NEXT
+  
   | NOTHING
   | NULL
   | ON
@@ -1459,9 +1461,9 @@ keyWordIdentifier :
   //     podem se confundir com regras de comandos ou regras de vari�veis 
   //     importante assignment n�o pode ter "expr" em lhs  para n�o marcar inExpr = true
   
-    | {isKeywordIdentifier(_input.LT(1))}? NEXT 
-    | {isKeywordIdentifier(_input.LT(1))}? ERROR
-    | {isKeywordIdentifier(_input.LT(1))}? OBJECT
+//    | {isKeywordIdentifier(_input.LT(1))}? NEXT 
+//    | {isKeywordIdentifier(_input.LT(1))}? ERROR
+//    | {isKeywordIdentifier(_input.LT(1))}? OBJECT
     
 ;
 		
