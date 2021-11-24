@@ -224,9 +224,9 @@ wrapper :  // CONTORNA O ERRO DE "Mismatched EOF in ANTLR 4"
 	startRule EOF
 ;
 
-startRule : module {totalElapsedTime = elapsedTime.elapsedTime(); System.err.println("Parsing Elapsed Time: " + totalElapsedTime);} ;
+startRule : module EOF {totalElapsedTime = elapsedTime.elapsedTime(); System.err.println("Parsing Elapsed Time: " + totalElapsedTime);} ;
 
-module : (  metadata  | explicitDeclaration |  beginBlock |endOfStmt)+
+module : ( metadata  | explicitDeclaration |  beginBlock |endOfStmt)+
 	;
 	
 explicitDeclaration :         
@@ -1116,62 +1116,62 @@ expr :
 ;
 
 expression :
-      LPAREN_CHAR expression RPAREN_CHAR                
-    |  atom    
+      LPAREN_CHAR expression RPAREN_CHAR                # exprEntreParen
+    |  atom                                             # exprAtom
     
-    | expression LPAREN_CHAR RPAREN_CHAR                   
-    | expression LPAREN_CHAR realParameterList RPAREN_CHAR  
-    | expression LPAREN_CHAR realParameterList RPAREN_CHAR '-'   LPAREN_CHAR realParameterList RPAREN_CHAR // Printer.Line (5, (11 * fator) + y0)-(5, (17 * fator) + y0)    
+    | expression LPAREN_CHAR RPAREN_CHAR                # exprFunctionOrArrayNoParam       
+    | expression LPAREN_CHAR realParameterList RPAREN_CHAR  # exprFunctionOrArrayParam
+    | expression LPAREN_CHAR realParameterList RPAREN_CHAR '-'   LPAREN_CHAR realParameterList RPAREN_CHAR # exprPrintLine // Printer.Line (5, (11 * fator) + y0)-(5, (17 * fator) + y0)    
 
-	| expression redimRange
+	| expression redimRange # exprRedimRange
 	    
-    | memberAccessOp expression 
+    | memberAccessOp expression   # exprAccessOp
     
-    | addOp expression                     
+    | addOp expression            # exprSigned          
 
-    | NEW expression                       
-    | TYPEOF expression                    
-    | notOp expression                     
+    | NEW expression              # exprNewOp         
+    | TYPEOF expression           # exprTypeOp         
+    | notOp expression            # exprNotOp          
     
-    | expression memberAccessOp expression 
-  	| <assoc=right> expression exponentOp expression 
-	| expression multOp expression                   
-	| expression addOp expression                    
-	| expression relOp expression                    
-	| expression logicalAndOp expression             
-	| expression logicalOrOp expression              
-	| expression concatOp expression                                  
+    | expression memberAccessOp expression   # exprMemberAccessOp
+  	| <assoc=right> expression exponentOp expression  # exprExponentOp
+	| expression multOp expression             # exprMultOp              
+	| expression addOp expression              # exprAddOp                
+	| expression relOp expression              # exprRelOp      
+	| expression logicalAndOp expression       # exprLogicalAndOp     
+	| expression logicalOrOp expression        # exprLogicalOrOp      
+	| expression concatOp expression           # exprConcatOp                      
 ;
 
 condExpression :
-      LPAREN_CHAR condExpression RPAREN_CHAR                   
-    |  atom                                
+      LPAREN_CHAR condExpression RPAREN_CHAR           # exprCondEntreParen        
+    |  atom                                # exprCondAtom
       
-    | condExpression LPAREN_CHAR RPAREN_CHAR                   
-    | condExpression LPAREN_CHAR condRealParameterList RPAREN_CHAR 
-    | condExpression LPAREN_CHAR condRealParameterList RPAREN_CHAR '-' LPAREN_CHAR condRealParameterList RPAREN_CHAR  // Printer.Line (5, (11 * fator) + y0)-(5, (17 * fator) + y0)
+    | condExpression LPAREN_CHAR RPAREN_CHAR              # exprCondFunctionOrArrayNoParam     
+    | condExpression LPAREN_CHAR condRealParameterList RPAREN_CHAR # exprCondFunctionOrArrayParam
+    | condExpression LPAREN_CHAR condRealParameterList RPAREN_CHAR '-' LPAREN_CHAR condRealParameterList RPAREN_CHAR  # exprCondPrintLine // Printer.Line (5, (11 * fator) + y0)-(5, (17 * fator) + y0)
     
-    | condExpression redimRange
+    | condExpression redimRange   # exprCondRedimRange
     
     
-    | memberAccessOp condExpression 
+    | memberAccessOp condExpression # exprCondAccessOp
     
-    | addOp condExpression  
+    | addOp condExpression  # exprCondSigned
     
-    | condExpression memberAccessOp condExpression
+    | condExpression memberAccessOp condExpression  # exprCondMemberAccessOp
     
-    | instanceOp condExpression
-//    | NEW condExpression                       
-//    | TYPEOF condExpression                    
-    | notOp condExpression
+//    | instanceOp condExpression
+    | NEW condExpression                       # exprCondNewOp
+    | TYPEOF condExpression                    # exprCondTypeOp
+    | notOp condExpression                     # exprCondNotOp
      
-  	| <assoc=right> condExpression exponentOp condExpression 
-  	| condExpression multOp condExpression                   
-	| condExpression addOp condExpression                    
-	| condExpression condRelOp condExpression                
-	| condExpression logicalAndOp condExpression             
-	| condExpression logicalOrOp condExpression              
-	| condExpression concatOp condExpression                               
+  	| <assoc=right> condExpression exponentOp condExpression # exprCondExponentOp
+  	| condExpression multOp condExpression                # exprCondMultOp   
+	| condExpression addOp condExpression                    # exprCondAddOp
+	| condExpression condRelOp condExpression              # exprCondRelOp  
+	| condExpression logicalAndOp condExpression             # exprCondLogicalAndOp
+	| condExpression logicalOrOp condExpression              # exprCondLogicalOrOp
+	| condExpression concatOp condExpression             # exprCondConcatOp                   
 ;
 
 atom :
