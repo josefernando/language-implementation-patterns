@@ -1,6 +1,7 @@
 package learning.languageimplementationpatterns.core.visualbasic6;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,8 +10,10 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import br.com.recatalog.languageimplementationpatterns.parser.visualbasic6.VisualBasic6CompUnitParser;
+import br.com.recatalog.languageimplementationpatterns.parser.visualbasic6.VisualBasic6CompUnitParser.IdentifierContext;
 import br.com.recatalog.languageimplementationpatterns.parser.visualbasic6.VisualBasic6CompUnitParserBaseListener;
 import br.com.recatalog.util.BicamSystem;
+import br.com.recatalog.util.NodeExplorer;
 import br.com.recatalog.util.PropertyList;
 import learning.languageimplementationpatterns.core.Scope;
 import learning.languageimplementationpatterns.core.Symbol;
@@ -45,6 +48,11 @@ public class VisualBasic6ResolveIdentifier extends VisualBasic6CompUnitParserBas
 	@Override
 	public void enterExprMemberAccessOp(VisualBasic6CompUnitParser.ExprMemberAccessOpContext ctx) {
 		System.err.println(ctx.getText() + " - line " + ctx.getStart().getLine());
+        ArrayList<ParseTree> ids = NodeExplorer.getDepthAllChildClass(ctx, IdentifierContext.class.getSimpleName());
+        for(ParseTree p : ids) {
+        	System.err.println("identifier :" + p.getText());
+        }
+	
 	}
 	
 	private Scope getModuleScope() {

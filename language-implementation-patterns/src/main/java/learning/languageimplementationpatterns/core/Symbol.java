@@ -201,7 +201,8 @@ public abstract class Symbol {
 	public String location() {
 		int line = getContext().getStart().getLine();
 		int positionInLine = getContext().getStart().getCharPositionInLine();
-		return String.format("Line: %d, Position in Line: %d.%n", line, positionInLine);
+		Object moduleName  = getProperties().getProperty("MODULE");
+		return String.format("Module: %s line: %d, Position in Line: %d.%n", moduleName ,line, positionInLine);
 	}
 	
 //	public String toStringAll() {

@@ -66,4 +66,13 @@ public class ContextData {
 	public Type typeToPromote() {
 		return null;
 	}
+	
+	public String toString() {
+		Integer line = symbol.getContext() != null 
+				? symbol.getContext().start.getLine() : 0;
+		return "Symbol: " + symbol.getName() 
+		     + " scope: " + symbol.getScope().getName()
+		     + " module: " + symbol.getProperties().getProperty("MODULE")
+		     + " line: "   + line;
+	}
 }

@@ -8,7 +8,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import learning.languageimplementationpatterns.core.Symbol;
-
+import br.com.recatalog.util.BicamSystem;
 import br.com.recatalog.util.PropertyList;
 
 public interface SymbolTable {
@@ -30,5 +30,10 @@ public interface SymbolTable {
 	public Map<String, ParseTree> getModuleToTree();
 	
 	public IdentityHashMap<ParserRuleContext, List<String>> getModifierMap() ;
-
+	
+	public Map<Symbol,ContextData> getWhereDefined();
+	
+	public ContextData getDefinedSymbol(Symbol sym);
+	
+	public void addDefinedSymbol(Symbol sym);
 }

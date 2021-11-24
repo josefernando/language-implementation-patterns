@@ -22,6 +22,8 @@ public class SymbolTableVB6 implements SymbolTable {
 	
 	IdentityHashMap<Symbol, ArrayList<ParserRuleContext>> whereUsed; 
 	IdentityHashMap<Symbol, ArrayList<ContextData>> whereUsedCdt; 
+	IdentityHashMap<Symbol, ContextData> whereDefined; 
+
 	IdentityHashMap<ParserRuleContext, Symbol> moduleMap;
 	IdentityHashMap<ParseTree, Symbol> treeToModuleMap;
 	IdentityHashMap<String, ParseTree> moduleToTreeMap;
@@ -53,6 +55,7 @@ public class SymbolTableVB6 implements SymbolTable {
 		contextDataMap = new IdentityHashMap<ParserRuleContext, ContextData>();
 		whereUsed   = new IdentityHashMap<Symbol, ArrayList<ParserRuleContext>>();
 		whereUsedCdt = new IdentityHashMap<Symbol, ArrayList<ContextData>>(); 
+		whereDefined = new IdentityHashMap<Symbol, ContextData>(); 
 		moduleMap = new IdentityHashMap<ParserRuleContext, Symbol>();
 		treeToModuleMap = new IdentityHashMap<ParseTree, Symbol>() ;
 		moduleToTreeMap = new IdentityHashMap<String, ParseTree>() ;
@@ -105,6 +108,29 @@ public class SymbolTableVB6 implements SymbolTable {
 	public ContextData getContextData(ParserRuleContext ctx) {
 		return contextDataMap.get(ctx);
 	}
+	
+	@Override
+	public Map<Symbol,ContextData> getWhereDefined() {
+		return whereDefined;
+	}
+	
+	@Override
+	public ContextData getDefinedSymbol(Symbol sym) {
+		return whereDefined.get(sym);
+	}
+	
+	@Override
+	public void addDefinedSymbol(Symbol sym) {
+		ContextData ctxData = whereDefined.get(sym);
+		if(ctxData != null) {
+			BicamSystem.printLog("ERROR", "Símbolo já definido em: "
+					                      + sym.location());
+		}
+		else {
+			ctxData = new ContextData(sym.getContext());
+			whereDefined.put(sym, ctxData);
+		}
+	}	
 	
 	@Override
 	public IdentityHashMap<ParserRuleContext, List<String>> getModifierMap() {

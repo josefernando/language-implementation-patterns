@@ -23,6 +23,7 @@ import br.com.recatalog.languageimplementationpatterns.parser.visualbasic6.Visua
 import br.com.recatalog.util.BicamSystem;
 import br.com.recatalog.util.NodeExplorer;
 import br.com.recatalog.util.PropertyList;
+import learning.languageimplementationpatterns.core.ContextData;
 import learning.languageimplementationpatterns.core.Language;
 import learning.languageimplementationpatterns.core.Scope;
 import learning.languageimplementationpatterns.core.Symbol;
@@ -405,6 +406,7 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		symbolProperties.addProperty("SUB_CATEGORY", "FORMAL_PARAMETER");
 		
 		symbolProperties.addProperty("LANGUAGE", language);
+		symbolProperties.addProperty("MODULE", getModuleScope().getName());
 		
 		ArrayDefContext arrayCtx = varCtx.arrayDef();
 		if(arrayCtx != null) {
@@ -426,13 +428,14 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		if(initialValueCtx != null) {
 			symbolProperties.addProperty("INIT_VALUE"
 					       , initialValueCtx.getText().substring(1)); // ignora o "="
-		}		
+		}
 		
 		Symbol sym = symbolFactory.getSymbol(symbolFactoryProperties);
 		
 		st.addContextData(varCtx);
 		st.getContextData(varCtx).setSymbol(sym);
-		st.getContextData(varCtx).setScope(getCurrentScope());	
+		st.getContextData(varCtx).setScope(getCurrentScope());
+		st.addDefinedSymbol(sym);
 	}
 	
 	private List<String> getModifier(ParserRuleContext dclCtx) {
@@ -461,7 +464,7 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		// Parsing source file e generates AST
 		PropertyList properties = new PropertyList();
 //		properties.addProperty("FILE_PATH", "C:\\workspace\\antlr\\language-implementation-patterns\\src\\test\\resources\\R1PAB0\\R1FAB004.FRM");
-		properties.addProperty("FILE_PATH", "C:\\workspace\\antlr\\language-implementation-patterns\\src\\test\\resources\\R1PAB0\\GECOEX01.CLS");
+		properties.addProperty("FILE_PATH", "C:\\Users\\josez\\git\\language-implementation-patterns\\language-implementation-patterns\\src\\test\\resources\\R1PAB0\\GECOEX01.CLS");
 
 //		properties.addProperty("FILE_PATH", "C:\\workspace\\antlr\\language-implementation-patterns\\src\\test\\resources\\R1PAB0\\GEMVBAPI.BAS");
 //		properties.addProperty("FILE_PATH", "C:\\workspace\\workspace_desenv_java8\\visualbasic6\\antlr4.vb6\\input\\R1PAB0\\GECOMS01.CLS");
@@ -484,7 +487,6 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
         System.err.println("Module name: " + visualBasic6module.getModuleName());
         
 //        System.err.println(st.toString());
-
         
         //---------------------  DEF SYMBOL --------------------------
 
@@ -492,7 +494,15 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
         walker.walk(visualBasic6DefSym, tree);        // walk parse tree 
         
         System.err.println(st.toString());
-
+        
+        System.err.println();
+        
+        for(Entry<Symbol,ContextData> e : st.getWhereDefined().entrySet()) {
+        	System.err.println("Symbol: " + e.getKey().getName()
+        			           + e.getKey().location());
+//        	System.err.println("---- context data");
+//        	System.err.println(e.getValue().toString());
+        }
 	}	
 	
 //	public static void runDefSymbol(PropertyList Properties) {

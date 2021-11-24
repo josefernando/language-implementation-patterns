@@ -36,6 +36,7 @@ public class VisualBasic6Module extends VisualBasic6CompUnitParserBaseListener {
 	public void enterAttributeStmt(VisualBasic6CompUnitParser.AttributeStmtContext ctx) {
 		if(ctx.Name.getText().equalsIgnoreCase("VB_NAME")) {
 			moduleName = ctx.Values.getText().replace("\"", "");
+			
 		}
 	}
 	
