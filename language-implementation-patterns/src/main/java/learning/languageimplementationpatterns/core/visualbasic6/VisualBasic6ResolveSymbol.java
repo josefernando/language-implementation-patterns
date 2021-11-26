@@ -22,7 +22,7 @@ import learning.languageimplementationpatterns.core.SymbolTable;
 import learning.languageimplementationpatterns.core.SymbolTableVB6;
 import learning.languageimplementationpatterns.core.Type;
 
-public class VisualBasic6ResolveIdentifier extends VisualBasic6CompUnitParserBaseListener {
+public class VisualBasic6ResolveSymbol extends VisualBasic6CompUnitParserBaseListener {
 	
 	SymbolTable st;
 	PropertyList properties;
@@ -33,7 +33,7 @@ public class VisualBasic6ResolveIdentifier extends VisualBasic6CompUnitParserBas
 	SymbolFactory symbolFactory;
 	Map<String,Integer> controlArrays;
 	
-	public VisualBasic6ResolveIdentifier(PropertyList properties) {
+	public VisualBasic6ResolveSymbol(PropertyList properties) {
 		Map<String,Integer> controlArrays = new HashMap<>();
 
 		this.properties = properties;
@@ -99,14 +99,14 @@ public class VisualBasic6ResolveIdentifier extends VisualBasic6CompUnitParserBas
         
         //---------------------  RESOLVE_TYPE SYMBOL --------------------------
 
-        VisualBasic6ResolveIdentifier visualBasic6ResolveType = new VisualBasic6ResolveIdentifier(properties);
+        VisualBasic6ResolveSymbol visualBasic6ResolveType = new VisualBasic6ResolveSymbol(properties);
         walker.walk(visualBasic6ResolveType, tree);        // walk parse tree 
         
         System.err.println(st.toString());   
         
        //---------------------  RESOLVE_IDENTIFIER SYMBOL --------------------------
 
-        VisualBasic6ResolveIdentifier visualBasic6ResolveIdentifier = new VisualBasic6ResolveIdentifier(properties);
+        VisualBasic6ResolveSymbol visualBasic6ResolveIdentifier = new VisualBasic6ResolveSymbol(properties);
         walker.walk(visualBasic6ResolveIdentifier, tree);        // walk parse tree 
         
 	}	

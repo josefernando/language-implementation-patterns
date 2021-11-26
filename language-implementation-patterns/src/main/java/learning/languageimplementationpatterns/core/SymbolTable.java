@@ -31,6 +31,9 @@ public interface SymbolTable {
 	
 	public IdentityHashMap<ParserRuleContext, List<String>> getModifierMap() ;
 	
+	public void addUsedSymbol(Symbol sym, ParserRuleContext ctx);
+
+	
 	public Map<Symbol,ContextData> getWhereDefined();
 	
 	public ContextData getDefinedSymbol(Symbol sym);

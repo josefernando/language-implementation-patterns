@@ -130,6 +130,10 @@ public class SymbolTableVB6 implements SymbolTable {
 			ctxData = new ContextData(sym.getContext());
 			whereDefined.put(sym, ctxData);
 		}
+	}
+	
+	public void addUsedSymbol(Symbol sym, ParserRuleContext ctx) {
+		sym.addUsedSymbol(ctx);
 	}	
 	
 	@Override

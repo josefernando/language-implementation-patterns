@@ -69,6 +69,7 @@ public  abstract class ScopeSymbol extends Symbol implements Scope {
 			
 			if(symbolScope == null) return null;
 			
+			
 			_properties.addProperty("NAME_TO_RESOLVE_MEMBER", nameToResolveParts.get(nameToResolveParts.size()-1));
 			return symbolScope.resolveMember(_properties);
 		}
@@ -86,7 +87,11 @@ public  abstract class ScopeSymbol extends Symbol implements Scope {
 		  = () -> symbols.get(nameToResolve1);
 		  
 		  if (streamSupplier.get().toArray().length == 1) {
-				return streamSupplier.get().findFirst().get();
+			    Symbol s = streamSupplier.get().findFirst().get();
+			    	s.addUsedSymbol((ParserRuleContext)_properties.getProperty("CONTEXT"));
+//				return streamSupplier.get().findFirst().get();
+				return s;
+
 		  }		
 		  else if(streamSupplier.get().toArray().length > 1) {
 			ParserRuleContext ctx = (ParserRuleContext)_properties.getProperty("CONTEXT");
@@ -117,7 +122,10 @@ public  abstract class ScopeSymbol extends Symbol implements Scope {
 				  = () -> symbols.get(name);
 				  
 				  if (streamSupplier.get().toArray().length == 1) {
-						return streamSupplier.get().findFirst().get();
+					  Symbol s = streamSupplier.get().findFirst().get();
+					  s.addUsedSymbol((ParserRuleContext)_properties.getProperty("CONTEXT"));
+//						return streamSupplier.get().findFirst().get();
+					  return s;
 				  }		
 				  else if(streamSupplier.get().toArray().length > 1) {
 					ParserRuleContext ctx = (ParserRuleContext)_properties.getProperty("CONTEXT");
@@ -152,8 +160,8 @@ public  abstract class ScopeSymbol extends Symbol implements Scope {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		if(symbols.getSymbols().size() > 0) {
-//			sb.append(".." + getName() + " - " + getClass().getSimpleName() + System.lineSeparator());
-			sb.append("|-->> " + getName() + " - " + getClass().getSimpleName() + System.lineSeparator());
+			sb.append(super.toString());
+//			sb.append("|-->> " + getName() + " - " + getClass().getSimpleName() + System.lineSeparator());
 			
 			for(Entry<String, Map<String, Symbol>> entry : symbols.getEntries()) {
 				Map<String, Symbol> symbolsx = entry.getValue();
@@ -162,16 +170,14 @@ public  abstract class ScopeSymbol extends Symbol implements Scope {
 	 * Inclui identação ".." em cada linha de sb
 	 */
 				for(Entry<String,Symbol> e : symbolsx.entrySet()) {
-//					sb.append(e.getValue().toString().replaceAll("((?im)^)", ".." + getName()) + "*");
 					sb.append(e.getValue().toString().replaceAll("((?im)^)", ".."));
 
 				}
-//				Stream<Map.Entry<String, Symbol> > stream = symbols.entrySet().stream();
-//				sb.append(symbols.values().stream().findFirst().get().toString().replaceAll("((?im)^)", ".."));
 			}
 		}
 		else {
-			sb.append("|.." + getName() + " - " + getClass().getSimpleName() + System.lineSeparator());
+//			sb.append("|.." + getName() + " - " + getClass().getSimpleName() + System.lineSeparator());
+			sb.append(super.toString());
 		}
 		return sb.toString();
 	}	

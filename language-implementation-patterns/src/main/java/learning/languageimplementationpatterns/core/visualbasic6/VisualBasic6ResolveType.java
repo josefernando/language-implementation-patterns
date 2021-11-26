@@ -1,17 +1,21 @@
 package learning.languageimplementationpatterns.core.visualbasic6;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import br.com.recatalog.languageimplementationpatterns.parser.visualbasic6.VisualBasic6CompUnitParser;
+import br.com.recatalog.languageimplementationpatterns.parser.visualbasic6.VisualBasic6CompUnitParser.IdentifierContext;
 import br.com.recatalog.languageimplementationpatterns.parser.visualbasic6.VisualBasic6CompUnitParserBaseListener;
 import br.com.recatalog.util.BicamSystem;
+import br.com.recatalog.util.NodeExplorer;
 import br.com.recatalog.util.PropertyList;
 import learning.languageimplementationpatterns.core.Scope;
 import learning.languageimplementationpatterns.core.Symbol;
@@ -58,6 +62,16 @@ public class VisualBasic6ResolveType extends VisualBasic6CompUnitParserBaseListe
 		}
 		
 		sym.setTypeSymbol(typeSymbol);
+		
+		ArrayList<ParseTree> typeListCtx = NodeExplorer.getDepthAllChildClass(((Symbol)typeSymbol).getContext(), IdentifierContext.class.getSimpleName());
+		
+		
+		// ... continuar daqui 
+		for(ParseTree ptree : typeListCtx) {
+			ParserRuleContext prCtx = (ParserRuleContext)ptree;
+			st.addUsedSymbol(sym, prCtx);
+			sym.addUsedSymbol(prCtx);
+		}
 	}
 	
 	@Override

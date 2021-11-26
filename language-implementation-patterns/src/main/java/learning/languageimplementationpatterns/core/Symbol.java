@@ -1,6 +1,7 @@
 package learning.languageimplementationpatterns.core;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
@@ -23,7 +24,8 @@ import br.com.recatalog.util.PropertyList;
 
 public abstract class Symbol { 
 	String name;
-	ParserRuleContext context;
+	ParserRuleContext defContext;
+	List<ParserRuleContext> whereUsed;
 	Scope scope;
 	Scope enclosingScope;
 	Scope parentScope;
@@ -32,10 +34,13 @@ public abstract class Symbol {
 	PropertyList properties;
 	
 	public Symbol() {
+		this(true);
 		name = "GLOBAL";
+//		this.whereUsed = new LinkedList<ParserRuleContext>();
 	}
 	
 	public Symbol(PropertyList _properties) {
+		this(true);
 		this.properties = _properties;
 		
 		List<String> constructorParameters = new ArrayList<String>() {
@@ -58,12 +63,15 @@ public abstract class Symbol {
 		this.enclosingScope = (Scope)getProperties().getProperty("ENCLOSING_SCOPE");
 		this.parentScope = (Scope)getProperties().getProperty("PARENT_SCOPE");
 
-		this.context = (ParserRuleContext)getProperties().getProperty("CONTEXT");
+		this.defContext = (ParserRuleContext)getProperties().getProperty("CONTEXT");
 //		this.type = (Type)getProperty("TYPE");
 		
 		if(this.name.equalsIgnoreCase("GLOBAL")) return;
 			
 		this.language = (Language)getProperties().mustProperty("LANGUAGE");
+		
+//		this.whereUsed = new LinkedList<ParserRuleContext>();
+
 		
 		if(scope != null) { 
 			scope.define(this);
@@ -84,6 +92,11 @@ public abstract class Symbol {
 			parentScope.define(this);
 //			this.getProperties().addProperty("PARENT_SCOPE", parentScope);
 		}
+	}
+	
+	// comandos comuns para ambos construtores
+	protected Symbol(Boolean b) {
+		this.whereUsed = new LinkedList<ParserRuleContext>();
 	}
 	
 	private boolean constructorParametersValidate(List<String> _constructorParameter) {
@@ -170,6 +183,14 @@ public abstract class Symbol {
 		return (ParserRuleContext)getProperty("CONTEXT");
 	}
 	
+	public List<ParserRuleContext> getWhereUsed() {
+		return whereUsed;
+	}
+	
+	public void addUsedSymbol(ParserRuleContext prCtx) {
+		whereUsed.add(prCtx);
+	}
+	
 	public int hashCode(){
 		// if two objects have the same hashCode then equals() is called in Set Interface objects
 		if(isCaseSensitive()) return getName().hashCode();
@@ -210,7 +231,7 @@ public abstract class Symbol {
 //	}
 	
 	public String toString() {
-		return "|.." + getName() + " - " + getClass().getSimpleName() + System.lineSeparator();	
+		return "|.." + getName() + "(" +  getWhereUsed().size()   +") - " + getClass().getSimpleName() + System.lineSeparator();	
 	}
 	
 	public Properties serializeProperties() {

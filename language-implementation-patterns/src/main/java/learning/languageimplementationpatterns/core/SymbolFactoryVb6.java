@@ -14,6 +14,9 @@ public class SymbolFactoryVb6 implements SymbolFactory{
 	public static final String MODULE_CLS = "MODULE_CLS";
 	public static final String MODULE_BAS = "MODULE_BAS";
 	
+	public static final String LABEL = "LABEL";
+	public static final String LABEL_LINE_NUMBER = "LABEL_LINE_NUMBER";
+
 	public static final String PROCEDURE_SUB = "PROCEDURE_SUB";
 	public static final String PROCEDURE_FUNCTION = "PROCEDURE_FUNCTION";
 	public static final String PROCEDURE_PROPERTY_GET = "PROCEDURE_PROPERTY_GET";
@@ -110,8 +113,10 @@ public class SymbolFactoryVb6 implements SymbolFactory{
 //				return createGuiPropertySymbol(_properties);				
 //			case METHOD:
 //				return createMethodSymbol(_properties);
-//			case LABEL:
-//				return createLabelSymbol(_properties);				
+			case LABEL:
+				return createLabelSymbol(symbolProperties);	
+			case LABEL_LINE_NUMBER:
+				return createLabelLineNumberSymbol(symbolProperties);				
 //			case STORED_PROCEDURE:
 //				return createStoredProcedureSymbol(_properties);				
 //			case GLOBAL_SCOPE: // è tratadp como symbol...
@@ -201,4 +206,11 @@ public class SymbolFactoryVb6 implements SymbolFactory{
 		return new GuiPropertySymbol(propreties);
 	}	
 	
+	private Symbol createLabelSymbol(PropertyList propreties) {
+		return new LabelSymbol(propreties);
+	}
+	
+	private Symbol createLabelLineNumberSymbol(PropertyList propreties) {
+		return new LabelLineNumberSymbol(propreties);
+	}
 }
