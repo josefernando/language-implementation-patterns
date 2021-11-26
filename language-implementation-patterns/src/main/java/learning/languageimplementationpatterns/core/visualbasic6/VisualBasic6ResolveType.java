@@ -217,7 +217,7 @@ public class VisualBasic6ResolveType extends VisualBasic6CompUnitParserBaseListe
         VisualBasic6DefSym visualBasic6DefSym = new VisualBasic6DefSym(properties);
         walker.walk(visualBasic6DefSym, tree);        // walk parse tree 
         
-        System.err.println(st.toString());
+ //       System.err.println(st.toString());
         
         //---------------------  RESOLVE_TYPE SYMBOL --------------------------
 

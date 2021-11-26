@@ -95,7 +95,7 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		String name = ctx.Name.getText();
 		
 		PropertyList symbolFactoryProperties = new PropertyList();
-		symbolFactoryProperties.addProperty("SYMBOL_TYPE", "PROCEDURE_" + ctx.Type.getText().toUpperCase());
+		symbolFactoryProperties.addProperty("SYMBOL_TYPE", "PROCEDURE_" + ctx.Type.getText().toUpperCase().replaceAll(" ", "_"));
 		
 		PropertyList symbolProperties = new PropertyList(); // usado para cria os simbolos
 		symbolProperties.addProperty("SCOPE", getCurrentScope());

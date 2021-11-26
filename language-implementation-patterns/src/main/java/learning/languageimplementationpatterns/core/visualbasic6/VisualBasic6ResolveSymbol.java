@@ -12,15 +12,12 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import br.com.recatalog.languageimplementationpatterns.parser.visualbasic6.VisualBasic6CompUnitParser;
 import br.com.recatalog.languageimplementationpatterns.parser.visualbasic6.VisualBasic6CompUnitParser.IdentifierContext;
 import br.com.recatalog.languageimplementationpatterns.parser.visualbasic6.VisualBasic6CompUnitParserBaseListener;
-import br.com.recatalog.util.BicamSystem;
 import br.com.recatalog.util.NodeExplorer;
 import br.com.recatalog.util.PropertyList;
 import learning.languageimplementationpatterns.core.Scope;
-import learning.languageimplementationpatterns.core.Symbol;
 import learning.languageimplementationpatterns.core.SymbolFactory;
 import learning.languageimplementationpatterns.core.SymbolTable;
 import learning.languageimplementationpatterns.core.SymbolTableVB6;
-import learning.languageimplementationpatterns.core.Type;
 
 public class VisualBasic6ResolveSymbol extends VisualBasic6CompUnitParserBaseListener {
 	
@@ -52,7 +49,6 @@ public class VisualBasic6ResolveSymbol extends VisualBasic6CompUnitParserBaseLis
         for(ParseTree p : ids) {
         	System.err.println("identifier :" + p.getText());
         }
-	
 	}
 	
 	private Scope getModuleScope() {

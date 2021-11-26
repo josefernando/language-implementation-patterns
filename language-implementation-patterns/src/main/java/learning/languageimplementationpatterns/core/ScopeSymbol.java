@@ -80,6 +80,10 @@ public  abstract class ScopeSymbol extends Symbol implements Scope {
 		Stream<Symbol> e = symbols.get(nameToResolve1);
 		
 		if(e == null) {
+			if(getScope() == null) {
+				BicamSystem.printLog("DEBUG", "SYMBOL NOT FOUND: " + _properties.getProperty("NAME_TO_RESOLVE"));
+				return null;
+			}
 			return getScope().resolve(_properties);
 		}
 		

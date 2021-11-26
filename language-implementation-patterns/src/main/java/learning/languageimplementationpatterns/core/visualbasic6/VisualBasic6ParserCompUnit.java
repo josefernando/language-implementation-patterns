@@ -10,11 +10,14 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import br.com.recatalog.core.VerboseListener;
 import br.com.recatalog.languageimplementationpatterns.parser.visualbasic6.VisualBasic6CompUnitLexer;
@@ -22,9 +25,16 @@ import br.com.recatalog.languageimplementationpatterns.parser.visualbasic6.Visua
 import br.com.recatalog.util.BicamSystem;
 import br.com.recatalog.util.PropertyList;
 import learning.languageimplementationpatterns.core.SymbolTable;
+import learning.languageimplementationpatterns.core.SymbolTableVB6;
 
 public class VisualBasic6ParserCompUnit {
 	PropertyList properties;
+	List<PropertyList> propertyList;
+	
+	public VisualBasic6ParserCompUnit(List<PropertyList> _propertyList) {
+		this.propertyList = _propertyList;
+		runParser();
+	}
 
 	public VisualBasic6ParserCompUnit(PropertyList properties) {
 		this.properties = properties;
@@ -55,6 +65,9 @@ public class VisualBasic6ParserCompUnit {
 		return properties;
 	}
 
+	public List<PropertyList> getPropertyList(){
+		return propertyList;
+	}
 	
 	private void run() {
 		String filePath = (String) properties.mustProperty("FILE_PATH");
@@ -183,12 +196,122 @@ public class VisualBasic6ParserCompUnit {
 		}
 	}
 	
+	public List<PropertyList> runParser() {
+		for(PropertyList properties : propertyList) {
+			VisualBasic6ParserCompUnit parser = new VisualBasic6ParserCompUnit(properties);
+			System.err.println(properties.getProperty("FILE_PATH"));
+			System.err.println("Total time: " + parser.getElapsedTime());
+			System.err.println("Total Errors: " + parser.getNumErrors());
+			System.err.println();			
+		}
+		return propertyList;
+	}
+	
 // Unit test	
 	public static void main(String[] args) {
-		PropertyList properties = new PropertyList();
-		properties.addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\R1FAB001.FRM");
-		VisualBasic6ParserCompUnit parser = new VisualBasic6ParserCompUnit(properties);
-		System.err.println("Total time: " + parser.getElapsedTime());
-		System.err.println("Total Errors: " + parser.getNumErrors());
+//		PropertyList properties = new PropertyList();
+//		properties.addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\R1FAB001.FRM");
+//		VisualBasic6ParserCompUnit parser = new VisualBasic6ParserCompUnit(properties);
+//		System.err.println("Total time: " + parser.getElapsedTime());
+//		System.err.println("Total Errors: " + parser.getNumErrors());
+		List<PropertyList> propertyList = new ArrayList<PropertyList>();
+		propertyList.add(new PropertyList().addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\GECOEX01.CLS"));
+		propertyList.add(new PropertyList().addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\GECOMS01.CLS"));
+		propertyList.add(new PropertyList().addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\GEMGVK01.BAS"));
+		propertyList.add(new PropertyList().addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\GEMOAJU1.BAS"));
+		propertyList.add(new PropertyList().addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\GEMOAMB1.BAS"));
+		propertyList.add(new PropertyList().addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\GEMOCOR1.BAS"));
+		propertyList.add(new PropertyList().addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\GEMOEX01.BAS"));
+		propertyList.add(new PropertyList().addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\GEMOMB01.BAS"));
+		propertyList.add(new PropertyList().addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\GEMOSY01.BAS"));
+		propertyList.add(new PropertyList().addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\GEMOTXT1.BAS"));
+		propertyList.add(new PropertyList().addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\GEMOVR01.BAS"));
+		propertyList.add(new PropertyList().addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\GEMVBAPI.BAS"));
+		propertyList.add(new PropertyList().addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\PEGFNZ01.CLS"));
+		propertyList.add(new PropertyList().addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\R1CAB016.CLS"));
+		propertyList.add(new PropertyList().addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\R1FAB001.FRM"));
+		propertyList.add(new PropertyList().addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\R1FAB002.FRM"));
+		propertyList.add(new PropertyList().addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\R1FAB003.FRM"));
+		propertyList.add(new PropertyList().addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\R1FAB004.FRM"));
+		propertyList.add(new PropertyList().addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\R1FAB005.FRM"));
+		propertyList.add(new PropertyList().addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\R1FAB006.FRM"));
+		propertyList.add(new PropertyList().addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\R1FAB007.FRM"));
+		propertyList.add(new PropertyList().addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\R1FAB008.FRM"));
+		propertyList.add(new PropertyList().addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\R1FAB010.FRM"));
+		propertyList.add(new PropertyList().addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\R1FAB011.FRM"));
+		propertyList.add(new PropertyList().addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\R1FAB012.FRM"));
+		propertyList.add(new PropertyList().addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\R1FAB013.FRM"));
+		propertyList.add(new PropertyList().addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\R1FAB014.FRM"));
+		propertyList.add(new PropertyList().addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\R1FAB015.FRM"));
+		propertyList.add(new PropertyList().addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\R1FAB016.FRM"));
+		propertyList.add(new PropertyList().addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\R1MAB001.BAS"));
+		propertyList.add(new PropertyList().addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\R1MAB002.BAS"));
+		propertyList.add(new PropertyList().addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\R1MAB003.BAS"));
+		propertyList.add(new PropertyList().addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\R1MAB004.BAS"));
+		propertyList.add(new PropertyList().addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\RXGCMG01.BAS"));
+		propertyList.add(new PropertyList().addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\WNGWN005.BAS"));
+
+//========================================  PARSER =========================================
+
+		VisualBasic6ParserCompUnit parser = new VisualBasic6ParserCompUnit(propertyList);
+		propertyList = parser.getPropertyList();
+
+//=====================================  SYMBOL_TABLE ========================================
+
+		SymbolTable st = new SymbolTableVB6();
+
+//=====================================  MODULE  ========================================
+
+		for(PropertyList properties : propertyList) {
+			ParseTree tree = (ParseTree) properties.mustProperty("ASTREE");
+	        ParseTreeWalker walker = new ParseTreeWalker();
+
+	        properties.addProperty("SYMBOL_TABLE", st);
+
+	        VisualBasic6Module visualBasic6module = new VisualBasic6Module(properties);
+	        walker.walk(visualBasic6module, tree);        // walk parse tree 
+	        System.err.println("Module name: " + visualBasic6module.getModuleName());			
+		}
+		
+//=====================================  DEF SYMBOL ========================================
+
+		for(PropertyList properties : propertyList) {
+			ParseTree tree = (ParseTree) properties.mustProperty("ASTREE");
+	        ParseTreeWalker walker = new ParseTreeWalker();
+
+	        properties.addProperty("SYMBOL_TABLE", st);
+
+	        VisualBasic6DefSym visualBasic6DefSymbol = new VisualBasic6DefSym(properties);
+	        walker.walk(visualBasic6DefSymbol, tree);        // walk parse tree 
+		}		
+		
+//		System.err.println(st.toString());
+		
+//=====================================  RESOLVE TYPE ========================================
+
+		for(PropertyList properties : propertyList) {
+			ParseTree tree = (ParseTree) properties.mustProperty("ASTREE");
+	        ParseTreeWalker walker = new ParseTreeWalker();
+
+	        properties.addProperty("SYMBOL_TABLE", st);
+
+	        VisualBasic6ResolveType visualBasic6ResolveType = new VisualBasic6ResolveType(properties);
+	        walker.walk(visualBasic6ResolveType, tree);        // walk parse tree 
+		}		
+		
+		System.err.println(st.toString());
+		
+//		// walking AST
+////		ParseTree tree = parser.getAstree();
+//		ParseTree tree = (ParseTree) parser.getProperties().mustProperty("ASTREE");
+//        ParseTreeWalker walker = new ParseTreeWalker();
+//        
+////        SymbolTable st = new SymbolTableVB6();
+//        properties.addProperty("SYMBOL_TABLE", st);
+//
+//        VisualBasic6Module visualBasic6module = new VisualBasic6Module(properties);
+//        walker.walk(visualBasic6module, tree);        // walk parse tree 
+//        
+//        System.err.println("Module name: " + visualBasic6module.getModuleName());
 	}
 }
