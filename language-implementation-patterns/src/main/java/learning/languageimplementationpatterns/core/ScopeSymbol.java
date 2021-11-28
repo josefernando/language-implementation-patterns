@@ -55,6 +55,12 @@ public  abstract class ScopeSymbol extends Symbol implements Scope {
 	public Symbol resolve(PropertyList _properties) {
 		String nameToResolve = (String)_properties.getProperty("NAME_TO_RESOLVE");
 		String nameToResolve1 = (String)_properties.getProperty("NAME_TO_RESOLVE");
+		ParserRuleContext ctxToResolve = (ParserRuleContext) _properties.getProperty("CONTEXT_TO_RESOLVE");
+		
+		if(nameToResolve == null) {
+			System.err.println("DEBUG");
+			return null;
+		}
 		
 		List<String> nameToResolveParts = Arrays.asList(nameToResolve.split("\\."));
 		
@@ -92,22 +98,60 @@ public  abstract class ScopeSymbol extends Symbol implements Scope {
 		  
 		  if (streamSupplier.get().toArray().length == 1) {
 			    Symbol s = streamSupplier.get().findFirst().get();
-			    	s.addUsedSymbol((ParserRuleContext)_properties.getProperty("CONTEXT"));
-//				return streamSupplier.get().findFirst().get();
-				return s;
+			    
+		    	 if(s instanceof Type) { // parametrizar "Type" como <class>
+					    s.addUsedSymbol((ParserRuleContext)_properties.getProperty("CONTEXT"));
+						return s;
+		    	 }
+		    	 else {
+		 			if(getScope() == null) {
+						BicamSystem.printLog("DEBUG", "SYMBOL NOT FOUND: " + _properties.getProperty("NAME_TO_RESOLVE"));
+						return null;
+					}
+					return getScope().resolve(_properties);
+		    	 }
+//			    
+//			    
+//			    s.addUsedSymbol((ParserRuleContext)_properties.getProperty("CONTEXT"));
+//				return s;
 
 		  }		
 		  else if(streamSupplier.get().toArray().length > 1) {
-			ParserRuleContext ctx = (ParserRuleContext)_properties.getProperty("CONTEXT");
+			     Object[] symbols =  streamSupplier.get().toArray();
+			     Symbol s = null;
+//			    Symbol s = streamSupplier.get().findFirst().get();
+//		    	s.addUsedSymbol((ParserRuleContext)_properties.getProperty("CONTEXT"));
+//			return s;
+			     for(Object sx : symbols) {
+			    	 s = (Symbol)sx;
+			    	 if(s instanceof Type) { // parametrizar "Type" como <class>
+			    		 break;
+			    	 }
+			     }
+
+//			ParserRuleContext ctx = (ParserRuleContext)_properties.getProperty("CONTEXT");
+			ParserRuleContext ctx = (ParserRuleContext)s.getProperties().getProperty("CONTEXT");
+//			ParserRuleContext ctx2 = (ParserRuleContext)s1.getProperties().getProperty("CONTEXT");
+
 			int line = ctx.getStart().getLine();
 			int positionInLine = ctx.getStart().getCharPositionInLine();
+			
 			String moduleName = (String) _properties.mustProperty("MODULE_NAME");
-			BicamSystem.printLog("ERROR", "Duplicated symbol not resolved: " 
-			                     + nameToResolve + " module name: " 
-					             + moduleName + " line: " + line
-					             + " position: " + positionInLine);
+			if(s == null) {
+				BicamSystem.printLog("ERROR", "Duplicated symbol not resolved: " 
+				                     + nameToResolve + " module name: " 
+						             + moduleName + " line: " + ctxToResolve.start.getLine()
+						             + " position: " + ctxToResolve.start.getCharPositionInLine());
+			}
+			else return s;
 		}
-		return null;
+		if(getScope() == null) {
+			BicamSystem.printLog("DEBUG", "SYMBOL NOT FOUND: " + _properties.getProperty("NAME_TO_RESOLVE"));
+			return null;
+		}
+		return getScope().resolve(_properties);
+		
+//		  return null;
 	}
 	
 	@Override

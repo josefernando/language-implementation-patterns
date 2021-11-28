@@ -58,20 +58,31 @@ public class VisualBasic6ResolveType extends VisualBasic6CompUnitParserBaseListe
 		Type typeSymbol = (Type) scope.resolve(prop);
 		
 		if(typeSymbol == null) {
-			BicamSystem.printLog("WARNING", "Symbol not found: " + NAME_TO_RESOLVE);
+			BicamSystem.printLog("WARNING", "Symbol not found: " + NAME_TO_RESOLVE
+					+  " Module: " + getModuleScope().getName() + " Location: " + sym.location());
+			return; // DEBUG 
 		}
 		
 		sym.setTypeSymbol(typeSymbol);
 		
-		ArrayList<ParseTree> typeListCtx = NodeExplorer.getDepthAllChildClass(((Symbol)typeSymbol).getContext(), IdentifierContext.class.getSimpleName());
-		
-		
-		// ... continuar daqui 
-		for(ParseTree ptree : typeListCtx) {
-			ParserRuleContext prCtx = (ParserRuleContext)ptree;
-			st.addUsedSymbol(sym, prCtx);
-			sym.addUsedSymbol(prCtx);
+		if(((Symbol)typeSymbol).getContext() != null){ // DEFMODE = "BUILTIN"
+			ArrayList<ParseTree> typeListCtx = NodeExplorer.getDepthAllChildClass(((Symbol)typeSymbol).getContext(), IdentifierContext.class.getSimpleName());
+			for(ParseTree ptree : typeListCtx) {
+				ParserRuleContext prCtx = (ParserRuleContext)ptree;
+				st.addUsedSymbol(sym, prCtx);
+				sym.addUsedSymbol(prCtx);
+			}
 		}
+		else {
+			sym.addUsedSymbol(ctx);
+		}
+
+//		// ... continuar daqui 
+//		for(ParseTree ptree : typeListCtx) {
+//			ParserRuleContext prCtx = (ParserRuleContext)ptree;
+//			st.addUsedSymbol(sym, prCtx);
+////			sym.addUsedSymbol(prCtx);
+//		}
 	}
 	
 	@Override
@@ -88,13 +99,29 @@ public class VisualBasic6ResolveType extends VisualBasic6CompUnitParserBaseListe
 		
 		if(sym.getProperties().hasProperty("TYPE")){
 			String NAME_TO_RESOLVE = (String) sym.getProperty("TYPE");
+///*
+// *    // type could be type indicator					
+//		      %                 Integer
+//		      &                 Long
+//		      !                 Single
+//		      #                 Double
+//		      $                 String
+//		      @                 Currency
+//*/		      
+//			if(NAME_TO_RESOLVE == null) { 
+//				if()
+//			}
+			
 			PropertyList prop = new PropertyList();
 			prop.addProperty("NAME_TO_RESOLVE", NAME_TO_RESOLVE);
+			prop.addProperty("MODULE_NAME", getModuleScope().getName());
+			prop.addProperty("CONTEXT_TO_RESOVE", ctx);
 			
 			Type type = (Type) scope.resolve(prop);
 			
 			if(type == null) {
-				BicamSystem.printLog("WARNING", "Symbol not found: " + NAME_TO_RESOLVE);
+				BicamSystem.printLog("WARNING", "Symbol not found: " + NAME_TO_RESOLVE
+						+  " Module: " + getModuleScope().getName() + " Location: " + sym.location());
 			}
 			
 			sym.setTypeSymbol(type);

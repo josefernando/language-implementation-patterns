@@ -88,6 +88,7 @@ public class LanguageVb6 extends Language {
 			  add("TextBox");
 			  add("Label");
 			  add("ComboBox");
+			  add("OptionButton");
 			}
 		};
 		libClasses.put("VB",vbClasses);	
@@ -274,7 +275,53 @@ public class LanguageVb6 extends Language {
 			symbolFactoryProperties.addProperty("SYMBOL_PROPERTIES", symbolProperties);
 			
 			symbolTable.getSymbolFactory().getSymbol(symbolFactoryProperties);
-		}		
+		}
+		
+		// ====================================================================
+		
+		// Classes in MSFlexGridLib Lib
+				List<String> MSMaskLibClasses = new ArrayList<String>() {
+					{ add("MaskEdBox");	
+					}
+				};
+				libClasses.put("MSMask",MSMaskLibClasses);					
+
+				symbolProperties = new PropertyList(); // usado para cria os simbolos
+				symbolProperties.addProperty("SCOPE", symbolTable.getGlobalScope());
+				symbolProperties.addProperty("ENCLOSING_SCOPE", null);
+				symbolProperties.addProperty("PARENT_SCOPE", null);
+				symbolProperties.addProperty("LANGUAGE", this);  
+
+				symbolProperties.addProperty("CONTEXT", null);
+//				symbolProperties.addProperty("TYPE", null);
+				symbolProperties.addProperty("DEF_MODE", "INCLUDED");     // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
+				symbolProperties.addProperty("CATEGORY", "LIB");          // 
+				symbolProperties.addProperty("SUB_CATEGORY", "SYSTEM");
+				symbolProperties.addProperty("NAME", "MSMask");
+				
+				symbolFactoryProperties.addProperty("SYMBOL_TYPE", "LIB");
+				symbolFactoryProperties.addProperty("SYMBOL_PROPERTIES", symbolProperties);
+				
+				parentScope = (Scope)symbolTable.getSymbolFactory().getSymbol(symbolFactoryProperties);
+
+				for(String clazz : MSMaskLibClasses) {
+					symbolProperties = new PropertyList(); // usado para cria os simbolos
+					symbolProperties.addProperty("SCOPE", null);
+					symbolProperties.addProperty("ENCLSING_SCOPE", null);
+					symbolProperties.addProperty("PARENT_SCOPE", parentScope);
+					symbolProperties.addProperty("CONTEXT", null);
+//					symbolProperties.addProperty("TYPE", null);
+					symbolProperties.addProperty("DEF_MODE", "INCLUDED");     // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
+					symbolProperties.addProperty("CATEGORY", "CLASS");       // 
+					symbolProperties.addProperty("SUB_CATEGORY", "SYSTEM");
+					symbolProperties.addProperty("NAME", clazz);
+					symbolProperties.addProperty("LANGUAGE", this);  
+
+					symbolFactoryProperties.addProperty("SYMBOL_TYPE", "FORM_CONTROL");
+					symbolFactoryProperties.addProperty("SYMBOL_PROPERTIES", symbolProperties);
+					
+					symbolTable.getSymbolFactory().getSymbol(symbolFactoryProperties);
+				}		
 	}
 	
 	protected void setOthersLib() {

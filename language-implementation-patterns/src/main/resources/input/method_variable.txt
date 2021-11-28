@@ -1,6 +1,11 @@
+Global Achou%
+
+
 Private Sub Class_Initialize()
 
     Dim osvInfoEx As OSVERSIONINFOEX
+    
+    
     
 100 On Error GoTo Erro_Class_Initialize
 200 Set objEvento = objCamada  'Instancia o objeto de conexÃ£o (declarado no GEMOGC0X.BAS)

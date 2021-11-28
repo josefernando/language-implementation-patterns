@@ -375,8 +375,8 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		symbolProperties.addProperty("CONTEXT", ctx);
 //		symbolProperties.addProperty("TYPE", null);
 		symbolProperties.addProperty("DEF_MODE", "EXPLICIT");     // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
-		symbolProperties.addProperty("CATEGORY", "ENUM");          // 
-		symbolProperties.addProperty("SUB_CATEGORY", null);
+		symbolProperties.addProperty("CATEGORY", "STRUCTURE");          // 
+		symbolProperties.addProperty("SUB_CATEGORY", "ENUM");
 		
 		symbolFactoryProperties.addProperty("SYMBOL_PROPERTIES", symbolProperties);
 		symbolProperties.addProperty("LANGUAGE", language);
@@ -436,19 +436,32 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 	private void createVariableSymbol(VariableStmtContext varCtx, Map<String,Scope> ..._scopes) {
 		String name = varCtx.Name.getText();
 		
-		if(   name.endsWith("!")
-		   || name.endsWith("@")
-		   || name.endsWith("#")
-		   || name.endsWith("$")
-		   || name.endsWith("%")
-		   || name.endsWith("&")) {
+		PropertyList symbolProperties = new PropertyList(); // usado para cria os simbolos
+		PropertyList symbolFactoryProperties = new PropertyList();
+		
+		if(   name.endsWith("!")  // Single
+		   || name.endsWith("@")  // Currency
+		   || name.endsWith("#")  // Double
+		   || name.endsWith("$")  // String
+		   || name.endsWith("%")  // Integer
+		   || name.endsWith("&")) // Long
+		{ 
+			String typeIndicator = name.substring(name.length()-1);
 			name = name.substring(0,name.length()-1);
+//			symbolProperties.addProperty("TYPE_CLAUSE", null);
+			symbolProperties.addProperty("TYPE_INDICATOR", typeIndicator);
+			String type = null;
+			if(typeIndicator.equals("!")) type = "Integer";
+			if(typeIndicator.equals("@")) type = "Currency";
+			if(typeIndicator.equals("#")) type = "Double";
+			if(typeIndicator.equals("$")) type = "String";
+			if(typeIndicator.equals("%")) type = "Integer";
+			if(typeIndicator.equals("&")) type = "Long";
+			symbolProperties.addProperty("TYPE",type );
 		}
 		
-		PropertyList symbolFactoryProperties = new PropertyList();
 		symbolFactoryProperties.addProperty("SYMBOL_TYPE", "VARIABLE_FORMAL_PARAMETER");
 		
-		PropertyList symbolProperties = new PropertyList(); // usado para cria os simbolos
 		symbolFactoryProperties.addProperty("SYMBOL_PROPERTIES", symbolProperties);
 
 		symbolProperties.addProperty("NAME", name);
