@@ -27,8 +27,8 @@ public class SymbolFactoryVb6 implements SymbolFactory{
 
 	public static final String GUI_PROPERTY = "GUI_PROPERTY";
 
-	public static final String DECLARED_FUNCTION = "DECLARED_FUNCTION";
-	public static final String DECLARED_SUB = "DECLARED_SUB";
+	public static final String DECLARED_FUNCTION = "DECLARE_FUNCTION";
+	public static final String DECLARED_SUB = "DECLARE_SUB";
 	
 	public static final String TYPE = "TYPE";
 	public static final String ENUM = "ENUM";
@@ -125,7 +125,7 @@ public class SymbolFactoryVb6 implements SymbolFactory{
 //				return createVisibilityScope(_properties);				
 		default:
 			throw new RuntimeException("** Error*** - Invalid Symbol type to create: "  
-					+ ((ParserRuleContext)_properties.getProperty("CONTEXT")).getClass().getSimpleName()
+//					+ ((ParserRuleContext)_properties.getProperty("CONTEXT")).getClass().getSimpleName()
 					+ " SymbolType: " + symType);			
 		}
 	}

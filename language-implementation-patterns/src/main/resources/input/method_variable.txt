@@ -4,6 +4,9 @@ Global Achou%
 Private Sub Class_Initialize()
 
 	Dim Tamanho, I  As Integer
+	
+	    Dim ulTOCCnt, ulStart, ulEnd, ulLen, ulTotLen As Long
+	
 
 
     Dim osvInfoEx As OSVERSIONINFOEX

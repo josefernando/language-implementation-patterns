@@ -109,8 +109,7 @@ public class VisualBasic6ResolveType extends VisualBasic6CompUnitParserBaseListe
 //		      @                 Currency
 //*/		      
 //			if(NAME_TO_RESOLVE == null) { 
-//				if()
-//			}
+
 			
 			PropertyList prop = new PropertyList();
 			prop.addProperty("NAME_TO_RESOLVE", NAME_TO_RESOLVE);

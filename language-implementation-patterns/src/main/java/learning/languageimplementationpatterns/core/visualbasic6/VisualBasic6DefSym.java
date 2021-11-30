@@ -46,8 +46,6 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 	Language language;
 	
 	public VisualBasic6DefSym(PropertyList properties) {
-		
-//		Map<String,Integer> controlArrays = new HashMap<String,Integer>();
 
 		this.properties = properties;
 		this.st = (SymbolTable) this.properties.mustProperty("SYMBOL_TABLE");
@@ -78,16 +76,6 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 			modifierList = new ArrayList<>();
 			st.getModifierMap().put(ctxExplicitDeclaration, modifierList);
 		}
-//		else {
-//			BicamSystem.printLog("DEBUG"
-//					, "Modifiers: " 
-//							+ modifierList.get(0) 
-//							+ "," 
-//							+ ctx.getText() + " , module: "
-//							+ moduleScope.getName() + " ,na linha: "
-////							+ ((Symbol)moduleScope).getContext().getStart().getLine());
-//							+ ctx.getStart().getLine());
-//		}
 		modifierList.add(ctx.getText());
 	}	
 	
@@ -105,7 +93,7 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 			symbolProperties.addProperty("TYPE", ctx.asTypeClause().type().getText());
 		}
 		symbolProperties.addProperty("MODIFIER", getModifier(ctx));
-		symbolProperties.addProperty("DEF_MODE", "EXPLICIT");           // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
+		symbolProperties.addProperty("DEF_MODE", "EXPLICITY");           // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
 		symbolProperties.addProperty("CATEGORY", "PROCEDURE");          // 
 		symbolProperties.addProperty("SUB_CATEGORY", ctx.Type.getText().toUpperCase());
 		symbolProperties.addProperty("NAME", name);
@@ -113,10 +101,22 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		
 		symbolFactoryProperties.addProperty("SYMBOL_PROPERTIES", symbolProperties);
 		
-		Scope scopeMethod = (Scope) symbolFactory.getSymbol(symbolFactoryProperties);	
+		Scope scopeMethod = (Scope) symbolFactory.getSymbol(symbolFactoryProperties);
+
+		st.addContextData(ctx);
+		st.getContextData(ctx).setScope(getCurrentScope());
+		st.getContextData(ctx).setSymbol((Symbol)scopeMethod);
+		st.addDefinedSymbol((Symbol)scopeMethod);	
 		
 		pushScope(scopeMethod);
 	}
+
+	@Override
+	public void exitMethodDefStmt(VisualBasic6CompUnitParser.MethodDefStmtContext ctx) {
+		popScope();
+	}
+	
+
 	
 	@Override
 	public void enterLabel(VisualBasic6CompUnitParser.LabelContext ctx) {
@@ -128,7 +128,7 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		PropertyList symbolProperties = new PropertyList(); // usado para cria os simbolos
 		symbolProperties.addProperty("SCOPE", getCurrentScope());
 		symbolProperties.addProperty("CONTEXT", ctx);
-		symbolProperties.addProperty("DEF_MODE", "EXPLICIT");           // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
+		symbolProperties.addProperty("DEF_MODE", "EXPLICITY");           // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
 		symbolProperties.addProperty("CATEGORY", "LABEL");          // 
 		symbolProperties.addProperty("SUB_CATEGORY", "NAME");
 		symbolProperties.addProperty("NAME", name);
@@ -137,7 +137,6 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		symbolFactoryProperties.addProperty("SYMBOL_PROPERTIES", symbolProperties);
 		
 		Symbol sym = symbolFactory.getSymbol(symbolFactoryProperties);	
-		
 
 		st.addContextData(ctx);
 		st.getContextData(ctx).setSymbol(sym);
@@ -155,7 +154,7 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		PropertyList symbolProperties = new PropertyList();              // usado para cria os simbolos
 		symbolProperties.addProperty("SCOPE", getCurrentScope());
 		symbolProperties.addProperty("CONTEXT", ctx);
-		symbolProperties.addProperty("DEF_MODE", "EXPLICIT");           // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
+		symbolProperties.addProperty("DEF_MODE", "EXPLICITY");           // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
 		symbolProperties.addProperty("CATEGORY", "LABEL");              // 
 		symbolProperties.addProperty("SUB_CATEGORY", "LINE_NUMBER");
 		symbolProperties.addProperty("NAME", number);
@@ -171,10 +170,6 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		st.addDefinedSymbol(sym);
 	}
 
-	@Override
-	public void exitMethodDefStmt(VisualBasic6CompUnitParser.MethodDefStmtContext ctx) {
-		popScope();
-	}
 
 	@Override
 	public void enterFormalParameter(VisualBasic6CompUnitParser.FormalParameterContext ctx) {
@@ -185,21 +180,26 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		
 		createVariableSymbol(varCtx,variableProperties);
 	}	
-
-	@Override
-	public void exitFormalParameter(VisualBasic6CompUnitParser.FormalParameterContext ctx) {
-	}
-
 	
 	// Alterado enterVariableDeclaration para exitVariableDeclaration
 	// porque na "descida" marca tipo e modifier compartilhados como em: Dim Tamanho, I  As Integer
 	// e na "subida" define as variáveis
 	// 
+	// IMPORTANTE: precisa ser no "EXIT" e não no "ENTER" porque já teria passado
+	//             pelo sharedModifier e sharedType como em: "Dim Tamanho1, Tamanho2 As Integer
 	@Override
-//	public void enterVariableDeclaration(VisualBasic6CompUnitParser.VariableDeclarationContext ctx) {
 	public void exitVariableDeclaration(VisualBasic6CompUnitParser.VariableDeclarationContext ctx) {
-		VariableStmtContext varCtx = (VariableStmtContext) NodeExplorer.getChildClass(ctx, "VariableStmtContext");
-		createVariableSymbol(varCtx, new PropertyList());
+//		VariableStmtContext varCtx = (VariableStmtContext) NodeExplorer.getChildClass(ctx, "VariableStmtContext");
+//		createVariableSymbol(varCtx, new PropertyList());
+		
+		List<ParseTree> ctxVariableStmtContextList = NodeExplorer.getDepthAllChildClass(ctx, VariableStmtContext.class.getSimpleName());
+
+		PropertyList createVariableProperties = new PropertyList();
+//		createVariableProperties.addProperty("SCOPE", getCurrentScope());	
+		
+		for(ParseTree ctxVarStmt : ctxVariableStmtContextList) {
+			createVariableSymbol((VariableStmtContext)ctxVarStmt, createVariableProperties);
+		}
 	}
 	
 	@Override
@@ -235,7 +235,7 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 	public void enterDeclareStmt(VisualBasic6CompUnitParser.DeclareStmtContext ctx) {
 		
 		PropertyList symbolFactoryProperties = new PropertyList();
-		symbolFactoryProperties.addProperty("SYMBOL_TYPE", "DECLARED_" + ctx.methodType().getText().toUpperCase());
+		symbolFactoryProperties.addProperty("SYMBOL_TYPE", "DECLARE_" + ctx.methodType().getText().toUpperCase());
 		
 		PropertyList symbolProperties = new PropertyList(); // usado para cria os simbolos
 		symbolProperties.addProperty("NAME", ctx.Name.getText());
@@ -245,8 +245,8 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		if(ctx.asTypeClause() != null) {
 			symbolProperties.addProperty("TYPE", ctx.asTypeClause().getText());
 		}
-		symbolProperties.addProperty("DEF_MODE", "EXPLICIT");     // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
-		symbolProperties.addProperty("CATEGORY", "DECLARED");          // 
+		symbolProperties.addProperty("DEF_MODE", "EXPLICITY");     // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
+		symbolProperties.addProperty("CATEGORY", "DECLARE");          // 
 		symbolProperties.addProperty("SUB_CATEGORY", ctx.methodType().getText().toUpperCase());
 		
 		symbolFactoryProperties.addProperty("SYMBOL_PROPERTIES", symbolProperties);
@@ -260,6 +260,11 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
         if(ctx.library() != null) {
         	scope.getProperties().addProperty("LIB", ctx.library().getText().replace("\"", ""));
         }
+
+		st.addContextData(ctx);
+		st.getContextData(ctx).setScope(getCurrentScope());
+		st.getContextData(ctx).setSymbol((Symbol)scope);
+		st.addDefinedSymbol((Symbol)scope);        
         
         pushScope(scope);
 	}
@@ -291,7 +296,7 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 
 			symbolProperties.addProperty("CONTEXT", ctx);
 			symbolProperties.addProperty("TYPE", ctx.Type.getText());
-			symbolProperties.addProperty("DEF_MODE", "EXPLICIT");         // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
+			symbolProperties.addProperty("DEF_MODE", "EXPLICITY");         // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
 			symbolProperties.addProperty("CATEGORY", "GUI");          // 
 			symbolProperties.addProperty("SUB_CATEGORY", ctx.Type.getText());
 			symbolProperties.addProperty("LANGUAGE", language);
@@ -303,6 +308,7 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 			st.addContextData(ctx);
 			st.getContextData(ctx).setSymbol(sym);
 			st.getContextData(ctx).setScope(getCurrentScope());	
+			st.addDefinedSymbol(sym);	
 			
 			pushScope(scope);
 	}	
@@ -331,6 +337,9 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		}
 	}
 
+	// GuiProperty, exemplo: "Font" definido como escopo
+	// para acomodar mais facilmente as propriedades, como no caso de "Font"
+	
 	@Override
 	public void enterGuiProperty(VisualBasic6CompUnitParser.GuiPropertyContext ctx) {
 		
@@ -343,8 +352,7 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		symbolProperties.addProperty("NAME", ctx.Name.getText());
 		symbolProperties.addProperty("SCOPE", getCurrentScope());
 		symbolProperties.addProperty("CONTEXT", ctx);
-//		symbolProperties.addProperty("TYPE", null);
-		symbolProperties.addProperty("DEF_MODE", "EXPLICIT");         // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
+		symbolProperties.addProperty("DEF_MODE", "EXPLICITY");         // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
 		symbolProperties.addProperty("CATEGORY", "GUI");          // 
 		symbolProperties.addProperty("SUB_CATEGORY", "GUI_PROPERTY");
 		symbolProperties.addProperty("LANGUAGE", language);
@@ -379,32 +387,33 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		symbolProperties.addProperty("SYMBOL_TYPE", "TYPE");
 		symbolProperties.addProperty("SCOPE", getCurrentScope());
 		symbolProperties.addProperty("CONTEXT", ctx);
-//		symbolProperties.addProperty("TYPE", null);
-		symbolProperties.addProperty("DEF_MODE", "EXPLICIT");     // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
+		symbolProperties.addProperty("DEF_MODE", "EXPLICITY");     // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
 		symbolProperties.addProperty("CATEGORY", "STRUCTURE");          // 
 		symbolProperties.addProperty("SUB_CATEGORY", "TYPE");
 		
 		symbolFactoryProperties.addProperty("SYMBOL_PROPERTIES", symbolProperties);
 		symbolProperties.addProperty("LANGUAGE", language);
 
-		Scope scopeMethod = (Scope) symbolFactory.getSymbol(symbolFactoryProperties);	
+		Scope scopeMethod = (Scope) symbolFactory.getSymbol(symbolFactoryProperties);
+		
+		st.addContextData(ctx);
+		st.getContextData(ctx).setScope(getCurrentScope());
+		st.getContextData(ctx).setSymbol((Symbol)scopeMethod);
+		st.addDefinedSymbol((Symbol)scopeMethod);
+		
 		pushScope(scopeMethod);		
 		
 		List<ParseTree> variables = NodeExplorer.getDepthAllChildClass(ctx, VariableStmtContext.class.getSimpleName());
-		
-//		Map<String,Scope> scopes = new HashMap<>();
-//		scopes.put("PARENT_SCOPE", getCurrentScope());
-//		scopes.put("SCOPE", getModuleScope());
-		
-		PropertyList createVariableProperties = new PropertyList();
 
+		PropertyList createVariableProperties = new PropertyList();
 		createVariableProperties.addProperty("PARENT_SCOPE", getCurrentScope());
 		createVariableProperties.addProperty("SCOPE", getModuleScope());
 
 		for(ParseTree var : variables) {
-//			createVariableSymbol((VariableStmtContext)var, scopes);
 			createVariableSymbol((VariableStmtContext)var, createVariableProperties);
 		}
+		
+
 	}
 	
 	@Override
@@ -427,7 +436,7 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		symbolProperties.addProperty("SCOPE", getCurrentScope());
 		symbolProperties.addProperty("CONTEXT", ctx);
 //		symbolProperties.addProperty("TYPE", null);
-		symbolProperties.addProperty("DEF_MODE", "EXPLICIT");     // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
+		symbolProperties.addProperty("DEF_MODE", "EXPLICITY");     // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
 		symbolProperties.addProperty("CATEGORY", "STRUCTURE");          // 
 		symbolProperties.addProperty("SUB_CATEGORY", "ENUM");
 		
@@ -435,6 +444,12 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		symbolProperties.addProperty("LANGUAGE", language);
 
 		Scope scopeMethod = (Scope) symbolFactory.getSymbol(symbolFactoryProperties);	
+		
+		st.addContextData(ctx);
+		st.getContextData(ctx).setScope(getCurrentScope());
+		st.getContextData(ctx).setSymbol((Symbol)scopeMethod);
+		st.addDefinedSymbol((Symbol)scopeMethod);
+		
 		pushScope(scopeMethod);		
 		
 		List<ParseTree> variables = NodeExplorer.getDepthAllChildClass(ctx, VariableStmtContext.class.getSimpleName());
@@ -448,7 +463,6 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 	public void exitEnumDefStmt(VisualBasic6CompUnitParser.EnumDefStmtContext ctx) {
 		popScope();
 	}
-	
 
 	@Override
 	public void enterEventDefStmt(VisualBasic6CompUnitParser.EventDefStmtContext ctx) {
@@ -464,7 +478,7 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		symbolProperties.addProperty("SCOPE", getCurrentScope());
 		symbolProperties.addProperty("CONTEXT", ctx);
 //		symbolProperties.addProperty("TYPE", null);
-		symbolProperties.addProperty("DEF_MODE", "EXPLICIT");     // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
+		symbolProperties.addProperty("DEF_MODE", "EXPLICITY");     // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
 		symbolProperties.addProperty("CATEGORY", "EVENT");          // 
 		symbolProperties.addProperty("SUB_CATEGORY", null);
 		
@@ -472,6 +486,13 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		symbolProperties.addProperty("LANGUAGE", language);
 
 		Scope scopeMethod = (Scope) symbolFactory.getSymbol(symbolFactoryProperties);	
+		
+		st.addContextData(ctx);
+		st.getContextData(ctx).setScope(getCurrentScope());
+		st.getContextData(ctx).setSymbol((Symbol)scopeMethod);
+		st.addDefinedSymbol((Symbol)scopeMethod);		
+		
+		
 		pushScope(scopeMethod);		
 		
 		List<ParseTree> variables = NodeExplorer.getDepthAllChildClass(ctx, VariableStmtContext.class.getSimpleName());
@@ -518,21 +539,11 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 
 		symbolProperties.addProperty("NAME", name);
 		
-		
-//		if(_properties.length > 0) {
-//			Map<String,Scope> scopes = _scopes[0];
-//			for(Entry<String,Scope> entry : scopes.entrySet()) {
-//				symbolProperties.addProperty(entry.getKey(), entry.getValue());
-//			}
-//		}
-//		else {
-//			symbolProperties.addProperty("SCOPE", getCurrentScope());
-//		}
-		
 		symbolProperties.addProperty("CONTEXT", varCtx);
-		symbolProperties.addProperty("DEF_MODE", "EXPLICIT");     // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
+		symbolProperties.addProperty("DEF_MODE", "EXPLICITY");     // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
 		symbolProperties.addProperty("CATEGORY", "VARIABLE");          // 
-		symbolProperties.addProperty("SUB_CATEGORY", "VARIABLE");
+		symbolProperties.addProperty("SUB_CATEGORY", "DEFINITION");
+		symbolProperties.addProperty("SCOPE", getCurrentScope());	
 		
 		symbolProperties.addProperty("LANGUAGE", language);
 		symbolProperties.addProperty("MODULE", getModuleScope().getName());
@@ -575,11 +586,8 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		
 		Symbol sym = symbolFactory.getSymbol(symbolFactoryProperties);
 		
-//		ArrayList<ParseTree> identifierCtxList = NodeExplorer.getDepthAllChildClass(varCtx, IdentifierContext.class.getSimpleName());
 		ParserRuleContext identifierCtx = (ParserRuleContext) NodeExplorer.getDepthFirstChildClass(varCtx, IdentifierContext.class.getSimpleName());
 
-//		if(identifierCtxList.size() == 1) {
-//			ParserRuleContext identifierCtx = (ParserRuleContext) identifierCtxList.get(0);
 		if(identifierCtx != null) {
 			identifierCtx = (ParserRuleContext) identifierCtx;
 
@@ -603,8 +611,6 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		st.getContextData(varCtx).setScope(getCurrentScope());
 		st.addDefinedSymbol(sym);
 	}
-	
-	
 	
 	private String hasSharedType(ParserRuleContext ctx) {
 		VariableListContext ctxVariableList = (VariableListContext) NodeExplorer.getAncestorClass(ctx, VariableListContext.class.getSimpleName());
