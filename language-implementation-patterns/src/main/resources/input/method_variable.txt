@@ -3,6 +3,9 @@ Global Achou%
 
 Private Sub Class_Initialize()
 
+	Dim Tamanho, I  As Integer
+
+
     Dim osvInfoEx As OSVERSIONINFOEX
     
     

@@ -55,6 +55,9 @@ public class LanguageVb6 extends Language {
 				add("Object");
 				add("Variant");
 				add("Void");
+//--------------------------------------------------------				
+				add("Form");
+
 			}
 		};
 		

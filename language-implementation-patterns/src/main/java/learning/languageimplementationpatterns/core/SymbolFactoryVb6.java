@@ -5,7 +5,6 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import br.com.recatalog.util.PropertyList;
 
 public class SymbolFactoryVb6 implements SymbolFactory{
-	public static final String VARIABLE = "VARIABLE";
 	public static final String PRIMITIVE_TYPE = "PRIMITIVE_TYPE";
 	public static final String LIB = "LIB";
 	public static final String FORM = "FORM";
@@ -23,8 +22,9 @@ public class SymbolFactoryVb6 implements SymbolFactory{
 	public static final String PROCEDURE_PROPERTY_LET = "PROCEDURE_PROPERTY_LET";
 	public static final String PROCEDURE_PROPERTY_SET = "PROCEDURE_PROPERTY_SET";
 	
-	public static final String VARIABLE_FORMAL_PARAMETER = "VARIABLE_FORMAL_PARAMETER";
-	
+//	public static final String VARIABLE_FORMAL_PARAMETER = "VARIABLE_FORMAL_PARAMETER";
+	public static final String VARIABLE = "VARIABLE";
+
 	public static final String GUI_PROPERTY = "GUI_PROPERTY";
 
 	public static final String DECLARED_FUNCTION = "DECLARED_FUNCTION";
@@ -90,8 +90,8 @@ public class SymbolFactoryVb6 implements SymbolFactory{
 				
 			case PROCEDURE_PROPERTY_SET:
 				return createPropertySetSymbol(symbolProperties);
-			case VARIABLE_FORMAL_PARAMETER:
-				return createVariableSymbol(symbolProperties);	
+//			case VARIABLE_FORMAL_PARAMETER:
+//				return createVariableSymbol(symbolProperties);	
 				
 //			case MODULE_FRM:
 //				return createModuleFrmSymbol(_properties);

@@ -129,11 +129,11 @@ public class VisualBasic6ResolveType extends VisualBasic6CompUnitParserBaseListe
 		else if(sym.getProperties().hasProperty("INIT_VALUE")) {
 			Type type = typeCalculation((String)sym.getProperties().getProperty("INIT_VALUE"),  scope);
 			if(type != null) {
-				BicamSystem.printLog("DEBUG", "Symbol type, calculated from initial Value: " + sym.getName()
-	            + "  module: " + getModuleScope().getName()
-	            + "  linha: " + ctx.getStart().getLine()
-				+ "  initial value: " + sym.getProperties().getProperty("INIT_VALUE")
-				+ "  type caculaded: " + type.getName());
+//				BicamSystem.printLog("DEBUG", "Symbol type, calculated from initial Value: " + sym.getName()
+//	            + "  module: " + getModuleScope().getName()
+//	            + "  linha: " + ctx.getStart().getLine()
+//				+ "  initial value: " + sym.getProperties().getProperty("INIT_VALUE")
+//				+ "  type caculaded: " + type.getName());
 			}
 			else {
 				BicamSystem.printLog("DEBUG", "Symbol has no type, but has initial value without type: " + sym.getName()
