@@ -285,7 +285,7 @@ public class VisualBasic6ParserCompUnit {
 	        walker.walk(visualBasic6DefSymbol, tree);        // walk parse tree 
 		}		
 		
-//		System.err.println(st.toString());
+		System.err.println(st.toString());
 		
 //=====================================  RESOLVE TYPE ========================================
 

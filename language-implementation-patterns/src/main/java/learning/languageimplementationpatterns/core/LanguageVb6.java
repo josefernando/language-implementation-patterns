@@ -36,6 +36,7 @@ public class LanguageVb6 extends Language {
 	
 	private void setLibs() {
 		setSystemLib(); 
+		setUserLib();
 		setOthersLib();
 	}
 	
@@ -56,8 +57,6 @@ public class LanguageVb6 extends Language {
 				add("Variant");
 				add("Void");
 //--------------------------------------------------------				
-				add("Form");
-
 			}
 		};
 		
@@ -80,6 +79,164 @@ public class LanguageVb6 extends Language {
 		}
 	}
 	
+	protected void setUserLib() {
+
+		Map<String,List<String>> libClasses = new HashMap<String,List<String>>();
+
+// =======================================================
+		List<String> vbClasses = new ArrayList<String>() {
+//			{ add("Form");	
+//			  add("Image");
+//			  add("TextBox");
+//			  add("Label");
+//			  add("ComboBox");
+//			  add("OptionButton");
+//			}
+		};
+		libClasses.put("GerenteConexoes",vbClasses);	
+		
+		symbolProperties = new PropertyList(); // usado para cria os simbolos
+		symbolProperties.addProperty("SCOPE", symbolTable.getGlobalScope());
+		symbolProperties.addProperty("ENCLOSING_SCOPE", null);
+		symbolProperties.addProperty("PARENT_SCOPE", null);
+		symbolProperties.addProperty("LANGUAGE", this);  
+
+		symbolProperties.addProperty("CONTEXT", null);
+		symbolProperties.addProperty("DEF_MODE", "BUILTIN");     // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
+		symbolProperties.addProperty("CATEGORY", "LIB");          // 
+		symbolProperties.addProperty("SUB_CATEGORY", "USER");
+		symbolProperties.addProperty("NAME", "GerenteConexoes");
+		
+		symbolFactoryProperties.addProperty("SYMBOL_TYPE", "LIB");
+		symbolFactoryProperties.addProperty("SYMBOL_PROPERTIES", symbolProperties);
+
+		Scope parentScope_GerenteConexoes =  (Scope) symbolTable.getSymbolFactory().getSymbol(symbolFactoryProperties);
+
+		for(String clazz : vbClasses) {
+			symbolProperties = new PropertyList(); // usado para cria os simbolos
+			symbolProperties.addProperty("SCOPE", null);
+			symbolProperties.addProperty("ENCLOSING_SCOPE", null);
+			symbolProperties.addProperty("LANGUAGE", this);  
+
+			symbolProperties.addProperty("PARENT_SCOPE", parentScope_GerenteConexoes);
+			symbolProperties.addProperty("CONTEXT", null);
+			symbolProperties.addProperty("DEF_MODE", "BUILTIN");     // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
+			symbolProperties.addProperty("CATEGORY", "CLASS");       // 
+			symbolProperties.addProperty("SUB_CATEGORY", "USER");
+			symbolProperties.addProperty("NAME", clazz);
+			
+			symbolFactoryProperties.addProperty("SYMBOL_TYPE", "CLASS");
+			symbolFactoryProperties.addProperty("SYMBOL_PROPERTIES", symbolProperties);
+			
+			symbolTable.getSymbolFactory().getSymbol(symbolFactoryProperties);
+		}
+		
+		// =======================================================
+		
+		 libClasses = new HashMap<String,List<String>>();
+
+				 vbClasses = new ArrayList<String>() {
+					{ add("GerenteDeploy");	
+//					  add("Image");
+//					  add("TextBox");
+//					  add("Label");
+//					  add("ComboBox");
+//					  add("OptionButton");
+					}
+				};
+				libClasses.put("IX2CGGED001",vbClasses);	
+				
+				symbolProperties = new PropertyList(); // usado para cria os simbolos
+				symbolProperties.addProperty("SCOPE", symbolTable.getGlobalScope());
+				symbolProperties.addProperty("ENCLOSING_SCOPE", null);
+				symbolProperties.addProperty("PARENT_SCOPE", null);
+				symbolProperties.addProperty("LANGUAGE", this);  
+
+				symbolProperties.addProperty("CONTEXT", null);
+				symbolProperties.addProperty("DEF_MODE", "BUILTIN");     // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
+				symbolProperties.addProperty("CATEGORY", "LIB");          // 
+				symbolProperties.addProperty("SUB_CATEGORY", "SYSTEM");
+				symbolProperties.addProperty("NAME", "IX2CGGED001");
+				
+				symbolFactoryProperties.addProperty("SYMBOL_TYPE", "LIB");
+				symbolFactoryProperties.addProperty("SYMBOL_PROPERTIES", symbolProperties);
+
+				Scope parentScope_IX2CGGED001 =  (Scope) symbolTable.getSymbolFactory().getSymbol(symbolFactoryProperties);
+
+				for(String clazz : vbClasses) {
+					symbolProperties = new PropertyList(); // usado para cria os simbolos
+					symbolProperties.addProperty("SCOPE", null);
+					symbolProperties.addProperty("ENCLOSING_SCOPE", null);
+					symbolProperties.addProperty("LANGUAGE", this);  
+
+					symbolProperties.addProperty("PARENT_SCOPE", parentScope_IX2CGGED001);
+					symbolProperties.addProperty("CONTEXT", null);
+					symbolProperties.addProperty("DEF_MODE", "BUILTIN");     // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
+					symbolProperties.addProperty("CATEGORY", "CLASS");       // 
+					symbolProperties.addProperty("SUB_CATEGORY", "SYSTEM");
+					symbolProperties.addProperty("NAME", clazz);
+					
+					symbolFactoryProperties.addProperty("SYMBOL_TYPE", "FORM_CONTROL");
+					symbolFactoryProperties.addProperty("SYMBOL_PROPERTIES", symbolProperties);
+					
+					symbolTable.getSymbolFactory().getSymbol(symbolFactoryProperties);
+				}
+
+// =======================================================
+				
+				 libClasses = new HashMap<String,List<String>>();
+
+						 vbClasses = new ArrayList<String>() {
+//							{ add("GerenteDeploy");	
+//							  add("Image");
+//							  add("TextBox");
+//							  add("Label");
+//							  add("ComboBox");
+//							  add("OptionButton");
+//							}
+						};
+						libClasses.put("IGerenteConexoes",vbClasses);	
+						
+						symbolProperties = new PropertyList(); // usado para cria os simbolos
+						symbolProperties.addProperty("SCOPE", symbolTable.getGlobalScope());
+						symbolProperties.addProperty("ENCLOSING_SCOPE", null);
+						symbolProperties.addProperty("PARENT_SCOPE", null);
+						symbolProperties.addProperty("LANGUAGE", this);  
+
+						symbolProperties.addProperty("CONTEXT", null);
+						symbolProperties.addProperty("DEF_MODE", "BUILTIN");     // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
+						symbolProperties.addProperty("CATEGORY", "LIB");          // 
+						symbolProperties.addProperty("SUB_CATEGORY", "SYSTEM");
+						symbolProperties.addProperty("NAME", "IGerenteConexoes");
+						
+						symbolFactoryProperties.addProperty("SYMBOL_TYPE", "LIB");
+						symbolFactoryProperties.addProperty("SYMBOL_PROPERTIES", symbolProperties);
+
+						Scope parentScope_IGerenteConexoes =  (Scope) symbolTable.getSymbolFactory().getSymbol(symbolFactoryProperties);
+
+						for(String clazz : vbClasses) {
+							symbolProperties = new PropertyList(); // usado para cria os simbolos
+							symbolProperties.addProperty("SCOPE", null);
+							symbolProperties.addProperty("ENCLOSING_SCOPE", null);
+							symbolProperties.addProperty("LANGUAGE", this);  
+
+							symbolProperties.addProperty("PARENT_SCOPE", parentScope_IGerenteConexoes);
+							symbolProperties.addProperty("CONTEXT", null);
+							symbolProperties.addProperty("DEF_MODE", "BUILTIN");     // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
+							symbolProperties.addProperty("CATEGORY", "CLASS");       // 
+							symbolProperties.addProperty("SUB_CATEGORY", "SYSTEM");
+							symbolProperties.addProperty("NAME", clazz);
+							
+							symbolFactoryProperties.addProperty("SYMBOL_TYPE", "FORM_CONTROL");
+							symbolFactoryProperties.addProperty("SYMBOL_PROPERTIES", symbolProperties);
+							
+							symbolTable.getSymbolFactory().getSymbol(symbolFactoryProperties);
+						}
+	
+	
+	
+	}
+	
 	protected void setSystemLib() {
 
 		Map<String,List<String>> libClasses = new HashMap<String,List<String>>();
@@ -90,8 +247,12 @@ public class LanguageVb6 extends Language {
 			  add("Image");
 			  add("TextBox");
 			  add("Label");
+			  add("ListBox");
+			  add("Frame");
 			  add("ComboBox");
+			  add("PictureBox");
 			  add("OptionButton");
+			  add("Control");
 			}
 		};
 		libClasses.put("VB",vbClasses);	
@@ -116,7 +277,9 @@ public class LanguageVb6 extends Language {
 
 		for(String clazz : vbClasses) {
 			symbolProperties = new PropertyList(); // usado para cria os simbolos
-			symbolProperties.addProperty("SCOPE", null);
+// Controles VB também tem escopo global. Ex: Form, Control
+			symbolProperties.addProperty("SCOPE", symbolTable.getGlobalScope());
+
 			symbolProperties.addProperty("ENCLOSING_SCOPE", null);
 			symbolProperties.addProperty("LANGUAGE", this);  
 
@@ -165,7 +328,7 @@ public class LanguageVb6 extends Language {
 		symbolFactoryProperties.addProperty("SYMBOL_TYPE", "LIB");
 		symbolFactoryProperties.addProperty("SYMBOL_PROPERTIES", symbolProperties);
 		
-		parentScope = (Scope) symbolTable.getSymbolFactory().getSymbol(symbolFactoryProperties);
+		Scope parentScope_threedClasses = (Scope) symbolTable.getSymbolFactory().getSymbol(symbolFactoryProperties);
 
 		for(String clazz : threedClasses) {
 			symbolProperties = new PropertyList(); // usado para cria os simbolos
@@ -174,7 +337,7 @@ public class LanguageVb6 extends Language {
 			symbolProperties.addProperty("ENCLOSING_SCOPE", null);
 			symbolProperties.addProperty("LANGUAGE", this);  
 
-			symbolProperties.addProperty("PARENT_SCOPE", parentScope);
+			symbolProperties.addProperty("PARENT_SCOPE", parentScope_threedClasses);
 			symbolProperties.addProperty("CONTEXT", null);
 //			symbolProperties.addProperty("TYPE", null);
 			symbolProperties.addProperty("DEF_MODE", "INCLUDED");     // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
@@ -213,7 +376,7 @@ public class LanguageVb6 extends Language {
 		symbolFactoryProperties.addProperty("SYMBOL_TYPE", "LIB");
 		symbolFactoryProperties.addProperty("SYMBOL_PROPERTIES", symbolProperties);
 		
-		parentScope = (Scope)symbolTable.getSymbolFactory().getSymbol(symbolFactoryProperties);
+		Scope parentScope_mSGridClasses = (Scope)symbolTable.getSymbolFactory().getSymbol(symbolFactoryProperties);
 
 		for(String clazz : mSGridClasses) {
 			symbolProperties = new PropertyList(); // usado para cria os simbolos
@@ -221,7 +384,7 @@ public class LanguageVb6 extends Language {
 			symbolProperties.addProperty("ENCLOSING_SCOPE", null);
 			symbolProperties.addProperty("LANGUAGE", this);  
 
-			symbolProperties.addProperty("PARENT_SCOPE", parentScope);
+			symbolProperties.addProperty("PARENT_SCOPE", parentScope_mSGridClasses);
 			symbolProperties.addProperty("CONTEXT", null);
 //			symbolProperties.addProperty("TYPE", null);
 			symbolProperties.addProperty("DEF_MODE", "INCLUDED");     // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
@@ -250,7 +413,6 @@ public class LanguageVb6 extends Language {
 		symbolProperties.addProperty("LANGUAGE", this);  
 
 		symbolProperties.addProperty("CONTEXT", null);
-//		symbolProperties.addProperty("TYPE", null);
 		symbolProperties.addProperty("DEF_MODE", "INCLUDED");     // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
 		symbolProperties.addProperty("CATEGORY", "LIB");          // 
 		symbolProperties.addProperty("SUB_CATEGORY", "SYSTEM");
@@ -259,13 +421,13 @@ public class LanguageVb6 extends Language {
 		symbolFactoryProperties.addProperty("SYMBOL_TYPE", "LIB");
 		symbolFactoryProperties.addProperty("SYMBOL_PROPERTIES", symbolProperties);
 		
-		parentScope = (Scope)symbolTable.getSymbolFactory().getSymbol(symbolFactoryProperties);
+		Scope parentScope_mSFlexGridLibClasses = (Scope)symbolTable.getSymbolFactory().getSymbol(symbolFactoryProperties);
 
 		for(String clazz : mSFlexGridLibClasses) {
 			symbolProperties = new PropertyList(); // usado para cria os simbolos
 			symbolProperties.addProperty("SCOPE", null);
 			symbolProperties.addProperty("ENCLSING_SCOPE", null);
-			symbolProperties.addProperty("PARENT_SCOPE", parentScope);
+			symbolProperties.addProperty("PARENT_SCOPE", parentScope_mSFlexGridLibClasses);
 			symbolProperties.addProperty("CONTEXT", null);
 //			symbolProperties.addProperty("TYPE", null);
 			symbolProperties.addProperty("DEF_MODE", "INCLUDED");     // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
@@ -305,13 +467,13 @@ public class LanguageVb6 extends Language {
 				symbolFactoryProperties.addProperty("SYMBOL_TYPE", "LIB");
 				symbolFactoryProperties.addProperty("SYMBOL_PROPERTIES", symbolProperties);
 				
-				parentScope = (Scope)symbolTable.getSymbolFactory().getSymbol(symbolFactoryProperties);
+				Scope parentScope_MSMaskLibClasses = (Scope)symbolTable.getSymbolFactory().getSymbol(symbolFactoryProperties);
 
 				for(String clazz : MSMaskLibClasses) {
 					symbolProperties = new PropertyList(); // usado para cria os simbolos
 					symbolProperties.addProperty("SCOPE", null);
 					symbolProperties.addProperty("ENCLSING_SCOPE", null);
-					symbolProperties.addProperty("PARENT_SCOPE", parentScope);
+					symbolProperties.addProperty("PARENT_SCOPE", parentScope_MSMaskLibClasses);
 					symbolProperties.addProperty("CONTEXT", null);
 //					symbolProperties.addProperty("TYPE", null);
 					symbolProperties.addProperty("DEF_MODE", "INCLUDED");     // CRIA CLASSES E OBJECTOS IMPLICITAMENTO

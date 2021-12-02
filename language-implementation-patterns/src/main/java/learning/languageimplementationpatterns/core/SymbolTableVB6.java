@@ -80,7 +80,7 @@ public class SymbolTableVB6 implements SymbolTable {
 		ContextData contextData = getContextData(ctx);
 		if(contextData != null) {
 			if(contextData.getSymbol() != null) {
-				BicamSystem.printLog("DEBUG", String.format("ERROR - CTD already exists in line %d at position %d",  ctx.start.getLine(), ctx.start.getCharPositionInLine()));
+//				BicamSystem.printLog("DEBUG", String.format("ERROR - CTD already exists in line %d at position %d",  ctx.start.getLine(), ctx.start.getCharPositionInLine()));
 			}
 		}
 		contextDataMap.put(ctx, new ContextData(ctx));
