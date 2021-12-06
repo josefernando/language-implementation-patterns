@@ -215,6 +215,8 @@ public class VisualBasic6ParserCompUnit {
 //		System.err.println("Total time: " + parser.getElapsedTime());
 //		System.err.println("Total Errors: " + parser.getNumErrors());
 		List<PropertyList> propertyList = new ArrayList<PropertyList>();
+		propertyList.add(new PropertyList().addProperty("FILE_PATH", "C:\\Users\\josez\\git\\language-implementation-patterns\\language-implementation-patterns\\src\\test\\resources\\PREDEFINED_SYMBOLS\\PREDEFINED.BAS"));
+		propertyList.add(new PropertyList().addProperty("FILE_PATH", "C:\\Users\\josez\\git\\language-implementation-patterns\\language-implementation-patterns\\src\\test\\resources\\LANGUAGE.BAS"));
 		propertyList.add(new PropertyList().addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\GECOEX01.CLS"));
 		propertyList.add(new PropertyList().addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\GECOMS01.CLS"));
 		propertyList.add(new PropertyList().addProperty("FILE_PATH", "C:\\workspace\\antlr\\parser.visualbasic6\\src\\main\\resources\\R1PAB001\\GEMGVK01.BAS"));
@@ -272,6 +274,20 @@ public class VisualBasic6ParserCompUnit {
 	        walker.walk(visualBasic6module, tree);        // walk parse tree 
 	        System.err.println("Module name: " + visualBasic6module.getModuleName());			
 		}
+//=====================================  PRE DEF SYMBOL ========================================
+
+				for(PropertyList properties : propertyList) {
+					ParseTree tree = (ParseTree) properties.mustProperty("ASTREE");
+			        ParseTreeWalker walker = new ParseTreeWalker();
+
+			        properties.addProperty("SYMBOL_TABLE", st);
+
+			        VisualBasic6DefPredefinedSym visualBasic6DefPredefinided = new VisualBasic6DefPredefinedSym(properties);
+			        walker.walk(visualBasic6DefPredefinided, tree);        // walk parse tree 
+				}		
+				
+				System.err.println(st.toString());
+				
 		
 //=====================================  DEF SYMBOL ========================================
 

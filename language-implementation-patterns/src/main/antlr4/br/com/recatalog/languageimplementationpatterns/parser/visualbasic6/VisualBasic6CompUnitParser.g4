@@ -437,7 +437,8 @@ type :
 typeDefStmt : 
    TYPE   
    Name=id   endOfStmt+
-   (variableStmt    endOfStmt+)+
+//   (variableStmt    endOfStmt+)+
+   (variableStmt    endOfStmt+)*?
 endTypeTerminal   endOfStmt 
 ;
 

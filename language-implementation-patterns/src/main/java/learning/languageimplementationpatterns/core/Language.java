@@ -15,6 +15,9 @@ public abstract class Language {
 		}
 	};
 	
+	PropertyList symbolFactoryProperties;
+	PropertyList symbolProperties;
+	
 	PropertyList properties;
 	Boolean caseSensitive;
 	SymbolTable symbolTable;
@@ -24,6 +27,7 @@ public abstract class Language {
 		parametersValidation();
 		caseSensitive = (Boolean)properties.getProperty("CASE_SENSITIVE");
 		symbolTable = (SymbolTable)properties.getProperty("SYMBOL_TABLE");
+		symbolFactoryProperties = new PropertyList();
 		setSymbols();
 	}
 	

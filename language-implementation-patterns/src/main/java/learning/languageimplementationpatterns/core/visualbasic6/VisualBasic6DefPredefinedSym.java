@@ -187,6 +187,12 @@ public class VisualBasic6DefPredefinedSym extends VisualBasic6CompUnitParserBase
 		symbolProperties.addProperty("NAME", name);
 		symbolProperties.addProperty("SYMBOL_TYPE", "TYPE");
 		symbolProperties.addProperty("SCOPE", getCurrentScope());
+
+		if(modifierScope(ctx).indexOf("PUBLIC") > -1
+				|| modifierScope(ctx).indexOf("GLOBAL") > -1) {
+			symbolProperties.addProperty("SCOPE", globalScope);
+		}
+		
 		symbolProperties.addProperty("CONTEXT", ctx);
 		symbolProperties.addProperty("DEF_MODE", "EXPLICITY");     // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
 		symbolProperties.addProperty("CATEGORY", "STRUCTURE");          // 
@@ -232,7 +238,13 @@ public class VisualBasic6DefPredefinedSym extends VisualBasic6CompUnitParserBase
 		PropertyList symbolProperties = new PropertyList();        // usado para cria os simbolos
 		symbolProperties.addProperty("NAME", name);
 		symbolProperties.addProperty("SYMBOL_TYPE", "ENUM");
-		symbolProperties.addProperty("SCOPE", getModuleScope());
+		symbolProperties.addProperty("SCOPE", getCurrentScope());
+
+		if(modifierScope(ctx).indexOf("PUBLIC") > -1
+				|| modifierScope(ctx).indexOf("GLOBAL") > -1) {
+			symbolProperties.addProperty("SCOPE", globalScope);
+		}	
+		
 		symbolProperties.addProperty("CONTEXT", ctx);
 		symbolProperties.addProperty("DEF_MODE", "EXPLICITY");     // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
 		symbolProperties.addProperty("CATEGORY", "STRUCTURE");          
@@ -241,15 +253,15 @@ public class VisualBasic6DefPredefinedSym extends VisualBasic6CompUnitParserBase
 		symbolFactoryProperties.addProperty("SYMBOL_PROPERTIES", symbolProperties);
 		symbolProperties.addProperty("LANGUAGE", language);
 		
-		ExplicitDeclarationContext ctxExplicitDeclaration =
-				(ExplicitDeclarationContext) NodeExplorer.getAncestorClass(ctx, ExplicitDeclarationContext.class.getSimpleName());
-		List<String> modifiers = st.getModifierMap().get(ctxExplicitDeclaration);
-		
-		for(String mod : modifiers) {
-			if(mod.equalsIgnoreCase("PUBLIC")) symbolProperties.addProperty("SCOPE", globalScope);
-			if(mod.equalsIgnoreCase("GLOBAL")) symbolProperties.addProperty("SCOPE", globalScope);
-			if(mod.equalsIgnoreCase("PRIVATE")) symbolProperties.addProperty("SCOPE", getModuleScope());
-		}
+//		ExplicitDeclarationContext ctxExplicitDeclaration =
+//				(ExplicitDeclarationContext) NodeExplorer.getAncestorClass(ctx, ExplicitDeclarationContext.class.getSimpleName());
+//		List<String> modifiers = st.getModifierMap().get(ctxExplicitDeclaration);
+//		
+//		for(String mod : modifiers) {
+//			if(mod.equalsIgnoreCase("PUBLIC")) symbolProperties.addProperty("SCOPE", globalScope);
+//			if(mod.equalsIgnoreCase("GLOBAL")) symbolProperties.addProperty("SCOPE", globalScope);
+//			if(mod.equalsIgnoreCase("PRIVATE")) symbolProperties.addProperty("SCOPE", getModuleScope());
+//		}
 
 		Scope scopeMethod = (Scope) symbolFactory.getSymbol(symbolFactoryProperties);	
 		
@@ -264,7 +276,12 @@ public class VisualBasic6DefPredefinedSym extends VisualBasic6CompUnitParserBase
 		
 		PropertyList varProperties = new PropertyList();
 		
-		varProperties.addProperty("SCOPE", globalScope);
+//		varProperties.addProperty("SCOPE", globalScope);
+		if(modifierScope(ctx).indexOf("PUBLIC") > -1
+				|| modifierScope(ctx).indexOf("GLOBAL") > -1) {
+			varProperties.addProperty("SCOPE", globalScope);
+		}		
+		
 		varProperties.addProperty("PARENT_SCOPE", getCurrentScope());
 		varProperties.addProperty("CATEGORY", "VARIABLE");          
 		varProperties.addProperty("SUB_CATEGORY", "ENUM_MEMBER");
@@ -436,6 +453,24 @@ public class VisualBasic6DefPredefinedSym extends VisualBasic6CompUnitParserBase
 		else return null;
 	}
 	
+	
+	private List<String> modifierScope(ParserRuleContext ctx ){
+		ExplicitDeclarationContext ctxExplicitDeclaration = (ExplicitDeclarationContext) NodeExplorer.getAncestorClass(ctx, ExplicitDeclarationContext.class.getSimpleName());
+		List<String> modifierList = st.getModifierMap().get(ctxExplicitDeclaration);
+
+		if(modifierList == null) {
+			modifierList = new ArrayList<String>();
+			String moduleType = (String) moduleScope.getProperties().mustProperty("MODULE_TYPE");
+			if(moduleType.equalsIgnoreCase("CLS") 
+					|| moduleType.equalsIgnoreCase("BAS")) {
+				modifierList.add("PUBLIC");
+			}
+		}
+		modifierList.replaceAll(String::toUpperCase);
+    	return modifierList;
+	}
+	
+	
 //	private List<String> getModifier(ParserRuleContext dclCtx) {
 //		ExplicitDeclarationContext explicitCtx = (ExplicitDeclarationContext) NodeExplorer.getAncestorClass(dclCtx, ExplicitDeclarationContext.class.getSimpleName());
 //		return st.getModifierMap().get(explicitCtx);
@@ -461,6 +496,7 @@ public class VisualBasic6DefPredefinedSym extends VisualBasic6CompUnitParserBase
 		// Parsing source file e generates AST
 		PropertyList properties = new PropertyList();
 		properties.addProperty("FILE_PATH", "C:\\Users\\josez\\git\\language-implementation-patterns\\language-implementation-patterns\\src\\test\\resources\\PREDEFINED_SYMBOLS\\PREDEFINED.BAS");
+//		properties.addProperty("FILE_PATH", "C:\\Users\\josez\\git\\language-implementation-patterns\\language-implementation-patterns\\src\\test\\resources\\LANGUAGE.BAS");
 //		properties.addProperty("FILE_PATH", "C:\\Users\\josez\\git\\language-implementation-patterns\\language-implementation-patterns\\src\\test\\resources\\R1PAB0\\GECOEX01.CLS");
 //		properties.addProperty("FILE_PATH", "C:\\Users\\josez\\git\\language-implementation-patterns\\language-implementation-patterns\\src\\test\\resources\\R1PAB0\\RXGCMG01.BAS");
 		

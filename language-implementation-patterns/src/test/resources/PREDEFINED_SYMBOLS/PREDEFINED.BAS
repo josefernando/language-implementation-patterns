@@ -15,6 +15,8 @@ Public Enum VbAppWinStyle
 End Enum
 
 Public Enum VbCalendar
+	vbHide = 0  'ZE
+
 	vbCalGreg= 0
 	vbCalHijri = 1
 End Enum

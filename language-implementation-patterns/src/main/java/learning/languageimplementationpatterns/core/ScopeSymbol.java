@@ -190,8 +190,8 @@ public  abstract class ScopeSymbol extends Symbol implements Scope {
 
 	@Override
 	public void define( Symbol _sym) {
-		symbols.add(_sym);
 		_sym.setScope(this);
+		symbols.add(_sym);
 	}
 	
 //	@Override

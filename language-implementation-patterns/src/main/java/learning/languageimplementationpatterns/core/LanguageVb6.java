@@ -21,8 +21,7 @@ import br.com.recatalog.util.PropertyList;
 
 public class LanguageVb6 extends Language {
 	
-	PropertyList symbolFactoryProperties;
-	PropertyList symbolProperties;
+
 
 	public LanguageVb6(PropertyList _properties) {
 		super(_properties);
@@ -30,7 +29,7 @@ public class LanguageVb6 extends Language {
 	}
 	
 	protected void setSymbols() {
-		setPrimitiveTypes();
+//		setPrimitiveTypes();
 		setLibs();
 	}
 	
@@ -60,7 +59,7 @@ public class LanguageVb6 extends Language {
 			}
 		};
 		
-		symbolFactoryProperties = new PropertyList();
+//		symbolFactoryProperties = new PropertyList();
 		symbolFactoryProperties.addProperty("SYMBOL_TYPE", "PRIMITIVE_TYPE");
 		
 		symbolProperties = new PropertyList();
