@@ -12,29 +12,12 @@ import br.com.recatalog.util.BicamSystem;
 
 public class ScopeSymbolList {
 	Map<String, Map<String,Symbol>> symbols;
-	List<Symbol> duplicatedList;
+	List<Symbol> symbolDuplicatedList;
 	
 	public ScopeSymbolList() {
 		symbols = new LinkedHashMap<String,Map<String,Symbol>>();
-		duplicatedList = new LinkedList<>();
+		symbolDuplicatedList = new LinkedList<>();
 	}
-	
-//	public void add(Symbol _sym) {
-//		Map<String,Symbol> symMap = symbols.get(_sym.getName());
-//		if(symMap == null) {
-//			symMap = new LinkedHashMap<String,Symbol>();
-//			symbols.put(_sym.getName(), symMap);
-//			symMap.put(_sym.getClass().getSimpleName(), _sym);
-//		}
-//		else if(symMap.get(_sym.getClass().getSimpleName()) == null) {
-//			if(!isDuplicated(_sym))
-//			symMap.put(_sym.getClass().getSimpleName(), _sym);
-//		}
-//		else {
-//			duplicatedList.add(_sym);
-//			BicamSystem.printLog("WARNING", "Símbolo já existe neste escopo: " +  _sym.getName() + "/"  + _sym.getScope().getName());
-//		}
-//	}
 	
 	public void add(Symbol _sym) {
 	if(isDuplicated(_sym))	{
@@ -45,19 +28,18 @@ public class ScopeSymbolList {
 	if(symMap == null) {
 		symMap = new LinkedHashMap<String,Symbol>();
 		symbols.put(_sym.getName(), symMap);
-//		symMap.put(_sym.getClass().getSimpleName(), _sym);
 	}
 
 	if(symMap.put(_sym.getClass().getSimpleName(), _sym) != null) {
-		BicamSystem.printLog("ERROR", "Símbolo já existe neste escopo: " +  _sym.getName() + "/"  + _sym.getScope().getName());
+		BicamSystem.printLog("ERROR", "Símbolo já existe neste escopo em add: " +  _sym.getName() + "/"  + _sym.getScope().getName());
 	}
 }	
 	
 	private Boolean isDuplicated(Symbol _sym) {
-		for(Symbol s : duplicatedList) {
+		for(Symbol s : symbolDuplicatedList) {
 			if(_sym.equals(s)) { 
-				duplicatedList.add(_sym); 
-				BicamSystem.printLog("DEBUG", "Símbolo já existe neste escopo: " +  _sym.getName() + "/"  + _sym.getScope().getName());
+				symbolDuplicatedList.add(_sym); 
+				BicamSystem.printLog("DEBUG", "Símbolo já existe neste escopo duplicated1: " +  _sym.getName() + "/"  + _sym.getScope().getName());
 			}
 			return true;
 		}
@@ -70,11 +52,16 @@ public class ScopeSymbolList {
 			return false;
 		}
 		
-		duplicatedList.add(symInList);
+		// Array de controles de formulário
+		if(symInList.getProperties().hasProperty("CATEGORY", "FORM")) {
+			return true; 
+		}
+		
+		symbolDuplicatedList.add(symInList);
 		symMap.remove(symInList.getClass().getSimpleName());
 		
-		duplicatedList.add(_sym);
-		BicamSystem.printLog("DEBUG", "Símbolo já existe neste escopo: " +  _sym.getName() + "/"  + _sym.getScope().getName());
+		symbolDuplicatedList.add(_sym);
+		BicamSystem.printLog("DEBUG", "Símbolo já existe neste escopo duplicated2: " +  _sym.getName() + "/"  + _sym.getScope().getName());
 		
 		return true;
 	}

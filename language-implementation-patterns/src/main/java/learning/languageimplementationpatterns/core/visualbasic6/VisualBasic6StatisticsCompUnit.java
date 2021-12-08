@@ -316,9 +316,11 @@ public class VisualBasic6StatisticsCompUnit extends VisualBasic6CompUnitParserBa
   	    	}
 	}
 	
-	
 	public static void main(String[] args) {
 		System.err.println("---------------------------------------------------------");
+		unitTest("C:\\Users\\josez\\git\\language-implementation-patterns\\language-implementation-patterns\\src\\test\\resources\\PREDEFINED_SYMBOLS\\PREDEFINED.BAS");
+		unitTest("C:\\Users\\josez\\git\\language-implementation-patterns\\language-implementation-patterns\\src\\test\\resources\\LANGUAGE.BAS");
+
 		unitTest("C:\\workspace\\arcatalog\\vb6\\antlr4\\input\\R1PAB0\\R1FAB001.FRM");
 		unitTest("C:\\workspace\\arcatalog\\vb6\\antlr4\\input\\R1PAB0\\R1FAB002.FRM");
 		unitTest("C:\\workspace\\arcatalog\\vb6\\antlr4\\input\\R1PAB0\\R1FAB003.FRM");

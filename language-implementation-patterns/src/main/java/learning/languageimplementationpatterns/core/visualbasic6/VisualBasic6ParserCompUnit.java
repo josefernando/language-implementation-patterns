@@ -275,19 +275,19 @@ public class VisualBasic6ParserCompUnit {
 	        System.err.println("Module name: " + visualBasic6module.getModuleName());			
 		}
 //=====================================  PRE DEF SYMBOL ========================================
-
-				for(PropertyList properties : propertyList) {
-					ParseTree tree = (ParseTree) properties.mustProperty("ASTREE");
-			        ParseTreeWalker walker = new ParseTreeWalker();
-
-			        properties.addProperty("SYMBOL_TABLE", st);
-
-			        VisualBasic6DefPredefinedSym visualBasic6DefPredefinided = new VisualBasic6DefPredefinedSym(properties);
-			        walker.walk(visualBasic6DefPredefinided, tree);        // walk parse tree 
-				}		
-				
-				System.err.println(st.toString());
-				
+//
+//				for(PropertyList properties : propertyList) {
+//					ParseTree tree = (ParseTree) properties.mustProperty("ASTREE");
+//			        ParseTreeWalker walker = new ParseTreeWalker();
+//
+//			        properties.addProperty("SYMBOL_TABLE", st);
+//
+//			        VisualBasic6DefPredefinedSym visualBasic6DefPredefinided = new VisualBasic6DefPredefinedSym(properties);
+//			        walker.walk(visualBasic6DefPredefinided, tree);        // walk parse tree 
+//				}		
+//				
+//				System.err.println(st.toString());
+//				
 		
 //=====================================  DEF SYMBOL ========================================
 
@@ -314,20 +314,7 @@ public class VisualBasic6ParserCompUnit {
 	        VisualBasic6ResolveType visualBasic6ResolveType = new VisualBasic6ResolveType(properties);
 	        walker.walk(visualBasic6ResolveType, tree);        // walk parse tree 
 		}		
-		
 		System.err.println(st.toString());
 		
-//		// walking AST
-////		ParseTree tree = parser.getAstree();
-//		ParseTree tree = (ParseTree) parser.getProperties().mustProperty("ASTREE");
-//        ParseTreeWalker walker = new ParseTreeWalker();
-//        
-////        SymbolTable st = new SymbolTableVB6();
-//        properties.addProperty("SYMBOL_TABLE", st);
-//
-//        VisualBasic6Module visualBasic6module = new VisualBasic6Module(properties);
-//        walker.walk(visualBasic6module, tree);        // walk parse tree 
-//        
-//        System.err.println("Module name: " + visualBasic6module.getModuleName());
 	}
 }

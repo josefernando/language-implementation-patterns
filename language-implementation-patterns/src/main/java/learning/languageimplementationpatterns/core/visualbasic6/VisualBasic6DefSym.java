@@ -62,14 +62,21 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 	}
 	
 	// Marca escopo para ser utilizado na resolução em VisualBasic6Resolve
+	// Porque no exit? : nas definições os identificadores são marcados com o
+	// contextData. Se um identificador na saída não estiver marcado com o contextData significa
+	// que não pertence a nenhuma definição e por isso não foi marcado.
 	@Override
 	public void exitIdentifier(VisualBasic6CompUnitParser.IdentifierContext ctx) {
-		ContextData contextData = st.addContextData(ctx);
-		contextData.setScope(getCurrentScope());
+		ContextData contextData = st.getContextData(ctx);
+		if(contextData == null) {
+			contextData = st.addContextData(ctx);
+			contextData.setScope(getCurrentScope());
+		}
 	}
 
 	@Override
 	public void enterModifier(VisualBasic6CompUnitParser.ModifierContext ctx) {
+// (explicitDeclaration (variableDeclaration (modifier (scopeModifier Global)) (variableList (variableStmt (identifier Achou%)))))		
 		ParserRuleContext ctxExplicitDeclaration = NodeExplorer.getAncestorClass(ctx, ExplicitDeclarationContext.class.getSimpleName());
 		List<String> modifierList = st.getModifierMap().get(ctxExplicitDeclaration);
 		if(modifierList == null) {
@@ -108,8 +115,14 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		st.getContextData(ctx).setSymbol((Symbol)scopeMethod);
 		st.addDefinedSymbol((Symbol)scopeMethod);	
 		
+		// Marca identifier com o contextData
+		st.addContextData((ParserRuleContext)ctx.Name.getRuleContext());
+		st.getContextData((ParserRuleContext)ctx.Name.getRuleContext()).setScope(getCurrentScope());
+		st.getContextData((ParserRuleContext)ctx.Name.getRuleContext()).setSymbol((Symbol)scopeMethod);
+
 		pushScope(scopeMethod);
 	}
+	
 
 	@Override
 	public void exitMethodDefStmt(VisualBasic6CompUnitParser.MethodDefStmtContext ctx) {
@@ -264,7 +277,11 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		st.addContextData(ctx);
 		st.getContextData(ctx).setScope(getCurrentScope());
 		st.getContextData(ctx).setSymbol((Symbol)scope);
-		st.addDefinedSymbol((Symbol)scope);        
+		st.addDefinedSymbol((Symbol)scope);  
+		
+		st.addContextData((ParserRuleContext)ctx.Name.getRuleContext());
+		st.getContextData((ParserRuleContext)ctx.Name.getRuleContext()).setScope(getCurrentScope());
+		st.getContextData((ParserRuleContext)ctx.Name.getRuleContext()).setSymbol((Symbol)scope);
         
         pushScope(scope);
 	}
@@ -297,7 +314,7 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 			symbolProperties.addProperty("CONTEXT", ctx);
 			symbolProperties.addProperty("TYPE", ctx.Type.getText());
 			symbolProperties.addProperty("DEF_MODE", "EXPLICITY");         // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
-			symbolProperties.addProperty("CATEGORY", "GUI");          // 
+			symbolProperties.addProperty("CATEGORY", "FORM");          // 
 			symbolProperties.addProperty("SUB_CATEGORY", ctx.Type.getText());
 			symbolProperties.addProperty("LANGUAGE", language);
 
@@ -308,8 +325,12 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 			st.addContextData(ctx);
 			st.getContextData(ctx).setSymbol(sym);
 			st.getContextData(ctx).setScope(getCurrentScope());	
-			st.addDefinedSymbol(sym);	
+			st.addDefinedSymbol(sym);
 			
+			st.addContextData((ParserRuleContext) ctx.Name.getRuleContext());
+			st.getContextData((ParserRuleContext) ctx.Name.getRuleContext()).setScope((Scope)sym);
+			st.getContextData((ParserRuleContext) ctx.Name.getRuleContext()).setSymbol(sym);
+
 			pushScope(scope);
 	}	
 
@@ -376,7 +397,6 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 
 	@Override
 	public void enterTypeDefStmt(VisualBasic6CompUnitParser.TypeDefStmtContext ctx) {
-		
 		String name = ctx.Name.getText();
 		
 		PropertyList symbolFactoryProperties = new PropertyList();
@@ -385,35 +405,50 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		PropertyList symbolProperties = new PropertyList(); // usado para cria os simbolos
 		symbolProperties.addProperty("NAME", name);
 		symbolProperties.addProperty("SYMBOL_TYPE", "TYPE");
+		
+		// property "SCOPE" pode ser substituido dependendo se é "Public" ou não
 		symbolProperties.addProperty("SCOPE", getCurrentScope());
+		symbolProperties.addProperty("ENCLOSING_SCOPE", getCurrentScope());
+
+		if(modifierScope(ctx).indexOf("PUBLIC") > -1
+				|| modifierScope(ctx).indexOf("GLOBAL") > -1) {
+			symbolProperties.addProperty("SCOPE", globalScope);
+		}
+		
 		symbolProperties.addProperty("CONTEXT", ctx);
 		symbolProperties.addProperty("DEF_MODE", "EXPLICITY");     // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
-		symbolProperties.addProperty("CATEGORY", "STRUCTURE");          // 
+		symbolProperties.addProperty("CATEGORY", "STRUCTURE");     // 
 		symbolProperties.addProperty("SUB_CATEGORY", "TYPE");
 		
 		symbolFactoryProperties.addProperty("SYMBOL_PROPERTIES", symbolProperties);
 		symbolProperties.addProperty("LANGUAGE", language);
 
-		Scope scopeMethod = (Scope) symbolFactory.getSymbol(symbolFactoryProperties);
+		Symbol symbolType = symbolFactory.getSymbol(symbolFactoryProperties);
 		
 		st.addContextData(ctx);
 		st.getContextData(ctx).setScope(getCurrentScope());
-		st.getContextData(ctx).setSymbol((Symbol)scopeMethod);
-		st.addDefinedSymbol((Symbol)scopeMethod);
+		st.getContextData(ctx).setSymbol(symbolType);
+		st.addDefinedSymbol(symbolType);
 		
-		pushScope(scopeMethod);		
+		if(ctx != ctx.Name.getRuleContext()) {
+			st.addContextData((ParserRuleContext)ctx.Name.getRuleContext());
+			st.getContextData((ParserRuleContext)ctx.Name.getRuleContext()).setScope(getCurrentScope());
+			st.getContextData((ParserRuleContext)ctx.Name.getRuleContext()).setSymbol(symbolType);
+		}
+		pushScope((Scope)symbolType);		
 		
 		List<ParseTree> variables = NodeExplorer.getDepthAllChildClass(ctx, VariableStmtContext.class.getSimpleName());
 
 		PropertyList createVariableProperties = new PropertyList();
 		createVariableProperties.addProperty("PARENT_SCOPE", getCurrentScope());
-		createVariableProperties.addProperty("SCOPE", getModuleScope());
+//		createVariableProperties.addProperty("ENCLOSING_SCOPE", getCurrentScope());
+//		createVariableProperties.addProperty("SCOPE", getModuleScope());
+		createVariableProperties.addProperty("CATEGORY", "VARIABLE");          
+		createVariableProperties.addProperty("SUB_CATEGORY", "TYPE_MEMBER");
 
 		for(ParseTree var : variables) {
 			createVariableSymbol((VariableStmtContext)var, createVariableProperties);
 		}
-		
-
 	}
 	
 	@Override
@@ -431,8 +466,16 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		PropertyList symbolProperties = new PropertyList();        // usado para cria os simbolos
 		symbolProperties.addProperty("NAME", name);
 		symbolProperties.addProperty("SYMBOL_TYPE", "ENUM");
-		symbolProperties.addProperty("SCOPE", getCurrentScope());
 		symbolProperties.addProperty("CONTEXT", ctx);
+		
+		// property "SCOPE" pode ser substituido dependendo se é "Public" ou não
+		symbolProperties.addProperty("SCOPE", getCurrentScope());
+
+		if(modifierScope(ctx).indexOf("PUBLIC") > -1
+				|| modifierScope(ctx).indexOf("GLOBAL") > -1) {
+			symbolProperties.addProperty("SCOPE", globalScope);
+		}
+
 		symbolProperties.addProperty("DEF_MODE", "EXPLICITY");     // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
 		symbolProperties.addProperty("CATEGORY", "STRUCTURE");          
 		symbolProperties.addProperty("SUB_CATEGORY", "ENUM");
@@ -440,20 +483,26 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		symbolFactoryProperties.addProperty("SYMBOL_PROPERTIES", symbolProperties);
 		symbolProperties.addProperty("LANGUAGE", language);
 
-		Scope scopeMethod = (Scope) symbolFactory.getSymbol(symbolFactoryProperties);	
+		Symbol scopeEnum = symbolFactory.getSymbol(symbolFactoryProperties);	
 		
 		st.addContextData(ctx);
 		st.getContextData(ctx).setScope(getCurrentScope());
-		st.getContextData(ctx).setSymbol((Symbol)scopeMethod);
-		st.addDefinedSymbol((Symbol)scopeMethod);
+		st.getContextData(ctx).setSymbol(scopeEnum);
+		st.addDefinedSymbol(scopeEnum);
 		
-		pushScope(scopeMethod);		
+		if(ctx != ctx.Name.getRuleContext()) {
+			st.addContextData((ParserRuleContext)ctx.Name.getRuleContext());
+			st.getContextData((ParserRuleContext)ctx.Name.getRuleContext()).setScope(getCurrentScope());
+			st.getContextData((ParserRuleContext)ctx.Name.getRuleContext()).setSymbol(scopeEnum);
+		}
+		
+		pushScope((Scope)scopeEnum);		
 		
 		List<ParseTree> variables = NodeExplorer.getDepthAllChildClass(ctx, VariableStmtContext.class.getSimpleName());
 		
 		PropertyList varProperties = new PropertyList();
-		
 		varProperties.addProperty("PARENT_SCOPE", getCurrentScope());
+		varProperties.addProperty("SCOPE", getModuleScope());
 		varProperties.addProperty("CATEGORY", "VARIABLE");          
 		varProperties.addProperty("SUB_CATEGORY", "ENUM_MEMBER");
 		
@@ -493,8 +542,13 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		st.addContextData(ctx);
 		st.getContextData(ctx).setScope(getCurrentScope());
 		st.getContextData(ctx).setSymbol((Symbol)scopeMethod);
-		st.addDefinedSymbol((Symbol)scopeMethod);		
+		st.addDefinedSymbol((Symbol)scopeMethod);	
 		
+		if(ctx != ctx.Name.getRuleContext()) {
+			st.addContextData((ParserRuleContext)ctx.Name.getRuleContext());
+			st.getContextData((ParserRuleContext)ctx.Name.getRuleContext()).setScope(getCurrentScope());
+			st.getContextData((ParserRuleContext)ctx.Name.getRuleContext()).setSymbol((Symbol)scopeMethod);
+		}
 		
 		pushScope(scopeMethod);		
 		
@@ -613,6 +667,15 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		st.getContextData(varCtx).setSymbol(sym);
 		st.getContextData(varCtx).setScope(getCurrentScope());
 		st.addDefinedSymbol(sym);
+		
+		//Os context de varCtx e VarCtx.Name são iguais quando o identificador é o
+		// primeiro element da definicação da variável. 
+		// Exemplo:  "var_A As Integer" e não quando "dim var_A As Integer"
+		if(varCtx.getRuleContext() != varCtx.Name.getRuleContext()) {
+			st.addContextData((ParserRuleContext)varCtx.Name.getRuleContext());
+			st.getContextData((ParserRuleContext)varCtx.Name.getRuleContext()).setScope(getCurrentScope());
+			st.getContextData((ParserRuleContext)varCtx.Name.getRuleContext()).setSymbol(sym);
+		}
 	}
 	
 	private String hasSharedType(ParserRuleContext ctx) {
@@ -622,6 +685,21 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		return (String)contextData.getProperties().getProperty("SHARED_TYPE");
 		}
 		else return null;
+	}
+	
+	private List<String> modifierScope(ParserRuleContext ctx ){
+		ExplicitDeclarationContext ctxExplicitDeclaration = (ExplicitDeclarationContext) NodeExplorer.getAncestorClass(ctx, ExplicitDeclarationContext.class.getSimpleName());
+		List<String> modifierList = st.getModifierMap().get(ctxExplicitDeclaration);
+
+		if(modifierList == null) {
+			modifierList = new ArrayList<String>();
+			String moduleType = (String) moduleScope.getProperties().mustProperty("MODULE_TYPE");
+			if(moduleType.equalsIgnoreCase("BAS")) {
+				modifierList.add("PUBLIC");
+			}
+		}
+		modifierList.replaceAll(String::toUpperCase);
+    	return modifierList;
 	}
 	
 	private List<String> getModifier(ParserRuleContext dclCtx) {

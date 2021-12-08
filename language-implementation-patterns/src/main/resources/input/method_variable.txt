@@ -1,7 +1,7 @@
 Global Achou%
 
 
-Private Sub Class_Initialize()
+Private Static Sub Class_Initialize()
 
 	Dim Tamanho, I  As Integer
 	

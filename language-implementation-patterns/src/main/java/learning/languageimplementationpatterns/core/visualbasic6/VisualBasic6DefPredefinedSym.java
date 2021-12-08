@@ -219,8 +219,6 @@ public class VisualBasic6DefPredefinedSym extends VisualBasic6CompUnitParserBase
 		for(ParseTree var : variables) {
 			createVariableSymbol((VariableStmtContext)var, createVariableProperties);
 		}
-		
-
 	}
 	
 	@Override
@@ -453,7 +451,6 @@ public class VisualBasic6DefPredefinedSym extends VisualBasic6CompUnitParserBase
 		else return null;
 	}
 	
-	
 	private List<String> modifierScope(ParserRuleContext ctx ){
 		ExplicitDeclarationContext ctxExplicitDeclaration = (ExplicitDeclarationContext) NodeExplorer.getAncestorClass(ctx, ExplicitDeclarationContext.class.getSimpleName());
 		List<String> modifierList = st.getModifierMap().get(ctxExplicitDeclaration);
@@ -461,15 +458,13 @@ public class VisualBasic6DefPredefinedSym extends VisualBasic6CompUnitParserBase
 		if(modifierList == null) {
 			modifierList = new ArrayList<String>();
 			String moduleType = (String) moduleScope.getProperties().mustProperty("MODULE_TYPE");
-			if(moduleType.equalsIgnoreCase("CLS") 
-					|| moduleType.equalsIgnoreCase("BAS")) {
+			if(moduleType.equalsIgnoreCase("BAS")) {
 				modifierList.add("PUBLIC");
 			}
 		}
 		modifierList.replaceAll(String::toUpperCase);
     	return modifierList;
 	}
-	
 	
 //	private List<String> getModifier(ParserRuleContext dclCtx) {
 //		ExplicitDeclarationContext explicitCtx = (ExplicitDeclarationContext) NodeExplorer.getAncestorClass(dclCtx, ExplicitDeclarationContext.class.getSimpleName());
