@@ -100,7 +100,7 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 			symbolProperties.addProperty("TYPE", ctx.asTypeClause().type().getText());
 		}
 		symbolProperties.addProperty("MODIFIER", getModifier(ctx));
-		symbolProperties.addProperty("DEF_MODE", "EXPLICITY");           // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
+		symbolProperties.addProperty("DEF_MODE", "EXPLICIT");           // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
 		symbolProperties.addProperty("CATEGORY", "PROCEDURE");          // 
 		symbolProperties.addProperty("SUB_CATEGORY", ctx.Type.getText().toUpperCase());
 		symbolProperties.addProperty("NAME", name);
@@ -141,7 +141,7 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		PropertyList symbolProperties = new PropertyList(); // usado para cria os simbolos
 		symbolProperties.addProperty("SCOPE", getCurrentScope());
 		symbolProperties.addProperty("CONTEXT", ctx);
-		symbolProperties.addProperty("DEF_MODE", "EXPLICITY");           // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
+		symbolProperties.addProperty("DEF_MODE", "EXPLICIT");           // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
 		symbolProperties.addProperty("CATEGORY", "LABEL");          // 
 		symbolProperties.addProperty("SUB_CATEGORY", "NAME");
 		symbolProperties.addProperty("NAME", name);
@@ -167,7 +167,7 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		PropertyList symbolProperties = new PropertyList();              // usado para cria os simbolos
 		symbolProperties.addProperty("SCOPE", getCurrentScope());
 		symbolProperties.addProperty("CONTEXT", ctx);
-		symbolProperties.addProperty("DEF_MODE", "EXPLICITY");           // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
+		symbolProperties.addProperty("DEF_MODE", "EXPLICIT");           // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
 		symbolProperties.addProperty("CATEGORY", "LABEL");              // 
 		symbolProperties.addProperty("SUB_CATEGORY", "LINE_NUMBER");
 		symbolProperties.addProperty("NAME", number);
@@ -256,9 +256,9 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		symbolProperties.addProperty("SCOPE", getCurrentScope());
 		symbolProperties.addProperty("CONTEXT", ctx);
 		if(ctx.asTypeClause() != null) {
-			symbolProperties.addProperty("TYPE", ctx.asTypeClause().getText());
+			symbolProperties.addProperty("TYPE", ctx.asTypeClause().type().getText());
 		}
-		symbolProperties.addProperty("DEF_MODE", "EXPLICITY");     // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
+		symbolProperties.addProperty("DEF_MODE", "EXPLICIT");     // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
 		symbolProperties.addProperty("CATEGORY", "DECLARE");          // 
 		symbolProperties.addProperty("SUB_CATEGORY", ctx.methodType().getText().toUpperCase());
 		
@@ -313,7 +313,7 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 
 			symbolProperties.addProperty("CONTEXT", ctx);
 			symbolProperties.addProperty("TYPE", ctx.Type.getText());
-			symbolProperties.addProperty("DEF_MODE", "EXPLICITY");         // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
+			symbolProperties.addProperty("DEF_MODE", "EXPLICIT");         // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
 			symbolProperties.addProperty("CATEGORY", "FORM");          // 
 			symbolProperties.addProperty("SUB_CATEGORY", ctx.Type.getText());
 			symbolProperties.addProperty("LANGUAGE", language);
@@ -373,7 +373,7 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		symbolProperties.addProperty("NAME", ctx.Name.getText());
 		symbolProperties.addProperty("SCOPE", getCurrentScope());
 		symbolProperties.addProperty("CONTEXT", ctx);
-		symbolProperties.addProperty("DEF_MODE", "EXPLICITY");         // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
+		symbolProperties.addProperty("DEF_MODE", "EXPLICIT");         // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
 		symbolProperties.addProperty("CATEGORY", "GUI");          // 
 		symbolProperties.addProperty("SUB_CATEGORY", "GUI_PROPERTY");
 		symbolProperties.addProperty("LANGUAGE", language);
@@ -416,9 +416,9 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		}
 		
 		symbolProperties.addProperty("CONTEXT", ctx);
-		symbolProperties.addProperty("DEF_MODE", "EXPLICITY");     // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
-		symbolProperties.addProperty("CATEGORY", "STRUCTURE");     // 
-		symbolProperties.addProperty("SUB_CATEGORY", "TYPE");
+		symbolProperties.addProperty("DEF_MODE", "EXPLICIT");     // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
+		symbolProperties.addProperty("CATEGORY","TYPE");           // 
+		symbolProperties.addProperty("SUB_CATEGORY", "STRUCTURE");
 		
 		symbolFactoryProperties.addProperty("SYMBOL_PROPERTIES", symbolProperties);
 		symbolProperties.addProperty("LANGUAGE", language);
@@ -430,6 +430,7 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		st.getContextData(ctx).setSymbol(symbolType);
 		st.addDefinedSymbol(symbolType);
 		
+		// Não tem modifier : Public, Static, Private ...
 		if(ctx != ctx.Name.getRuleContext()) {
 			st.addContextData((ParserRuleContext)ctx.Name.getRuleContext());
 			st.getContextData((ParserRuleContext)ctx.Name.getRuleContext()).setScope(getCurrentScope());
@@ -441,8 +442,6 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 
 		PropertyList createVariableProperties = new PropertyList();
 		createVariableProperties.addProperty("PARENT_SCOPE", getCurrentScope());
-//		createVariableProperties.addProperty("ENCLOSING_SCOPE", getCurrentScope());
-//		createVariableProperties.addProperty("SCOPE", getModuleScope());
 		createVariableProperties.addProperty("CATEGORY", "VARIABLE");          
 		createVariableProperties.addProperty("SUB_CATEGORY", "TYPE_MEMBER");
 
@@ -476,8 +475,8 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 			symbolProperties.addProperty("SCOPE", globalScope);
 		}
 
-		symbolProperties.addProperty("DEF_MODE", "EXPLICITY");     // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
-		symbolProperties.addProperty("CATEGORY", "STRUCTURE");          
+		symbolProperties.addProperty("DEF_MODE", "EXPLICIT");     // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
+		symbolProperties.addProperty("CATEGORY", "TYPE");          
 		symbolProperties.addProperty("SUB_CATEGORY", "ENUM");
 		
 		symbolFactoryProperties.addProperty("SYMBOL_PROPERTIES", symbolProperties);
@@ -490,6 +489,7 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		st.getContextData(ctx).setSymbol(scopeEnum);
 		st.addDefinedSymbol(scopeEnum);
 		
+		// veja definição de Type
 		if(ctx != ctx.Name.getRuleContext()) {
 			st.addContextData((ParserRuleContext)ctx.Name.getRuleContext());
 			st.getContextData((ParserRuleContext)ctx.Name.getRuleContext()).setScope(getCurrentScope());
@@ -506,7 +506,10 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		varProperties.addProperty("CATEGORY", "VARIABLE");          
 		varProperties.addProperty("SUB_CATEGORY", "ENUM_MEMBER");
 		
+		// valor default atribuído aos membros enumerations
+		Integer enumValue = 0;
 		for(ParseTree var : variables) {
+			varProperties.addProperty("INIT_VALUE",enumValue++);
 			createVariableSymbol((VariableStmtContext)var, varProperties);
 		}
 	}
@@ -515,7 +518,9 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 	public void exitEnumDefStmt(VisualBasic6CompUnitParser.EnumDefStmtContext ctx) {
 		popScope();
 	}
-
+	
+	// Exemplo
+	// https://www.developer.com/microsoft/visual-basic/declaring-and-raising-events-in-visual-basic-6/
 	@Override
 	public void enterEventDefStmt(VisualBasic6CompUnitParser.EventDefStmtContext ctx) {
 		
@@ -529,8 +534,7 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		symbolProperties.addProperty("SYMBOL_TYPE", "EVENT");
 		symbolProperties.addProperty("SCOPE", getCurrentScope());
 		symbolProperties.addProperty("CONTEXT", ctx);
-//		symbolProperties.addProperty("TYPE", null);
-		symbolProperties.addProperty("DEF_MODE", "EXPLICITY");     // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
+		symbolProperties.addProperty("DEF_MODE", "EXPLICIT");     // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
 		symbolProperties.addProperty("CATEGORY", "EVENT");          // 
 		symbolProperties.addProperty("SUB_CATEGORY", null);
 		
@@ -544,6 +548,7 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		st.getContextData(ctx).setSymbol((Symbol)scopeMethod);
 		st.addDefinedSymbol((Symbol)scopeMethod);	
 		
+		// Veja definição de Type
 		if(ctx != ctx.Name.getRuleContext()) {
 			st.addContextData((ParserRuleContext)ctx.Name.getRuleContext());
 			st.getContextData((ParserRuleContext)ctx.Name.getRuleContext()).setScope(getCurrentScope());
@@ -552,6 +557,7 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		
 		pushScope(scopeMethod);		
 		
+		// Declaração de formal parameters
 		List<ParseTree> variables = NodeExplorer.getDepthAllChildClass(ctx, VariableStmtContext.class.getSimpleName());
 		
 		for(ParseTree var : variables) {
@@ -562,6 +568,14 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 	@Override
 	public void exitEventDefStmt(VisualBasic6CompUnitParser.EventDefStmtContext ctx) {
 		popScope();
+	}	
+	
+	@Override
+	public void enterIdentifier(VisualBasic6CompUnitParser.IdentifierContext ctx) {
+		if(st.getContextData(ctx) == null) {
+			st.addContextData(ctx);
+			st.getContextData(ctx).setScope(getCurrentScope());
+		}
 	}	
 	
 	private void createVariableSymbol(VariableStmtContext varCtx, PropertyList _properties) {
@@ -597,7 +611,7 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		symbolProperties.addProperty("NAME", name);
 		
 		symbolProperties.addProperty("CONTEXT", varCtx);
-		symbolProperties.addProperty("DEF_MODE", "EXPLICITY");     // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
+		symbolProperties.addProperty("DEF_MODE", "EXPLICIT");     // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
 		symbolProperties.addProperty("CATEGORY", "VARIABLE");          // 
 		symbolProperties.addProperty("SUB_CATEGORY", "DEFINITION");
 		symbolProperties.addProperty("SCOPE", getCurrentScope());	
@@ -622,7 +636,7 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 				symbolProperties.addProperty("TYPE", type);
 			}
 			else {
-				symbolProperties.addProperty("TYPE_CLAUSE", "IMPLICITY");
+				symbolProperties.addProperty("TYPE_CLAUSE", "IMPLICIT");
 				symbolProperties.addProperty("TYPE", "Variant");
 			}
 		}
@@ -639,7 +653,6 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 		}
 		
 		symbolProperties.appendProperties(_properties);
-
 		
 		Symbol sym = symbolFactory.getSymbol(symbolFactoryProperties);
 		

@@ -54,6 +54,7 @@ public class VisualBasic6ResolveType extends VisualBasic6CompUnitParserBaseListe
 		String NAME_TO_RESOLVE = (String) sym.getProperty("TYPE");
 		PropertyList prop = new PropertyList();
 		prop.addProperty("NAME_TO_RESOLVE", NAME_TO_RESOLVE);
+		prop.addProperty("CONTEXT", ctx);
 
 		Type typeSymbol = (Type) scope.resolve(prop);
 		
@@ -115,6 +116,7 @@ public class VisualBasic6ResolveType extends VisualBasic6CompUnitParserBaseListe
 			prop.addProperty("NAME_TO_RESOLVE", NAME_TO_RESOLVE);
 			prop.addProperty("MODULE_NAME", getModuleScope().getName());
 			prop.addProperty("CONTEXT_TO_RESOVE", ctx);
+			prop.addProperty("CONTEXT", ctx);
 			
 			Type type = (Type) scope.resolve(prop);
 			
@@ -152,11 +154,13 @@ public class VisualBasic6ResolveType extends VisualBasic6CompUnitParserBaseListe
 		if(isString( _type)) {
 			PropertyList prop = new PropertyList();
 			prop.addProperty("NAME_TO_RESOLVE", "String");
+
 			return (Type) _scope.resolve(prop);
 		}
 		else if (isInteger( _type)) {
 			PropertyList prop = new PropertyList();
 			prop.addProperty("NAME_TO_RESOLVE", "Integer");
+
 			return (Type) _scope.resolve(prop);			
 		}
 //		else if (isBoolean( _type)) {

@@ -43,6 +43,13 @@ public abstract class Symbol {
 		this(true);
 		this.properties = _properties;
 		
+		if(properties.hasProperty("TYPE")) {
+			String type = (String)properties.getProperty("TYPE");
+			if(type != null && type.startsWith("New")) {
+				type = type;
+			}
+		}
+		
 		List<String> constructorParameters = new ArrayList<String>() {
 			{ add("NAME");
 			  add("SCOPE");
@@ -226,6 +233,13 @@ public abstract class Symbol {
 		return String.format("Module: %s line: %d, Position in Line: %d.%n", moduleName ,line, positionInLine);
 	}
 	
+	public String location(PropertyList _properties) {
+		ParserRuleContext _ctx = (ParserRuleContext) _properties.getProperty("CONTEXT");
+		int line = _ctx.getStart().getLine();
+		int positionInLine = _ctx.getStart().getCharPositionInLine();
+		String moduleName  = (String) _properties.getProperty("MODULE_NAME");
+		return String.format("Module: %s line: %d, Position in Line: %d.%n", moduleName ,line, positionInLine);
+	}
 //	public String toStringAll() {
 //		return getName() + " - " + getClass().getName() + " - " + getClass().getSimpleName() + System.lineSeparator();	
 //	}

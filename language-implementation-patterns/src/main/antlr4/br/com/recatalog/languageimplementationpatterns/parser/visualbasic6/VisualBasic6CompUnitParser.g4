@@ -41,7 +41,12 @@ parser grammar VisualBasic6CompUnitParser;
 *
 * v1.0 Initial revision
 */
-
+/*
+Paul Kimmel is a freelance writer for Developer.com and CodeGuru.com.
+ Look for his most recent book, Visual Basic .Net Unleashed, at a bookstore near you.
+ Also look for his upcoming book “Advanced C# Programming” from Osborne/McGraw-Hill.
+ Paul Kimmel is available to help design and build your .NET solutions and can be contacted at pkimmel@softconcepts.com.
+*/
 //======================MAP CONTROL VB6 to .Net =============================
 // MAP Control            	To .Net
 // Threed.SSCommand							System.Windows.Forms.Button
@@ -407,7 +412,7 @@ variableRedimStmt :
 ;
 
 asTypeClause : 
-     AS   newOp?? type  
+     AS   newOp? type  
 ;
 
 redimRange :
@@ -1130,8 +1135,8 @@ expression :
     
     | addOp expression            # exprSigned          
 
-    | NEW expression              # exprNewOp         
-    | TYPEOF expression           # exprTypeOp         
+    | newOp expression              # exprNewOp         
+    | typeOfOp expression           # exprTypeOp         
     | notOp expression            # exprNotOp          
     
     | expression memberAccessOp expression   # exprMemberAccessOp
@@ -1162,8 +1167,8 @@ condExpression :
     | condExpression memberAccessOp condExpression  # exprCondMemberAccessOp
     
 //    | instanceOp condExpression
-    | NEW condExpression                       # exprCondNewOp
-    | TYPEOF condExpression                    # exprCondTypeOp
+    | newOp condExpression                       # exprCondNewOp
+    | typeOfOp condExpression                    # exprCondTypeOp
     | notOp condExpression                     # exprCondNotOp
      
   	| <assoc=right> condExpression exponentOp condExpression # exprCondExponentOp

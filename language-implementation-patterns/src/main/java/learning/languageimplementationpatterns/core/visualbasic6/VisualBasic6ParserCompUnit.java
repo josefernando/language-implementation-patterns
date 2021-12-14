@@ -316,5 +316,17 @@ public class VisualBasic6ParserCompUnit {
 		}		
 		System.err.println(st.toString());
 		
+//=====================================  RESOLVE SYMBOL ========================================
+
+				for(PropertyList properties : propertyList) {
+					ParseTree tree = (ParseTree) properties.mustProperty("ASTREE");
+			        ParseTreeWalker walker = new ParseTreeWalker();
+
+			        properties.addProperty("SYMBOL_TABLE", st);
+
+			        VisualBasic6ResolveSymbol visualBasic6ResolveSymbol = new VisualBasic6ResolveSymbol(properties);
+			        walker.walk(visualBasic6ResolveSymbol, tree);        // walk parse tree 
+				}		
+				System.err.println(st.toString());		
 	}
 }

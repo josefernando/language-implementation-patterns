@@ -1,5 +1,7 @@
 Attribute VB_Name = "MsgBox_em_Portugues"
 
+ABC As New IX2.ABC
+
 Private Sub gr_apo_Click()
         
     su_habilita_botao.abc.cde bu3d_ok, True

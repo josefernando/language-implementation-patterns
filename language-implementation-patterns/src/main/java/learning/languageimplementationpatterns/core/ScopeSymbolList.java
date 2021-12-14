@@ -40,8 +40,8 @@ public class ScopeSymbolList {
 			if(_sym.equals(s)) { 
 				symbolDuplicatedList.add(_sym); 
 				BicamSystem.printLog("DEBUG", "Símbolo já existe neste escopo duplicated1: " +  _sym.getName() + "/"  + _sym.getScope().getName());
+				return true;
 			}
-			return true;
 		}
 		
 		Map<String,Symbol> symMap = symbols.get(_sym.getName());

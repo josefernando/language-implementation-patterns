@@ -62,6 +62,15 @@ public  abstract class ScopeSymbol extends Symbol implements Scope {
 			return null;
 		}
 		
+		int startParen = nameToResolve.indexOf("(");
+		
+		while(startParen > -1) {
+			String nameToResolve3 = nameToResolve.substring(0,startParen);
+			int endParen    = nameToResolve.indexOf(")");
+			nameToResolve =nameToResolve3 +  nameToResolve.substring(endParen+1);
+			startParen = nameToResolve.indexOf("(");
+		}
+		
 		List<String> nameToResolveParts = Arrays.asList(nameToResolve.split("\\."));
 		
 		if(nameToResolveParts.size() > 1) {
@@ -75,7 +84,6 @@ public  abstract class ScopeSymbol extends Symbol implements Scope {
 			
 			if(symbolScope == null) return null;
 			
-			
 			_properties.addProperty("NAME_TO_RESOLVE_MEMBER", nameToResolveParts.get(nameToResolveParts.size()-1));
 			return symbolScope.resolveMember(_properties);
 		}
@@ -83,11 +91,12 @@ public  abstract class ScopeSymbol extends Symbol implements Scope {
 // Por que usar Supplier ?
 // https://www.baeldung.com/java-stream-operated-upon-or-closed-exception		
 		
-		Stream<Symbol> e = symbols.get(nameToResolve1);
+		Stream<Symbol> e = symbols.get(nameToResolve);
 		
 		if(e == null) {
 			if(getScope() == null) {
-				BicamSystem.printLog("DEBUG", "SYMBOL NOT FOUND: " + _properties.getProperty("NAME_TO_RESOLVE"));
+				BicamSystem.printLog("DEBUG", "SYMBOL NOT FOUND: " + _properties.getProperty("NAME_TO_RESOLVE") + " " +_properties.getProperty("MODULE_NAME")
+										+ this.location(_properties));
 				return null;
 			}
 			return getScope().resolve(_properties);
@@ -105,7 +114,8 @@ public  abstract class ScopeSymbol extends Symbol implements Scope {
 		    	 }
 		    	 else {
 		 			if(getScope() == null) {
-						BicamSystem.printLog("DEBUG", "SYMBOL NOT FOUND: " + _properties.getProperty("NAME_TO_RESOLVE"));
+						BicamSystem.printLog("DEBUG", "SYMBOL NOT FOUND: " + _properties.getProperty("NAME_TO_RESOLVE") + " " +_properties.getProperty("MODULE_NAME")
+									+ this.location(_properties));
 						return null;
 					}
 					return getScope().resolve(_properties);
@@ -146,7 +156,8 @@ public  abstract class ScopeSymbol extends Symbol implements Scope {
 			else return s;
 		}
 		if(getScope() == null) {
-			BicamSystem.printLog("DEBUG", "SYMBOL NOT FOUND: " + _properties.getProperty("NAME_TO_RESOLVE"));
+			BicamSystem.printLog("DEBUG", "SYMBOL NOT FOUND: " + _properties.getProperty("NAME_TO_RESOLVE") + " " +_properties.getProperty("MODULE_NAME") 
+			                      + this.location(_properties));
 			return null;
 		}
 		return getScope().resolve(_properties);

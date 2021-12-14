@@ -1,11 +1,12 @@
 package learning.languageimplementationpatterns.core.visualbasic6;
 
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
@@ -14,7 +15,9 @@ import br.com.recatalog.languageimplementationpatterns.parser.visualbasic6.Visua
 import br.com.recatalog.languageimplementationpatterns.parser.visualbasic6.VisualBasic6CompUnitParserBaseListener;
 import br.com.recatalog.util.NodeExplorer;
 import br.com.recatalog.util.PropertyList;
+import learning.languageimplementationpatterns.core.ContextData;
 import learning.languageimplementationpatterns.core.Scope;
+import learning.languageimplementationpatterns.core.Symbol;
 import learning.languageimplementationpatterns.core.SymbolFactory;
 import learning.languageimplementationpatterns.core.SymbolTable;
 import learning.languageimplementationpatterns.core.SymbolTableVB6;
@@ -41,15 +44,59 @@ public class VisualBasic6ResolveSymbol extends VisualBasic6CompUnitParserBaseLis
 		globalScope = st.getGlobalScope();
 		moduleScope = (Scope)st.getTreeToModule().get(compUnitTree);
 	}
-
+//
+//	@Override
+//	public void enterExprMemberAccessOp(VisualBasic6CompUnitParser.ExprMemberAccessOpContext ctx) {
+//		System.err.println(ctx.getText() + " - line " + ctx.getStart().getLine());
+//        ArrayList<ParseTree> ids = NodeExplorer.getDepthAllChildClass(ctx, IdentifierContext.class.getSimpleName());
+//        for(ParseTree p : ids) {
+//        	System.err.println("identifier :" + p.getText());
+//        }
+//	}
+	
+	@Override
+	public void enterExpr(VisualBasic6CompUnitParser.ExprContext ctx) {
+//		System.err.println(ctx.getText() + " -  expr line " + ctx.getStart().getLine());
+//        ArrayList<ParseTree> ids = NodeExplorer.getDepthAllChildClass(ctx, IdentifierContext.class.getSimpleName());
+//        for(ParseTree p : ids) {
+//        	System.err.println("identifier :" + p.getText());
+//        }
+	}
+	
 	@Override
 	public void enterExprMemberAccessOp(VisualBasic6CompUnitParser.ExprMemberAccessOpContext ctx) {
-		System.err.println(ctx.getText() + " - line " + ctx.getStart().getLine());
-        ArrayList<ParseTree> ids = NodeExplorer.getDepthAllChildClass(ctx, IdentifierContext.class.getSimpleName());
-        for(ParseTree p : ids) {
-        	System.err.println("identifier :" + p.getText());
-        }
+//		System.err.println(ctx.getText() + " -  exprMemberOp line " + ctx.getStart().getLine());
+        List<ParseTree> identifierMember =  NodeExplorer.getDepthAllChildClass(ctx, IdentifierContext.class.getSimpleName());
+        ParserRuleContext ctxIdentifierScope = (ParserRuleContext)identifierMember.get(0);
+        ContextData ctxData = st.getContextData(ctxIdentifierScope);
+		Scope scope = ctxData.getScope();
+		PropertyList properties = new PropertyList();
+        properties.addProperty("NAME_TO_RESOLVE",ctx.getText());
+        properties.addProperty("MODULE_NAME",getModuleScope().getName());
+        properties.addProperty("CONTEXT",ctx);
+
+		Symbol sym = scope.resolve(properties);
+		if(sym != null) {
+//			System.err.println("Resolved symbol: " + ctx.getText() + " - " + sym.getName());
+		}
+		else {
+//			System.err.println("Unresolved symbol: " + ctx.getText() );
+		}
+		
+		//        ArrayList<ParseTree> ids = NodeExplorer.getDepthAllChildClass(ctx, IdentifierContext.class.getSimpleName());
+//        for(ParseTree p : ids) {
+//        	System.err.println("identifier :" + p.getText());
+//        }
 	}
+	
+	@Override
+	public void enterIdentifier(VisualBasic6CompUnitParser.IdentifierContext ctx) {
+//		System.err.println(ctx.getText() + " -  Identifier line " + ctx.getStart().getLine());
+//        ArrayList<ParseTree> ids = NodeExplorer.getDepthAllChildClass(ctx, IdentifierContext.class.getSimpleName());
+//        for(ParseTree p : ids) {
+//        	System.err.println("identifier :" + p.getText());
+//        }
+	}	
 	
 	private Scope getModuleScope() {
 		return moduleScope;
@@ -61,7 +108,7 @@ public class VisualBasic6ResolveSymbol extends VisualBasic6CompUnitParserBaseLis
 		PropertyList properties = new PropertyList();
 //		properties.addProperty("FILE_PATH", "C:\\workspace\\antlr\\language-implementation-patterns\\src\\test\\resources\\R1PAB0\\R1FAB004.FRM");
 
-		properties.addProperty("FILE_PATH", "C:\\Users\\josez\\git\\language-implementation-patterns\\language-implementation-patterns\\src\\test\\resources\\R1PAB0\\GEMVBAPI.BAS");
+		properties.addProperty("FILE_PATH", "C:\\Users\\josez\\git\\language-implementation-patterns\\language-implementation-patterns\\src\\main\\resources\\input\\method_variable.frm");
 //		properties.addProperty("FILE_PATH", "C:\\workspace\\workspace_desenv_java8\\visualbasic6\\antlr4.vb6\\input\\R1PAB0\\GECOMS01.CLS");
 //		properties.addProperty("FILE_PATH", "C:\\workspace\\workspace_desenv_java8\\visualbasic6\\antlr4.vb6\\input\\R1PAB0\\GECOEX01.CLS");
 
@@ -85,25 +132,8 @@ public class VisualBasic6ResolveSymbol extends VisualBasic6CompUnitParserBaseLis
         
 //        System.err.println(st.toString());
 
-        
-        //---------------------  DEF SYMBOL --------------------------
-
-        VisualBasic6DefSym visualBasic6DefSym = new VisualBasic6DefSym(properties);
-        walker.walk(visualBasic6DefSym, tree);        // walk parse tree 
-        
-        System.err.println(st.toString());
-        
-        //---------------------  RESOLVE_TYPE SYMBOL --------------------------
-
-        VisualBasic6ResolveSymbol visualBasic6ResolveType = new VisualBasic6ResolveSymbol(properties);
-        walker.walk(visualBasic6ResolveType, tree);        // walk parse tree 
-        
-        System.err.println(st.toString());   
-        
-       //---------------------  RESOLVE_IDENTIFIER SYMBOL --------------------------
-
-        VisualBasic6ResolveSymbol visualBasic6ResolveIdentifier = new VisualBasic6ResolveSymbol(properties);
-        walker.walk(visualBasic6ResolveIdentifier, tree);        // walk parse tree 
+        VisualBasic6ResolveSymbol visualBasic6ResolveSymbol = new VisualBasic6ResolveSymbol(properties);
+        walker.walk(visualBasic6ResolveSymbol, tree);        // walk parse tree 
         
 	}	
 }

@@ -56,14 +56,18 @@ public class VisualBasic6Module extends VisualBasic6CompUnitParserBaseListener {
 			properties.addProperty("MODULE_TYPE", "CLS");
 			symbolFactoryProperties.addProperty("SYMBOL_TYPE", "MODULE_CLS");
 		}
-		if(((String)properties.mustProperty("FILE_PATH")).toUpperCase().endsWith("FRM")) {
+		else if(((String)properties.mustProperty("FILE_PATH")).toUpperCase().endsWith("FRM")) {
 			properties.addProperty("MODULE_TYPE", "FRM");
 			symbolFactoryProperties.addProperty("SYMBOL_TYPE", "MODULE_FRM");
 		}
-		if(((String)properties.mustProperty("FILE_PATH")).toUpperCase().endsWith("BAS")) {
+		else if(((String)properties.mustProperty("FILE_PATH")).toUpperCase().endsWith("BAS")) {
 			properties.addProperty("MODULE_TYPE", "BAS");
 			symbolFactoryProperties.addProperty("SYMBOL_TYPE", "MODULE_BAS");
-
+		}
+		else {
+			String fileName = (String)properties.mustProperty("FILE_PATH");
+			String fileSuffix = fileName.split("\\.")[fileName.split("\\.").length-1];
+			BicamSystem.printLog("ERROR", "Invalid file suffix: " + fileSuffix);
 		}
 		
 		PropertyList symbolProperties = properties;

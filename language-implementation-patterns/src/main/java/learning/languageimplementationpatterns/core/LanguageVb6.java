@@ -379,7 +379,7 @@ public class LanguageVb6 extends Language {
 
 		for(String clazz : mSGridClasses) {
 			symbolProperties = new PropertyList(); // usado para cria os simbolos
-			symbolProperties.addProperty("SCOPE", null);
+			symbolProperties.addProperty("SCOPE", symbolTable.getGlobalScope());
 			symbolProperties.addProperty("ENCLOSING_SCOPE", null);
 			symbolProperties.addProperty("LANGUAGE", this);  
 
@@ -424,7 +424,7 @@ public class LanguageVb6 extends Language {
 
 		for(String clazz : mSFlexGridLibClasses) {
 			symbolProperties = new PropertyList(); // usado para cria os simbolos
-			symbolProperties.addProperty("SCOPE", null);
+			symbolProperties.addProperty("SCOPE", symbolTable.getGlobalScope());
 			symbolProperties.addProperty("ENCLSING_SCOPE", null);
 			symbolProperties.addProperty("PARENT_SCOPE", parentScope_mSFlexGridLibClasses);
 			symbolProperties.addProperty("CONTEXT", null);
@@ -470,7 +470,7 @@ public class LanguageVb6 extends Language {
 
 				for(String clazz : MSMaskLibClasses) {
 					symbolProperties = new PropertyList(); // usado para cria os simbolos
-					symbolProperties.addProperty("SCOPE", null);
+					symbolProperties.addProperty("SCOPE", symbolTable.getGlobalScope());
 					symbolProperties.addProperty("ENCLSING_SCOPE", null);
 					symbolProperties.addProperty("PARENT_SCOPE", parentScope_MSMaskLibClasses);
 					symbolProperties.addProperty("CONTEXT", null);

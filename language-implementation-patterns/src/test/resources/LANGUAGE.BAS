@@ -41,3 +41,30 @@ End Type
 
 Public Type Void
 End Type
+
+Public Type Err
+	LastDllError As Variant
+End Type
+
+Public Type App
+End Type
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
