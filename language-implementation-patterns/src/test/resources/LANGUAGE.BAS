@@ -43,10 +43,17 @@ Public Type Void
 End Type
 
 Public Type Err
-	LastDllError As Variant
+	LastDllError As Object
 End Type
 
 Public Type App
+End Type
+
+Public Type IX2DPDLVBC01
+	ProcessoDeploy As Object
+End Type
+
+Public Type OLE_COLOR
 End Type
 
 

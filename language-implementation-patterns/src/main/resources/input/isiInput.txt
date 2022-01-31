@@ -1,0 +1,4 @@
+If abc then print
+if 2 then print else 
+	if 2 then print else print
+if 3.4 then print
