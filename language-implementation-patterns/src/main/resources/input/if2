@@ -1,0 +1,10 @@
+    If fr3d_Segurado.Visible Then
+        
+        If Trim$(tb_c_Rmo.Text) <> Empty Then
+            tb_c_Rmo.SetFocus
+        Else
+            tb_c_Cia_ita.SetFocus
+        End If
+
+    End If
+    

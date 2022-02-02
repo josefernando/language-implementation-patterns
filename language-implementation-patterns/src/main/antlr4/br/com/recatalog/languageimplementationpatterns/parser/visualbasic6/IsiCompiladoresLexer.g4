@@ -46,7 +46,7 @@ EXPONENTIAL : DIGIT+ [Ee] [+-] DIGIT+ {setType(NUMBER);};
 
 ID : NAME_START_CHAR NAME_CHAR* ; // {setType(IDENTIFIER);} ;
 
-NEWLINE : '\r'? '\n' -> skip ;
+NEWLINE : '\r'? '\n'; // -> skip ;
 
 WS : [ \t] -> skip ;
 

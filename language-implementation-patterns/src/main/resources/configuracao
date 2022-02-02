@@ -1,1 +1,2 @@
 adicionar "target/generated-sources/antlr4" em buildpath "as source code"
+Se tiver marcação de erro na aba "problems" , delete / clear e veja se resolve.

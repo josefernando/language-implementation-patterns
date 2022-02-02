@@ -368,7 +368,7 @@ HEXLITERAL : '&H' [0-9A-F]+  '&'? {startOfLine = false;} ;
 STRING_LITERAL1 : '"'  (~[\r\n"])*? '"' -> type(STRING_LITERAL) ; 
 STRING_LITERAL2 : '"' ( ESCAPE_STRING | ~[\r\n"])* '"' -> type(STRING_LITERAL); // DON'T USE *?... WONT WORK!
 
-INT : DIGIT+  -> type(INTEGER)  ;                                     
+INT : DIGIT+ -> type(INTEGER)  ;                                     
 INT_INDICATOR : DIGIT+ TYPE_INDICATOR -> type(INTEGER)  ;             
 
 FLOAT_NO_EXPOENT     : DIGIT+ '.' DIGIT* -> type(FLOAT)  ;
@@ -404,7 +404,8 @@ WS9 : [ \t]+ -> skip ;
 
 COMMENT9 : ( {getCharPositionInLine() == 0}?  R E M WS? (LINE_CONTINUATION | ~('\r' | '\n'))* '\r'? '\n'
             | '\'' (LINE_CONTINUATION | ~('\r' | '\n'))* 
-          ) -> channel(HIDDEN_COMMENT) ; 
+ //         ) -> channel(HIDDEN_COMMENT) ; 
+          ) {setChannel(HIDDEN_COMMENT); popMode(); };
 
 NEWLINE9 : '\r'? '\n' {setType(NEWLINE); popMode();}
 ;
@@ -420,8 +421,9 @@ WS10: [ \t]+ -> skip
 
 COMMENT10: ( {getCharPositionInLine() == 0}?  R E M WS? (LINE_CONTINUATION | ~('\r' | '\n'))* '\r'? '\n'
             | '\'' (LINE_CONTINUATION | ~('\r' | '\n'))* 
-          ) -> channel(HIDDEN_COMMENT) 
- ; 
+ //         ) -> channel(HIDDEN_COMMENT) ; 
+          ) {setChannel(HIDDEN_COMMENT); popMode(); };
+
 
 NEWLINE10 : '\r'? '\n' {setType(NEWLINE); popMode();}
 ;
@@ -435,7 +437,8 @@ mode BeginMode;
 
 COMMENT2 : ( {getCharPositionInLine() == 0}?  R E M WS? (LINE_CONTINUATION | ~('\r' | '\n'))* '\r'? '\n'
             | '\'' (LINE_CONTINUATION | ~('\r' | '\n'))* 
-          ) -> channel(HIDDEN_COMMENT) ; 
+ //         ) -> channel(HIDDEN_COMMENT) ; 
+          ) {setChannel(HIDDEN_COMMENT); };
 
 BEGIN2 : B E G I N {setType(BEGIN);};
 
@@ -472,7 +475,8 @@ mode ValuePropertyMode;
 
 COMMENT3 : ( {getCharPositionInLine() == 0}?  R E M WS? (LINE_CONTINUATION | ~('\r' | '\n'))* '\r'? '\n'
             | '\'' (LINE_CONTINUATION | ~('\r' | '\n'))* 
-          ) -> channel(HIDDEN_COMMENT) ; 
+ //         ) -> channel(HIDDEN_COMMENT) ; 
+          ) {setChannel(HIDDEN_COMMENT); mode(BeginMode);};
             
 STRING_LITERAL3 : '"'  (~[\r\n"])*? '"' -> type(VALUEPROPERTY) ; 
 STRING_LITERAL4 : '"' ( ESCAPE_STRING | ~[\r\n"])* '"' -> type(VALUEPROPERTY); // DON'T USE *?... WONT WORK!
