@@ -1,5 +1,15 @@
 Attribute VB_Name = "PREDEFINED_SYMBOLS"
 
+PreDefined Lib Spin
+PreDefined Class Spin.SpinButton
+EndPreDefined
+EndPreDefined
+
+PreDefined Lib IX2DPDLVBC01
+PreDefined Class IX2DPDLVBC01.ProcessoDeploy
+EndPreDefined
+EndPreDefined
+
 Public Enum FormShowConstants
 	vbModal = 1
 	vbModeless = 0

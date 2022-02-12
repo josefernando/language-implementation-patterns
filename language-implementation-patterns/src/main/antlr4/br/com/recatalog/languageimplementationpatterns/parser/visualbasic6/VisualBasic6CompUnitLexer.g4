@@ -86,6 +86,7 @@ tokens {  IDENTIFIER
 channels { HIDDEN_WHITESPACE 
            , HIDDEN_COMMENT
            }
+      
         
 // keywords
 ELSE_DIRECTIVE : '#' E L S E ;
@@ -336,6 +337,14 @@ PARAM_EQUALS : ':=' ;
 Go_VarDefMode : {getCharPositionInLine() == 0 & insideTypeDef == true}? ' ' {skip(); pushMode(VarDefMode);}
 ;
 
+//PREDEFINED SYMBOLS
+PREDEFINED : {getCharPositionInLine() == 0}? P R E D E F I N E D
+;
+
+//PREDEFINED SYMBOLS
+ENDPREDEFINED : {getCharPositionInLine() == 0}? E N D P R E D E F I N E D
+;
+
 //NOTE: LABEL SYNTAX => https://docs.microsoft.com/en-us/office/vba/language/glossary/vbe-glossary#line-label
 LABEL_COL1 :  {getCharPositionInLine() == 0}? (LETTER | DIGIT | '_')+? ':' -> type(LABEL) ; 
 LINENUMBER :  {getCharPositionInLine() == 0}? DIGIT+ {lineNumber = true;};
@@ -481,8 +490,9 @@ COMMENT3 : ( {getCharPositionInLine() == 0}?  R E M WS? (LINE_CONTINUATION | ~('
 STRING_LITERAL3 : '"'  (~[\r\n"])*? '"' -> type(VALUEPROPERTY) ; 
 STRING_LITERAL4 : '"' ( ESCAPE_STRING | ~[\r\n"])* '"' -> type(VALUEPROPERTY); // DON'T USE *?... WONT WORK!
             
-VALUEPROPERTY3 : ~[ '] ~[\r\n' ]* -> type(VALUEPROPERTY);
-            
+//VALUEPROPERTY3 : ~[ '] ~[\r\n' ]*  // -> type(VALUEPROPERTY);
+VALUEPROPERTY3 : ~[\r\n' ]*  -> type(VALUEPROPERTY);
+
 NEWLINE3 : '\r'? '\n' { setType(NEWLINE); mode(BeginMode); };
 
 END3 : E N D {setType(END) ; popMode();};

@@ -84,7 +84,61 @@ public class VisualBasic6DefSym extends VisualBasic6CompUnitParserBaseListener {
 			st.getModifierMap().put(ctxExplicitDeclaration, modifierList);
 		}
 		modifierList.add(ctx.getText());
+	}
+	
+	//===================================================================
+	
+	@Override
+	public void enterPreDefinedLib(VisualBasic6CompUnitParser.PreDefinedLibContext ctx) {
+		String name = ctx.Name.getText();
+		
+		PropertyList symbolFactoryProperties = new PropertyList();
+		symbolFactoryProperties.addProperty("SYMBOL_TYPE", "LIB");
+		
+		PropertyList symbolProperties = new PropertyList(); // usado para cria os simbolos
+		symbolProperties.addProperty("SCOPE", globalScope);
+		symbolProperties.addProperty("CONTEXT", ctx);
+		symbolProperties.addProperty("DEF_MODE", "EXPLICIT");           // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
+		symbolProperties.addProperty("CATEGORY", "PREDEFINED");          // 
+		symbolProperties.addProperty("NAME", name);
+		symbolProperties.addProperty("LANGUAGE", language);
+		
+		symbolFactoryProperties.addProperty("SYMBOL_PROPERTIES", symbolProperties);
+		
+		Scope scopePreDefined = (Scope) symbolFactory.getSymbol(symbolFactoryProperties);
+
+		pushScope(scopePreDefined);
+	}
+	
+	@Override
+	public void enterPreDefinedClass(VisualBasic6CompUnitParser.PreDefinedClassContext ctx) {
+System.err.println(ctx.getText()); // ZE
+		String name = ctx.Name.getText();
+		
+		PropertyList symbolFactoryProperties = new PropertyList();
+		symbolFactoryProperties.addProperty("SYMBOL_TYPE", "CLASS");
+		
+		PropertyList symbolProperties = new PropertyList(); // usado para cria os simbolos
+		symbolProperties.addProperty("SCOPE", getCurrentScope());
+		symbolProperties.addProperty("CONTEXT", ctx);
+		symbolProperties.addProperty("DEF_MODE", "EXPLICIT");           // CRIA CLASSES E OBJECTOS IMPLICITAMENTO
+		symbolProperties.addProperty("CATEGORY", "CLASS");          // 
+		symbolProperties.addProperty("NAME", name);
+		symbolProperties.addProperty("LANGUAGE", language);
+		
+		symbolFactoryProperties.addProperty("SYMBOL_PROPERTIES", symbolProperties);
+		
+		Scope scopePreDefined = (Scope) symbolFactory.getSymbol(symbolFactoryProperties);
+
+		pushScope(scopePreDefined);
 	}	
+
+	@Override
+	public void enterEndPreDefined(VisualBasic6CompUnitParser.EndPreDefinedContext ctx) {
+		popScope();
+	}	
+	
+	//===================================================================
 	
 	@Override
 	public void enterMethodDefStmt(VisualBasic6CompUnitParser.MethodDefStmtContext ctx) {

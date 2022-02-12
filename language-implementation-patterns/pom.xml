@@ -139,7 +139,7 @@
 			    <executions>
 			        <execution> 
 			            <goals>
-			                <goal>antlr4</goal>
+			                <goal>antlr4</goal> 
 			            </goals>
 			        </execution>
 			    </executions>

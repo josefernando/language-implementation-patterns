@@ -236,9 +236,22 @@ module : ( metadata  | explicitDeclaration |  beginBlock |endOfStmt)+
 	
 explicitDeclaration :         
         modifier+? declaration 
+      | preDefinedLib  
       | declaration
       | variableDeclaration  
       | runTimeDependency  
+;
+
+preDefinedLib : PREDEFINED LIB Name=identifier endOfStmt
+preDefinedClass+ 
+endPreDefined 
+;
+
+preDefinedClass : PREDEFINED CLASS Lib=identifier DOT_CHAR Name=identifier endOfStmt
+endPreDefined 
+;
+
+endPreDefined : ENDPREDEFINED  endOfStmt
 ;
 
 variableDeclaration : 
